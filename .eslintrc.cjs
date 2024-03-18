@@ -17,6 +17,6 @@ module.exports = {
     ],
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/member-ordering": "warn",
-    "@typescript-eslint/no-unused-vars": ["warn", { vars: "all", argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-unused-vars": ["warn", { vars: "all", argsIgnorePattern: /^_/ }],
   },
 };
