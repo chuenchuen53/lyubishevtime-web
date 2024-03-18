@@ -6,7 +6,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@assets/*": ["src/assets/*"],
       "@stores/*": ["src/stores/*"],
-      "@context/*": ["src/context/*"]
+      "@context/*": ["src/context/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "strict": true,
     "target": "ESNext",

@@ -1,6 +1,8 @@
-import { Button } from "@components/generate/Button";
-import { createForm, pattern } from "@modular-forms/solid";
-import { TextInput } from "@components/generate/TextInput";
+import { Button } from "@components/general/Button";
+import { SimpleFormContainer } from "@components/common/SimpleFormContainer";
+import { createForm, custom, getValue, pattern, required } from "@modular-forms/solid";
+import { FieldInput } from "@components/general/FieldInput";
+import { ValidationUtil } from "@utils/ValidationUtil";
 import type { SubmitHandler } from "@modular-forms/solid";
 
 type RegisterForm = {
@@ -13,38 +15,38 @@ type RegisterForm = {
 export default function Register() {
   const [registerForm, { Form, Field }] = createForm<RegisterForm>();
 
-  const handleSubmit: SubmitHandler<RegisterForm> = (values, e) => {
-    e.preventDefault();
+  const handleSubmit: SubmitHandler<RegisterForm> = (values, _e) => {
     console.log(values);
   };
 
   return (
-    <div class="px-6">
-      <h1 class="text-center">註冊</h1>
-
+    <SimpleFormContainer formTitle="註冊">
       <Form onSubmit={handleSubmit}>
         <div class="space-y-6">
-          <Field name="username" validate={[pattern(/^[a-zA-Z0-9_]{6,16}$/, "請輸入6-16位英文或數字")]}>
-            {(field, props) => (
-              <TextInput {...props} type="text" label="使用者名稱" name={field.name} value={field.value} error={field.error} required />
-            )}
+          <Field name="username" validate={[required("使用者名稱不能為空"), pattern(ValidationUtil.usernameRegex, "請輸入6-16位英文或數字")]}>
+            {(field, props) => <FieldInput {...props} type="text" label="使用者名稱" filed={field} required />}
           </Field>
-          <Field name="nickname" validate={[pattern(/\S+/, "暱稱不能為空")]}>
-            {(field, props) => <TextInput {...props} type="text" label="暱稱" name={field.name} value={field.value} error={field.error} required />}
+          <Field name="nickname" validate={[required("暱稱不能為空")]}>
+            {(field, props) => <FieldInput {...props} type="text" label="暱稱" filed={field} required />}
           </Field>
-          <Field name="password" validate={[pattern(/^[a-zA-Z0-9_]{6,16}$/, "請輸入6-16位英文或數字")]}>
-            {(field, props) => <TextInput {...props} type="text" label="密碼" name={field.name} value={field.value} error={field.error} required />}
+          <Field name="password" validate={[required("密碼不能為空"), pattern(ValidationUtil.passwordRegex, "請輸入6-16位英文或數字")]}>
+            {(field, props) => <FieldInput {...props} type="text" label="密碼" filed={field} required />}
           </Field>
-          <Field name="confirmPassword" validate={[pattern(/^[a-zA-Z0-9_]{6,16}$/, "請輸入6-16位英文或數字")]}>
-            {(field, props) => (
-              <TextInput {...props} type="text" label="確認密碼" name={field.name} value={field.value} error={field.error} required />
-            )}
+          <Field
+            name="confirmPassword"
+            validate={[
+              required("確認密碼不能為空"),
+              custom(value => {
+                const password = getValue(registerForm, "password");
+                return Promise.resolve(value === password);
+              }, "密碼不一致"),
+            ]}
+          >
+            {(field, props) => <FieldInput {...props} type="text" label="確認密碼" filed={field} required />}
           </Field>
-          <div class="text-right">
-            <Button type="submit">註冊</Button>
-          </div>
+          <Button type="submit">註冊</Button>
         </div>
       </Form>
-    </div>
+    </SimpleFormContainer>
   );
 }
