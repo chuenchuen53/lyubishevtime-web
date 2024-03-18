@@ -32,8 +32,10 @@
   },
   "dependencies": {
     "@ark-ui/solid": "2.2.0",
+    "@modular-forms/solid": "0.20.0",
     "@solidjs/router": "0.13.0",
     "flowbite": "2.3.0",
-    "solid-js": "1.8.15"
+    "solid-js": "1.8.15",
+    "tailwind-merge": "2.2.2"
   }
 }

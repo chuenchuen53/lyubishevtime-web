@@ -16,16 +16,22 @@ const routes = [
     component: lazy(() => import("./pages/Login")),
   },
   {
-    path: "/tag",
-    component: lazy(() => import("./pages/Tag")),
-  },
-  {
-    path: "/event",
-    component: lazy(() => import("./pages/Event")),
-  },
-  {
-    path: "/summary",
-    component: lazy(() => import("./pages/Summary")),
+    path: "/",
+    component: lazy(() => import("./components/common/LoginGuard")),
+    children: [
+      {
+        path: "/tag",
+        component: lazy(() => import("./pages/Tag")),
+      },
+      {
+        path: "/event",
+        component: lazy(() => import("./pages/Event")),
+      },
+      {
+        path: "/summary",
+        component: lazy(() => import("./pages/Summary")),
+      },
+    ],
   },
   {
     path: "/:rest*",
