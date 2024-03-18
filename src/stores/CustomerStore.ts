@@ -7,3 +7,5 @@ export interface Customer {
 }
 
 export const [customer, setCustomer] = createSignal<Customer | null>(null);
+
+export const useIsLogin = () => customer() !== null;

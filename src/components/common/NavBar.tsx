@@ -2,6 +2,7 @@ import { A } from "@solidjs/router";
 import favicon from "@assets/favicon.svg";
 import { For, Show } from "solid-js";
 import { useTheme } from "@context/ThemeContext";
+import { useIsLogin } from "@stores/CustomerStore";
 
 interface NavItem {
   label: string;
@@ -10,6 +11,7 @@ interface NavItem {
 
 export const NavBar = () => {
   const [isDark, setIsDark] = useTheme();
+  const isLogin = useIsLogin();
 
   const navItems: NavItem[] = [
     { label: "活動標籤", href: "/tag" },
@@ -30,19 +32,21 @@ export const NavBar = () => {
           <span class="whitespace-nowrap text-2xl font-semibold">柳比歇夫</span>
         </div>
 
-        <div class="hidden w-auto items-center justify-between md:flex">
-          <ul class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:dark:bg-gray-900">
-            <For each={navItems}>
-              {x => (
-                <li>
-                  <A href={x.href} activeClass="text-primary" inactiveClass="hover:text-primary">
-                    {x.label}
-                  </A>
-                </li>
-              )}
-            </For>
-          </ul>
-        </div>
+        <Show when={isLogin}>
+          <div class="hidden w-auto items-center justify-between md:flex">
+            <ul class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900 rtl:space-x-reverse">
+              <For each={navItems}>
+                {x => (
+                  <li>
+                    <A href={x.href} activeClass="text-primary" inactiveClass="hover:text-primary">
+                      {x.label}
+                    </A>
+                  </li>
+                )}
+              </For>
+            </ul>
+          </div>
+        </Show>
 
         <div class="flex items-center space-x-4">
           <button
@@ -69,40 +73,42 @@ export const NavBar = () => {
             </Show>
           </button>
 
-          <button
-            type="button"
-            class="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-            id="user-menu-button"
-            aria-expanded="false"
-            data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom"
-          >
-            <span class="sr-only">Open user menu</span>
-            <img class="h-8 w-8 rounded-full" src="https://i.pravatar.cc/100" alt="user photo" />
-          </button>
-          <div
-            class="z-50 my-4 hidden divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700"
-            id="user-dropdown"
-          >
-            <div class="px-4 py-3">
-              <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-              <span class="block truncate  text-sm text-gray-500 dark:text-gray-400">name@flowbite.com</span>
+          <Show when={isLogin}>
+            <button
+              type="button"
+              class="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              id="user-menu-button"
+              aria-expanded="false"
+              data-dropdown-toggle="user-dropdown"
+              data-dropdown-placement="bottom"
+            >
+              <span class="sr-only">Open user menu</span>
+              <img class="h-8 w-8 rounded-full" src="https://i.pravatar.cc/100" alt="user photo" />
+            </button>
+            <div
+              class="z-50 my-4 hidden divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700"
+              id="user-dropdown"
+            >
+              <div class="px-4 py-3">
+                <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                <span class="block truncate  text-sm text-gray-500 dark:text-gray-400">name@flowbite.com</span>
+              </div>
+              <ul class="py-2" aria-labelledby="user-menu-button">
+                <For each={userNavItems}>
+                  {x => (
+                    <li>
+                      <A
+                        href={x.href}
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        {x.label}
+                      </A>
+                    </li>
+                  )}
+                </For>
+              </ul>
             </div>
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <For each={userNavItems}>
-                {x => (
-                  <li>
-                    <A
-                      href={x.href}
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      {x.label}
-                    </A>
-                  </li>
-                )}
-              </For>
-            </ul>
-          </div>
+          </Show>
         </div>
       </div>
     </nav>
