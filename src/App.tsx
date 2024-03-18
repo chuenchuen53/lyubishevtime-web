@@ -1,11 +1,9 @@
+import "flowbite";
+import { AppRouter } from "./AppRouter";
 import type { Component } from "solid-js";
 
 const App: Component = () => {
-  return (
-    <div>
-      <h1>Hello, Solid!</h1>
-    </div>
-  );
+  return <AppRouter />;
 };
 
 export default App;

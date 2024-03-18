@@ -1,0 +1,38 @@
+import { lazy } from "solid-js";
+import { Router } from "@solidjs/router";
+import { AppLayout } from "./Layouts/AppLayout";
+
+const routes = [
+  {
+    path: "/",
+    component: lazy(() => import("./pages/index")),
+  },
+  {
+    path: "/register",
+    component: lazy(() => import("./pages/Register")),
+  },
+  {
+    path: "/login",
+    component: lazy(() => import("./pages/Login")),
+  },
+  {
+    path: "/tag",
+    component: lazy(() => import("./pages/Tag")),
+  },
+  {
+    path: "/event",
+    component: lazy(() => import("./pages/Event")),
+  },
+  {
+    path: "/summary",
+    component: lazy(() => import("./pages/Summary")),
+  },
+  {
+    path: "/:rest*",
+    component: lazy(() => import("./pages/NotFound")),
+  },
+];
+
+export function AppRouter() {
+  return <Router root={AppLayout}>{routes}</Router>;
+}
