@@ -3,8 +3,9 @@ import { SimpleFormContainer } from "@components/common/SimpleFormContainer";
 import { createForm, custom, getValue, pattern, required } from "@modular-forms/solid";
 import { FieldInput } from "@components/general/FieldInput";
 import { ValidationUtil } from "@utils/ValidationUtil";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import type { SubmitHandler } from "@modular-forms/solid";
+import { signup } from "../api/user";
 
 type RegisterForm = {
   username: string;
@@ -16,9 +17,9 @@ type RegisterForm = {
 export default function Register() {
   const [registerForm, { Form, Field }] = createForm<RegisterForm>();
 
-  const handleSubmit: SubmitHandler<RegisterForm> = (values, _e) => {
-    // todo
-    console.log(values);
+  const handleSubmit: SubmitHandler<RegisterForm> = async (values, _e) => {
+    const data = await signup(values);
+    console.log("consthandleSubmit:SubmitHandler<RegisterForm>= ~ data:", data);
   };
 
   return (
@@ -32,7 +33,7 @@ export default function Register() {
             {(field, props) => <FieldInput {...props} type="text" label="暱稱" field={field} required />}
           </Field>
           <Field name="password" validate={[required("密碼不能為空"), pattern(ValidationUtil.passwordRegex, "請輸入6-16位英文或數字")]}>
-            {(field, props) => <FieldInput {...props} type="text" label="密碼" field={field} required />}
+            {(field, props) => <FieldInput {...props} type="password" label="密碼" field={field} required />}
           </Field>
           <Field
             name="confirmPassword"
@@ -44,7 +45,7 @@ export default function Register() {
               }, "密碼不一致"),
             ]}
           >
-            {(field, props) => <FieldInput {...props} type="text" label="確認密碼" field={field} required />}
+            {(field, props) => <FieldInput {...props} type="password" label="確認密碼" field={field} required />}
           </Field>
           <Button type="submit">註冊</Button>
         </div>

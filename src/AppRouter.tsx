@@ -34,7 +34,7 @@ const routes = [
     ],
   },
   {
-    path: "/:rest*",
+    path: "/*404",
     component: lazy(() => import("./pages/NotFound")),
   },
 ];

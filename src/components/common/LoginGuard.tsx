@@ -1,6 +1,6 @@
 import { useNavigate } from "@SolidJS/router";
-import { Show, createEffect } from "solid-js";
-import { customer } from "@stores/CustomerStore";
+import { Show } from "solid-js";
+import { customer, useIsLogin } from "@stores/CustomerStore";
 import type { JSX } from "solid-js";
 
 interface Props {
@@ -9,11 +9,13 @@ interface Props {
 
 export default function LoginGuard(props: Props) {
   const navigate = useNavigate();
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const isLogin = useIsLogin();
 
-  createEffect(() => {
-    if (!token) navigate("/", { replace: true });
-  });
+  if (!token) navigate("/", { replace: true });
+  if (!isLogin) {
+    // todo: fetch customer info
+  }
 
   return (
     <Show when={customer() !== null} fallback={<div>Loading...</div>}>

@@ -2,9 +2,11 @@ import { SimpleFormContainer } from "@components/common/SimpleFormContainer";
 import { Button } from "@components/general/Button";
 import { FieldInput } from "@components/general/FieldInput";
 import { createForm, pattern, required } from "@modular-forms/solid";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import type { SubmitHandler } from "@modular-forms/solid";
 import { ValidationUtil } from "@utils/ValidationUtil";
+import { login } from "../api/user";
+import { setCustomer } from "@stores/CustomerStore";
 
 type LoginForm = {
   username: string;
@@ -12,11 +14,27 @@ type LoginForm = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [_loginForm, { Form, Field }] = createForm<LoginForm>();
 
-  const handleLogin: SubmitHandler<LoginForm> = (values, _e) => {
-    // todo
-    console.log(values);
+  const handleLogin: SubmitHandler<LoginForm> = async (values, _e) => {
+    const data = await login(values);
+    const customer = {
+      username: data.username,
+      nickname: data.nickname,
+      photoUrl: data.photoUrl,
+      token: data.token,
+    };
+    setCustomer({
+      // todo
+      id: 4,
+      username: data.username,
+      nickname: data.nickname,
+    });
+
+    console.log("handleLogin:SubmitHandler<LoginForm>= ~ data:", data);
+
+    navigate("/tag");
   };
 
   return (
