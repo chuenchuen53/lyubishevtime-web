@@ -8,11 +8,22 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --fix --ignore-path .gitignore",
-    "format": "prettier \"./src\" --write --ignore-path ./.prettierignore"
+    "format": "prettier \"./src\" --write --ignore-path ./.prettierignore",
+    "api": "node scripts/api.js"
   },
   "license": "MIT",
+  "dependencies": {
+    "@ark-ui/solid": "2.2.0",
+    "@modular-forms/solid": "0.20.0",
+    "@solidjs/router": "0.13.0",
+    "flowbite": "2.3.0",
+    "solid-js": "1.8.15",
+    "tailwind-merge": "2.2.2"
+  },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "2.13.1",
     "autoprefixer": "10.4.18",
+    "dotenv": "16.4.5",
     "eslint": "8.57.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-solid": "0.13.1",
@@ -29,13 +40,5 @@
     "typescript-eslint": "7.2.0",
     "vite": "5.1.6",
     "vite-plugin-solid": "2.10.2"
-  },
-  "dependencies": {
-    "@ark-ui/solid": "2.2.0",
-    "@modular-forms/solid": "0.20.0",
-    "@solidjs/router": "0.13.0",
-    "flowbite": "2.3.0",
-    "solid-js": "1.8.15",
-    "tailwind-merge": "2.2.2"
   }
 }
