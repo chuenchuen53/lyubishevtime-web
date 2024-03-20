@@ -11,7 +11,7 @@ export const AppLayout: ParentComponent = props => {
     <div id="app-layout" class="dark:text-white">
       <NavBar />
       <MainContent>{props.children}</MainContent>
-      <Show when={isLogin}>
+      <Show when={isLogin()}>
         <BottomBar />
       </Show>
     </div>

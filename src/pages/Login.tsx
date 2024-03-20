@@ -6,7 +6,7 @@ import { A, useNavigate } from "@solidjs/router";
 import type { SubmitHandler } from "@modular-forms/solid";
 import { ValidationUtil } from "@utils/ValidationUtil";
 import { UserService } from "../api-service";
-import { setUser } from "@stores/UserStore";
+import { setUserAfterLogin } from "@stores/UserStore";
 
 type LoginForm = {
   username: string;
@@ -19,7 +19,7 @@ export default function Login() {
 
   const handleLogin: SubmitHandler<LoginForm> = async (values, _e) => {
     const { data } = await UserService.login(values);
-    setUser(data);
+    setUserAfterLogin(data);
     navigate("/tag");
   };
 
