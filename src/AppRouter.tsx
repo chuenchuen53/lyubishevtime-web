@@ -5,15 +5,21 @@ import { AppLayout } from "./Layouts/AppLayout";
 const routes = [
   {
     path: "/",
-    component: lazy(() => import("./pages/index")),
-  },
-  {
-    path: "/register",
-    component: lazy(() => import("./pages/Register")),
-  },
-  {
-    path: "/login",
-    component: lazy(() => import("./pages/Login")),
+    component: lazy(() => import("./components/common/AutoLoginRedirect")),
+    children: [
+      {
+        path: "/",
+        component: lazy(() => import("./pages/index")),
+      },
+      {
+        path: "/register",
+        component: lazy(() => import("./pages/Register")),
+      },
+      {
+        path: "/login",
+        component: lazy(() => import("./pages/Login")),
+      },
+    ],
   },
   {
     path: "/",

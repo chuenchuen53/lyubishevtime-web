@@ -9,29 +9,28 @@ interface Props {
   children?: JSX.Element;
 }
 
-export default function LoginGuard(props: Props) {
+export default function AutoLoginRedirect(props: Props) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  if (!token) navigate("/", { replace: true });
+  if (token && user()) {
+    navigate("/tag", { replace: true });
+  }
+
   if (token && !user()) {
     UserService.currentUser()
       .then(resp => {
         setUserAfterLogin(resp.data);
+        navigate("/tag", { replace: true });
       })
       .catch(e => {
         if (e instanceof AxiosError && e.response?.status === 401) {
           localStorage.removeItem("token");
-          navigate("/", { replace: true });
         } else {
           throw e;
         }
       });
   }
 
-  return (
-    <Show when={user() !== null} fallback={<div>Loading...</div>}>
-      {props.children}
-    </Show>
-  );
+  return <>{props.children}</>;
 }
