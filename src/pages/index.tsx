@@ -1,6 +1,5 @@
 import { LinkButton } from "@components/general/LinkButton";
 import HomeImg from "@assets/images/home-img.svg";
-import { listTags } from "../api/tag";
 
 export default function Home() {
   return (
@@ -13,8 +12,6 @@ export default function Home() {
       <div class="mt-6 flex gap-6">
         <LinkButton href="/register">註冊</LinkButton>
         <LinkButton href="/login">登入</LinkButton>
-
-        <button onClick={() => listTags()}>test</button>
       </div>
     </div>
   );

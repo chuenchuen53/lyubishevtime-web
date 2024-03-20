@@ -1,8 +1,8 @@
 import { A } from "@solidjs/router";
 import favicon from "@assets/favicon.svg";
-import { For, Show } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 import { useTheme } from "@context/ThemeContext";
-import { useIsLogin } from "@stores/CustomerStore";
+import { user } from "@stores/UserStore";
 
 interface NavItem {
   label: string;
@@ -11,7 +11,7 @@ interface NavItem {
 
 export const NavBar = () => {
   const [isDark, setIsDark] = useTheme();
-  const isLogin = useIsLogin();
+  const isLogin = createMemo<boolean>(() => user() !== null);
 
   const navItems: NavItem[] = [
     { label: "活動標籤", href: "/tag" },

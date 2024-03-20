@@ -4,8 +4,8 @@ import { createForm, custom, getValue, pattern, required } from "@modular-forms/
 import { FieldInput } from "@components/general/FieldInput";
 import { ValidationUtil } from "@utils/ValidationUtil";
 import { A, useNavigate } from "@solidjs/router";
+import { UserService } from "src/api-service";
 import type { SubmitHandler } from "@modular-forms/solid";
-import { signup } from "../api/user";
 
 type RegisterForm = {
   username: string;
@@ -18,7 +18,7 @@ export default function Register() {
   const [registerForm, { Form, Field }] = createForm<RegisterForm>();
 
   const handleSubmit: SubmitHandler<RegisterForm> = async (values, _e) => {
-    const data = await signup(values);
+    const { data } = await UserService.signup(values);
     console.log("consthandleSubmit:SubmitHandler<RegisterForm>= ~ data:", data);
   };
 

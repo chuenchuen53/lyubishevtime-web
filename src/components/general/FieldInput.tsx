@@ -24,7 +24,7 @@ export const FieldInput = (props: FieldInputProps) => {
           {local.label} {inputProps.required && <span>*</span>}
         </label>
       )}
-      <Input {...inputProps} value={local.field.error} isError={local.field.error !== ""} id={local.field.name} class="block w-full" />
+      <Input {...inputProps} value={local.field.value} isError={local.field.error !== ""} id={local.field.name} class="block w-full" />
       {props.field.error && <p class="mt-2 text-sm text-red-600 dark:text-red-500">{props.field.error}</p>}
     </div>
   );
