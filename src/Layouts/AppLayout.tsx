@@ -6,7 +6,7 @@ import { user } from "@stores/UserStore";
 
 export const AppLayout: ParentComponent = props => {
   return (
-    <div id="app-layout" class="dark:text-white">
+    <div id="app-layout">
       <NavBar />
       <MainContent>{props.children}</MainContent>
       <Show when={user()}>

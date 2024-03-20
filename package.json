@@ -15,11 +15,14 @@
   "dependencies": {
     "@ark-ui/solid": "2.2.0",
     "@modular-forms/solid": "0.20.0",
+    "@park-ui/tailwind-plugin": "0.20.1",
     "@solidjs/router": "0.13.0",
     "axios": "1.6.8",
     "flowbite": "2.3.0",
     "solid-js": "1.8.15",
-    "tailwind-merge": "2.2.2"
+    "styled-system": "5.1.5",
+    "tailwind-merge": "2.2.2",
+    "tailwind-variants": "0.2.1"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "2.13.1",

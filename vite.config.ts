@@ -25,6 +25,7 @@ export default defineConfig({
       "@stores/": "/src/stores/",
       "@context/": "/src/context/",
       "@utils/": "/src/utils/",
+      "@lib/": "/src/lib/",
     },
   },
 });

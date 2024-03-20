@@ -7,7 +7,8 @@
       "@assets/*": ["src/assets/*"],
       "@stores/*": ["src/stores/*"],
       "@context/*": ["src/context/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@lib/*": ["src/lib/*"]
     },
     "strict": true,
     "target": "ESNext",

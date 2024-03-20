@@ -1,3 +1,4 @@
+import { MySlider } from "@components/general/HoverCard";
 import { LinkButton } from "@components/general/LinkButton";
 import HomeImg from "@assets/images/home-img.svg";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <LinkButton href="/register">註冊</LinkButton>
         <LinkButton href="/login">登入</LinkButton>
       </div>
+      <MySlider />
     </div>
   );
 }
