@@ -4,7 +4,7 @@ import { createForm, custom, getValue, pattern, required } from "@modular-forms/
 import { FieldInput } from "@components/general/FieldInput";
 import { ValidationUtil } from "@utils/ValidationUtil";
 import { A, useNavigate } from "@solidjs/router";
-import { UserService } from "src/api-service";
+import { UserService } from "../api-service";
 import type { SubmitHandler } from "@modular-forms/solid";
 
 type RegisterForm = {

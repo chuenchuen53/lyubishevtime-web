@@ -1,5 +1,6 @@
 export * from "./add-time-event-tag-request";
 export * from "./add-time-event-tag-response";
+export * from "./current-user-response";
 export * from "./is-username-exist-response";
 export * from "./list-time-event-tag-response";
 export * from "./login-request";

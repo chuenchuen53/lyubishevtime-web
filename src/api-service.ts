@@ -4,7 +4,7 @@ import { TimeEventTagControllerApiFactory } from "./openapi/api-service/time-eve
 import { user } from "@stores/UserStore";
 
 const basePath = import.meta.env.VITE_API_BASE_URL;
-const configuration = new Configuration({ basePath, accessToken: () => user()?.token ?? "" });
+const configuration = new Configuration({ basePath, accessToken: () => user()?.token ?? localStorage.getItem("token") ?? "" });
 
 export const UserService = UserControllerApiFactory(configuration);
 export const TagService = TimeEventTagControllerApiFactory(configuration);

@@ -32,6 +32,8 @@ import {
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError, operationServerMap } from "../base";
 // @ts-ignore
+import { CurrentUserResponse } from "../api-typing";
+// @ts-ignore
 import { IsUsernameExistResponse } from "../api-typing";
 // @ts-ignore
 import { LoginRequest } from "../api-typing";
@@ -47,6 +49,37 @@ import { SignupRequest } from "../api-typing";
  */
 export const UserControllerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    currentUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/current-user`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
     /**
      *
      * @param {string} username
@@ -167,6 +200,18 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async currentUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentUserResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.currentUser(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.currentUser"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
      * @param {string} username
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -225,6 +270,14 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
   return {
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    currentUser(options?: any): AxiosPromise<CurrentUserResponse> {
+      return localVarFp.currentUser(options).then(request => request(axios, basePath));
+    },
+    /**
+     *
      * @param {string} username
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -260,6 +313,18 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
  * @extends {BaseAPI}
  */
 export class UserControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserControllerApi
+   */
+  public currentUser(options?: RawAxiosRequestConfig) {
+    return UserControllerApiFp(this.configuration)
+      .currentUser(options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
   /**
    *
    * @param {string} username
