@@ -4,7 +4,9 @@ interface Props {
   id: number;
   name: string;
   color: TimeEventTagColor;
-  onClick: () => void;
+  onNameClick: (id: number) => void;
+  onEditClick: (id: number) => void;
+  onDeleteClick: (id: number) => void;
 }
 
 const EditIcon = () => (
@@ -24,14 +26,16 @@ const DeleteIcon = () => (
 export const TagCard = (props: Props) => {
   return (
     <div class={`flex flex-col overflow-hidden rounded-xl shadow-sm ${colorMapper(props.color)}`}>
-      <div class="h-10 text-center leading-10">{props.name}</div>
-      <div class={`flex h-10 items-center justify-between bg-black/35`}>
+      <div class="h-10 text-center leading-10">
+        <button onClick={() => props.onNameClick(props.id)}>{props.name}</button>
+      </div>
+      <div class="flex h-10 items-center justify-between bg-black/35 px-4">
         <div>reorder</div>
-        <div>
-          <button>
+        <div class="space-x-3">
+          <button onClick={() => props.onEditClick(props.id)}>
             <EditIcon />
           </button>
-          <button>
+          <button onClick={() => props.onDeleteClick(props.id)}>
             <DeleteIcon />
           </button>
         </div>

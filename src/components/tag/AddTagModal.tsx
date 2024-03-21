@@ -6,26 +6,27 @@ import * as Select from "@components/general/Select";
 import { createStore } from "solid-js/store";
 import { Input } from "@components/general/Input";
 import { timeEventTagColorTranslate } from "@utils/ApiTranslator";
+import { EnumUtil } from "@utils/EnumUtil";
+
+export interface AddTagForm {
+  color: TimeEventTagColor;
+  name: string;
+}
 
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
-  handleAddTag: () => void;
+  handleAddTag: (x: AddTagForm) => void;
 }
-
-type AddTagForm = {
-  color: TimeEventTagColor;
-  name: string;
-};
 
 interface ColorItem {
   label: string;
   value: TimeEventTagColor;
 }
 
-const colorItems: ColorItem[] = Object.keys(TimeEventTagColor).map(x => ({
-  label: timeEventTagColorTranslate(x as TimeEventTagColor),
-  value: x as TimeEventTagColor,
+const colorItems: ColorItem[] = EnumUtil.values(TimeEventTagColor).map(x => ({
+  label: timeEventTagColorTranslate(x),
+  value: x,
 }));
 
 export const AddTagModal = (props: Props) => {
@@ -35,8 +36,7 @@ export const AddTagModal = (props: Props) => {
   });
 
   const handleSubmit = async () => {
-    console.log(form);
-    props.handleAddTag();
+    props.handleAddTag(form);
   };
 
   return (
@@ -55,24 +55,22 @@ export const AddTagModal = (props: Props) => {
         </div>
       }
     >
-      <div class="w-[320px] max-w-full">
-        <div class="space-y-6">
-          <div>
-            <label for="name-input" class="mb-2 block text-sm font-medium">
-              標籤名稱 *
-            </label>
-            <Input id="name-input" class="w-full" type="text" value={form.name} required onInput={e => setForm("name", e.currentTarget.value)} />
-          </div>
-
-          <Select.SimpleSelect
-            items={colorItems}
-            value={[form.color]}
-            onValueChange={x => setForm("color", x)}
-            label="標籤顏色 *"
-            id="tag-color-select"
-            renderItem={item => item.label}
-          />
+      <div class="w-[320px] max-w-full space-y-6">
+        <div>
+          <label for="name-input" class="mb-2 block text-sm font-medium">
+            標籤名稱 *
+          </label>
+          <Input id="name-input" class="w-full" type="text" value={form.name} required onInput={e => setForm("name", e.currentTarget.value)} />
         </div>
+
+        <Select.SimpleSelect
+          items={colorItems}
+          value={[form.color]}
+          onValueChange={x => setForm("color", x)}
+          label="標籤顏色 *"
+          id="tag-color-select"
+          renderItem={item => item.label}
+        />
       </div>
     </Modal>
   );
