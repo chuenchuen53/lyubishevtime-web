@@ -1,10 +1,11 @@
 import { Button } from "@components/general/Button";
 import { FieldInput } from "@components/general/FieldInput";
 import { Modal } from "@components/general/Modal";
-import { SubmitHandler, createForm, maxLength, required } from "@modular-forms/solid";
-import { TimeEventTagColor } from "src/openapi";
-import { Demo } from "./Demo";
-import { MySlider } from "@components/general/HoverCard";
+import { TimeEventTagColor } from "../../openapi";
+import * as Select from "@components/general/Select";
+import { createStore } from "solid-js/store";
+import { Input } from "@components/general/Input";
+import { timeEventTagColorTranslate } from "@utils/ApiTranslator";
 
 interface Props {
   open: boolean;
@@ -17,17 +18,25 @@ type AddTagForm = {
   name: string;
 };
 
+interface ColorItem {
+  label: string;
+  value: TimeEventTagColor;
+}
+
+const colorItems: ColorItem[] = Object.keys(TimeEventTagColor).map(x => ({
+  label: timeEventTagColorTranslate(x as TimeEventTagColor),
+  value: x as TimeEventTagColor,
+}));
+
 export const AddTagModal = (props: Props) => {
-  let submitBtn!: HTMLButtonElement;
-  const [_form, { Form, Field }] = createForm<AddTagForm>({ validateOn: "blur" });
+  const [form, setForm] = createStore<AddTagForm>({
+    color: colorItems[0].value,
+    name: "",
+  });
 
-  const handleSubmit: SubmitHandler<AddTagForm> = async (values, _e) => {
-    console.log(values);
+  const handleSubmit = async () => {
+    console.log(form);
     props.handleAddTag();
-  };
-
-  const handleAddClick = () => {
-    submitBtn.click();
   };
 
   return (
@@ -36,32 +45,34 @@ export const AddTagModal = (props: Props) => {
       title="活動標籤"
       onClose={() => props.setOpen(false)}
       footer={
-        <div class="space-x-4">
-          <Button disabled={!_form.dirty || _form.invalid} onClick={handleAddClick}>
+        <div class="w-full space-x-4 text-end">
+          <Button disabled={form.name === ""} onClick={handleSubmit}>
             新增
           </Button>
-          <Button variant="danger" onClick={() => props.setOpen(false)}>
+          <Button variant="gray" onClick={() => props.setOpen(false)}>
             取消
           </Button>
         </div>
       }
     >
       <div class="w-[320px] max-w-full">
-        <Form onSubmit={handleSubmit}>
-          <div class="space-y-6">
-            <Field name="name" validate={[required("標籤名稱不能為空"), maxLength(20, "標籤名稱不能超過20個字")]}>
-              {(field, props) => <FieldInput {...props} type="text" label="標籤名稱" field={field} required />}
-            </Field>
-            <Field name="color" validate={[required("密碼不能為空")]}>
-              {(field, props) => <FieldInput {...props} type="password" label="密碼" field={field} required />}
-            </Field>
-            <Demo />
-            <MySlider />
-            <button ref={submitBtn} type="submit" class="hidden">
-              submit
-            </button>
+        <div class="space-y-6">
+          <div>
+            <label for="name-input" class="mb-2 block text-sm font-medium">
+              標籤名稱 *
+            </label>
+            <Input id="name-input" class="w-full" type="text" value={form.name} required onInput={e => setForm("name", e.currentTarget.value)} />
           </div>
-        </Form>
+
+          <Select.SimpleSelect
+            items={colorItems}
+            value={[form.color]}
+            onValueChange={x => setForm("color", x)}
+            label="標籤顏色 *"
+            id="tag-color-select"
+            renderItem={item => item.label}
+          />
+        </div>
       </div>
     </Modal>
   );

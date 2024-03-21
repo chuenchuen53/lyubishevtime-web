@@ -1,5 +1,5 @@
 import { MySlider } from "@components/general/HoverCard";
-import { LinkButton } from "@components/general/LinkButton";
+import { LinkButton } from "@components/general/Button";
 import HomeImg from "@assets/images/home-img.svg";
 
 export default function Home() {

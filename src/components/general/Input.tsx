@@ -9,10 +9,10 @@ export type InputProps = {
   placeholder?: string;
   class?: string;
   isError?: boolean;
-  ref: (element: HTMLInputElement) => void;
-  onInput: JSX.EventHandler<HTMLInputElement, InputEvent>;
-  onChange: JSX.EventHandler<HTMLInputElement, Event>;
-  onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent>;
+  ref?: (element: HTMLInputElement) => void;
+  onInput?: JSX.EventHandler<HTMLInputElement, InputEvent>;
+  onChange?: JSX.EventHandler<HTMLInputElement, Event>;
+  onBlur?: JSX.EventHandler<HTMLInputElement, FocusEvent>;
 };
 
 export const Input = (props: InputProps) => {

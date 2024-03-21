@@ -4,6 +4,10 @@ import { AppLayout } from "./Layouts/AppLayout";
 
 const routes = [
   {
+    path: "/test-theme",
+    component: lazy(() => import("./pages/TestTheme")),
+  },
+  {
     path: "/",
     component: lazy(() => import("./components/common/AutoLoginRedirect")),
     children: [

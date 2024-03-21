@@ -1,5 +1,5 @@
 import { Select } from "@ark-ui/solid";
-import type { ComponentProps } from "solid-js";
+import { Show, type ComponentProps, JSX, For } from "solid-js";
 import { tv } from "tailwind-variants";
 import { createStyleContext } from "@lib/create-style-context";
 
@@ -143,3 +143,60 @@ export interface LabelProps extends ComponentProps<typeof Label> {}
 export interface PositionerProps extends ComponentProps<typeof Positioner> {}
 export interface TriggerProps extends ComponentProps<typeof Trigger> {}
 export interface ValueTextProps extends ComponentProps<typeof ValueText> {}
+
+interface SimpleSelectProps<T> {
+  label?: string;
+  id: string;
+  items: { label: string; value: T }[];
+  value: T[];
+  onValueChange: (newValue: T) => void;
+  renderItem: (item: { label: string; value: T }) => JSX.Element;
+}
+
+export const SimpleSelect = <T extends string>(props: SimpleSelectProps<T>) => {
+  return (
+    <Root positioning={{ sameWidth: true }} items={props.items} value={props.value} onValueChange={e => props.onValueChange(e.value[0] as T)}>
+      <Label>{props.label}</Label>
+      <Control>
+        <Trigger>
+          <ValueText placeholder={props.label} />
+        </Trigger>
+      </Control>
+      <Positioner>
+        <Content>
+          <ItemGroup id={props.id}>
+            <Show when={props.label}>
+              <ItemGroupLabel for={props.id}>{props.label}</ItemGroupLabel>
+            </Show>
+            <For each={props.items}>
+              {x => (
+                <Item item={x}>
+                  <ItemText>{props.renderItem(x)}</ItemText>
+                  <ItemIndicator>
+                    <CheckIcon />
+                  </ItemIndicator>
+                </Item>
+              )}
+            </For>
+          </ItemGroup>
+        </Content>
+      </Positioner>
+    </Root>
+  );
+};
+
+function CheckIcon() {
+  return (
+    <svg
+      class="h-6 w-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
+    </svg>
+  );
+}
