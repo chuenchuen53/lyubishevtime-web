@@ -5,6 +5,7 @@ interface Props {
   name: string;
   color: TimeEventTagColor;
   onNameClick: (id: number) => void;
+  onReorderClick: (id: number, direction: "up" | "down") => void;
   onEditClick: (id: number) => void;
   onDeleteClick: (id: number) => void;
 }
@@ -23,6 +24,34 @@ const DeleteIcon = () => (
   </svg>
 );
 
+const ArrowUpIcon = () => (
+  <svg
+    class="h-6 w-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4" />
+  </svg>
+);
+
+const ArrowDownIcon = () => (
+  <svg
+    class="h-6 w-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4" />
+  </svg>
+);
+
 export const TagCard = (props: Props) => {
   return (
     <div class={`flex flex-col overflow-hidden rounded-xl shadow-sm ${colorMapper(props.color)}`}>
@@ -30,7 +59,14 @@ export const TagCard = (props: Props) => {
         <button onClick={() => props.onNameClick(props.id)}>{props.name}</button>
       </div>
       <div class="flex h-10 items-center justify-between bg-black/35 px-4">
-        <div>reorder</div>
+        <div class="space-x-3">
+          <button onClick={() => props.onReorderClick(props.id, "up")}>
+            <ArrowUpIcon />
+          </button>
+          <button onClick={() => props.onReorderClick(props.id, "down")}>
+            <ArrowDownIcon />
+          </button>
+        </div>
         <div class="space-x-3">
           <button onClick={() => props.onEditClick(props.id)}>
             <EditIcon />
