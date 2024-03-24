@@ -12,6 +12,20 @@
  * Do not edit the class manually.
  */
 
-export * from "./api-service/time-event-controller-api";
-export * from "./api-service/time-event-tag-controller-api";
-export * from "./api-service/user-controller-api";
+// May contain unused imports in some cases
+// @ts-ignore
+import { TimeEvent } from "./time-event";
+
+/**
+ *
+ * @export
+ * @interface AddTimeEventResponse
+ */
+export interface AddTimeEventResponse {
+  /**
+   *
+   * @type {TimeEvent}
+   * @memberof AddTimeEventResponse
+   */
+  timeEvent: TimeEvent;
+}

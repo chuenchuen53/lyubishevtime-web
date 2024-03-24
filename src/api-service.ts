@@ -1,8 +1,10 @@
+import { user } from "@stores/UserStore";
+import axios from "axios";
 import { Configuration } from "./openapi/configuration";
 import { UserControllerApiFactory } from "./openapi/api-service/user-controller-api";
 import { TimeEventTagControllerApiFactory } from "./openapi/api-service/time-event-tag-controller-api";
-import { user } from "@stores/UserStore";
-import axios, { AxiosResponse } from "axios";
+import { TimeEventControllerApiFactory } from "./openapi";
+import type { AxiosResponse } from "axios";
 
 const basePath = import.meta.env.VITE_API_BASE_URL;
 const configuration = new Configuration({ basePath, accessToken: () => user()?.token ?? localStorage.getItem("token") ?? "" });
@@ -27,5 +29,5 @@ const createService = <T extends ControllerApi>(
 };
 
 export const TagService = createService(TimeEventTagControllerApiFactory(configuration));
-
+export const EventService = createService(TimeEventControllerApiFactory(configuration));
 export const UserService = UserControllerApiFactory(configuration);

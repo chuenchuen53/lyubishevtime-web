@@ -15,7 +15,6 @@ export const Dropdown = (props: Props) => {
 
   onMount(() => {
     fd = new FlowbiteDropdown(dropdownElement, triggerElement, props.options);
-    console.log(fd);
   });
 
   onCleanup(() => {

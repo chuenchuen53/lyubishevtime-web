@@ -2,8 +2,8 @@ import { twMerge } from "tailwind-merge";
 import { splitProps, type JSX } from "solid-js";
 
 export type InputProps = {
-  type: "text" | "password";
-  value: string | undefined;
+  type: "text" | "password" | "number";
+  value: string | number | undefined;
   id?: string;
   required?: boolean;
   placeholder?: string;

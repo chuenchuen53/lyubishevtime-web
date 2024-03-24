@@ -37,7 +37,7 @@ export const BottomBar = () => {
   ];
 
   return (
-    <div class="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white md:hidden dark:border-gray-600 dark:bg-gray-700">
+    <div class="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700 md:hidden">
       <div class="mx-auto grid h-full max-w-lg grid-cols-3 font-medium">
         <For each={navItems}>
           {x => (

@@ -1,6 +1,6 @@
+import { ThemeProvider } from "@components/common/ThemeProvider";
 import { AppRouter } from "./AppRouter";
 import type { Component } from "solid-js";
-import { ThemeProvider } from "@components/common/ThemeProvider";
 import "@park-ui/tailwind-plugin/preset.css";
 
 const App: Component = () => {

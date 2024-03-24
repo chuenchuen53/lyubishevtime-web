@@ -1,7 +1,8 @@
 import { Select } from "@ark-ui/solid";
-import { Show, type ComponentProps, JSX, For } from "solid-js";
+import { Show, type ComponentProps, JSX, For, Index } from "solid-js";
 import { tv } from "tailwind-variants";
 import { createStyleContext } from "@lib/create-style-context";
+import { Portal } from "solid-js/web";
 
 const styles = tv(
   {
@@ -165,9 +166,6 @@ export const SimpleSelect = <T extends string>(props: SimpleSelectProps<T>) => {
       <Positioner>
         <Content>
           <ItemGroup id={props.id}>
-            <Show when={props.label}>
-              <ItemGroupLabel for={props.id}>{props.label}</ItemGroupLabel>
-            </Show>
             <For each={props.items}>
               {x => (
                 <Item item={x}>
@@ -178,6 +176,45 @@ export const SimpleSelect = <T extends string>(props: SimpleSelectProps<T>) => {
                 </Item>
               )}
             </For>
+          </ItemGroup>
+        </Content>
+      </Positioner>
+    </Root>
+  );
+};
+
+interface SimpleMultipleProps<T> {
+  label?: string;
+  placeholder: string;
+  id: string;
+  items: { label: string; value: T }[];
+  value: T[];
+  onValueChange: (newValue: T[]) => void;
+  renderItem: (item: { label: string; value: T }) => JSX.Element;
+}
+
+export const SimpleMultipleSelect = <T extends string>(props: SimpleMultipleProps<T>) => {
+  return (
+    <Root multiple items={props.items} positioning={{ sameWidth: true }} onValueChange={detail => props.onValueChange(detail.value as T[])}>
+      <Label>{props.label}</Label>
+      <Control>
+        <Trigger>
+          <ValueText placeholder={props.placeholder} />
+        </Trigger>
+      </Control>
+      <Positioner>
+        <Content>
+          <ItemGroup id={props.id}>
+            <Index each={props.items}>
+              {item => (
+                <Item item={item()}>
+                  <ItemText>{item().label}</ItemText>
+                  <ItemIndicator>
+                    <CheckIcon />
+                  </ItemIndicator>
+                </Item>
+              )}
+            </Index>
           </ItemGroup>
         </Content>
       </Positioner>

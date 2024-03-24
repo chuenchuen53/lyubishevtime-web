@@ -1,15 +1,5 @@
 import { TimeEventTagColor } from "../../openapi";
 
-interface Props {
-  id: number;
-  name: string;
-  color: TimeEventTagColor;
-  onNameClick: (id: number) => void;
-  onReorderClick: (id: number, direction: "up" | "down") => void;
-  onEditClick: (id: number) => void;
-  onDeleteClick: (id: number) => void;
-}
-
 const EditIcon = () => (
   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg">
     <path fill="none" d="M0 0h24v24H0z"></path>
@@ -24,49 +14,26 @@ const DeleteIcon = () => (
   </svg>
 );
 
-const ArrowUpIcon = () => (
-  <svg
-    class="h-6 w-6 text-gray-800 dark:text-white"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4" />
-  </svg>
-);
+interface Props {
+  id: number;
+  tagId: number;
+  tagName: string;
+  color: TimeEventTagColor;
+  startTime: string;
+  minute: number;
+  name: string;
+  onEditClick: (id: number) => void;
+  onDeleteClick: (id: number) => void;
+}
 
-const ArrowDownIcon = () => (
-  <svg
-    class="h-6 w-6 text-gray-800 dark:text-white"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4" />
-  </svg>
-);
-
-export const TagCard = (props: Props) => {
+export const EventCard = (props: Props) => {
   return (
     <div class={`flex flex-col overflow-hidden rounded-xl shadow-sm ${colorMapper(props.color)}`}>
-      <div class="h-10 px-4 text-center leading-10">
-        <button onClick={() => props.onNameClick(props.id)}>{props.name}</button>
-      </div>
+      <div class="h-10 px-4 text-center leading-10">{props.tagName}</div>
+      <div class="bg-gray-200 px-4 py-2 text-black">{props.name}</div>
       <div class="flex h-10 items-center justify-between bg-black/35 px-4">
-        <div class="space-x-3">
-          <button onClick={() => props.onReorderClick(props.id, "up")}>
-            <ArrowUpIcon />
-          </button>
-          <button onClick={() => props.onReorderClick(props.id, "down")}>
-            <ArrowDownIcon />
-          </button>
-        </div>
+        <div>{props.startTime}</div>
+        <div>己用{props.minute}分鐘</div>
         <div class="space-x-3">
           <button onClick={() => props.onEditClick(props.id)}>
             <EditIcon />

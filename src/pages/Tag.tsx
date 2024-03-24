@@ -4,15 +4,17 @@ import { TagCard } from "@components/tag/TagCard";
 import { Button } from "@components/general/Button";
 import { AddTagModal } from "@components/tag/AddTagModal";
 import { EmptyState } from "@components/tag/EmptyState";
-import { TimeEventTag, TimeEventTagColor } from "../openapi";
+import { TimeEventTag } from "../openapi";
 import { TagForm } from "@components/tag/TagFormModal";
 import { EditTagModal } from "@components/tag/EditTagModal";
+import { useNavigate } from "@solidjs/router";
 
 export default function Tag() {
   const [tags, tagsActions] = createResource(TagService.listTimeEventTag);
 
   const [showAddTagModal, setShowAddTagModal] = createSignal(false);
   const [editingTag, setEditingTag] = createSignal<null | TimeEventTag>(null);
+  const navigate = useNavigate();
 
   async function handleAddTag(x: TagForm) {
     const newTag = (await TagService.addTimeEventTag(x)).timeEventTag;
@@ -36,7 +38,7 @@ export default function Tag() {
       name: editedTag.name,
       color: editedTag.color,
     };
-    await TagService.update(newTag);
+    await TagService.update1(newTag);
     setEditingTag(null);
     tagsActions.mutate(x => {
       if (!x) return x;
@@ -48,7 +50,7 @@ export default function Tag() {
   }
 
   async function handleNameClick(id: number) {
-    console.log(id);
+    navigate(`/event/?tagIds=${btoa(id.toString())}`);
   }
 
   async function handleReorder(id: number, direction: "up" | "down") {
@@ -92,7 +94,7 @@ export default function Tag() {
   }
 
   async function handleDeleteClick(id: number) {
-    await TagService._delete(id);
+    await TagService.delete1(id);
     tagsActions.mutate(x => {
       if (!x) return x;
       return {

@@ -22,10 +22,12 @@
     "solid-js": "1.8.15",
     "styled-system": "5.1.5",
     "tailwind-merge": "2.2.2",
-    "tailwind-variants": "0.2.1"
+    "tailwind-variants": "0.2.1",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "2.13.1",
+    "@stylistic/eslint-plugin-js": "^1.7.0",
     "autoprefixer": "10.4.18",
     "dotenv": "16.4.5",
     "eslint": "8.57.0",
