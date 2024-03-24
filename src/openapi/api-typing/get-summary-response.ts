@@ -12,7 +12,20 @@
  * Do not edit the class manually.
  */
 
-export * from "./api-service/summary-controller-api";
-export * from "./api-service/time-event-controller-api";
-export * from "./api-service/time-event-tag-controller-api";
-export * from "./api-service/user-controller-api";
+// May contain unused imports in some cases
+// @ts-ignore
+import { TagInfo } from "./tag-info";
+
+/**
+ *
+ * @export
+ * @interface GetSummaryResponse
+ */
+export interface GetSummaryResponse {
+  /**
+   *
+   * @type {Array<TagInfo>}
+   * @memberof GetSummaryResponse
+   */
+  tagInfos: Array<TagInfo>;
+}

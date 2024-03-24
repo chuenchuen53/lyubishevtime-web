@@ -1,16 +1,16 @@
 import { useSearchParams } from "@solidjs/router";
 import { For, Show, createEffect, createResource, createSignal } from "solid-js";
-import { EventService } from "../api-service";
-import { ListTimeEventResponse, TimeEvent, UpdateTimeEventRequest } from "../openapi";
 import { z } from "zod";
 import { EmptyState } from "@components/tag/EmptyState";
 import { EventCard } from "@components/event/EventCard";
 import { Button } from "@components/general/Button";
 import { AddEventModal } from "@components/event/AddEventModal";
-import { EventForm } from "@components/event/EventFormModal";
 import { EditEventModal } from "@components/event/EditEventModal";
 import { SimpleMultipleSelect } from "@components/general/Select";
 import { SimpleDatePicker } from "@components/general/DatePicker";
+import { EventService } from "../api-service";
+import type { ListTimeEventResponse, TimeEvent, UpdateTimeEventRequest } from "../openapi";
+import type { EventForm } from "@components/event/EventFormModal";
 
 const isValidDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -32,26 +32,22 @@ const tagIdsSchema = z
 const dateStringSchema = z.string().refine(isValidDate).optional();
 
 const ParamsSchema = z.object({
-  from: dateStringSchema,
-  to: dateStringSchema,
+  date: dateStringSchema,
   tagIds: tagIdsSchema,
 });
 
 type Params = {
-  from?: string;
-  to?: string;
+  date?: string;
   tagIds?: string;
 };
 
 interface Filter {
-  from?: string;
-  to?: string;
+  date?: string;
   tagIds?: number[];
 }
 
-const emptyFilter = {
-  from: undefined,
-  to: undefined,
+const emptyFilter: Filter = {
+  date: undefined,
   tagIds: undefined,
 };
 
@@ -59,8 +55,7 @@ function parseParams(searchParams: Params): Filter {
   const result = ParamsSchema.safeParse(searchParams);
   if (result.success) {
     return {
-      from: result.data.from,
-      to: result.data.to,
+      date: result.data.date,
       tagIds: result.data.tagIds ? result.data.tagIds.split(",").map(Number) : undefined,
     };
   }
@@ -71,7 +66,7 @@ async function fetchEvents(filter: Filter): Promise<ListTimeEventResponse> {
   console.log("fetching events", filter);
   const today = new Date().toISOString().split("T")[0];
 
-  return await EventService.getEvents(filter.from ?? today, filter.to ?? today, filter.tagIds);
+  return await EventService.getEvents(filter.date ?? today, filter.tagIds);
 }
 
 export default function Event() {
@@ -84,8 +79,7 @@ export default function Event() {
   createEffect(() => {
     const f = filter();
     setSearchParams({
-      from: f.from,
-      to: f.to,
+      date: f.date,
       tagIds: f.tagIds ? btoa(f.tagIds.join(",")) : undefined,
     });
   });
@@ -99,7 +93,7 @@ export default function Event() {
     const initEvent = editingEvent();
     if (!initEvent) return;
 
-    await EventService.update({
+    await EventService.updateTimeEvent({
       id: initEvent.id,
       tagId: editedEvent.tagId,
       name: editedEvent.name,
@@ -119,7 +113,7 @@ export default function Event() {
   };
 
   const handleDeleteClick = async (id: number) => {
-    await EventService._delete(id);
+    await EventService.deleteTimeEvent(id);
     eventsActions.mutate(data => {
       if (!data) return data;
       return {
@@ -131,7 +125,7 @@ export default function Event() {
   };
 
   const handleAddTag = async (x: EventForm) => {
-    const newEvent = (await EventService.add({ ...x, date: filter().from ?? new Date().toISOString().split("T")[0] })).timeEvent;
+    const newEvent = (await EventService.addTimeEvent({ ...x, date: filter().date ?? todayString() })).timeEvent;
 
     eventsActions.mutate(data => {
       if (!data) return data;
@@ -153,17 +147,17 @@ export default function Event() {
 
       <div class="relative mb-6 h-10">
         <div class="flex h-10 flex-grow items-center justify-center gap-6">
-          <button onClick={() => setFilter({ ...filter, from: prevDayString(filter().from ?? todayString()) })}>
+          <button onClick={() => setFilter({ ...filter, date: prevDayString(filter().date ?? todayString()) })}>
             <LeftArrow />
           </button>
-          <div class="font-bold">{filter().from ?? todayString()}</div>
-          <button onClick={() => setFilter({ ...filter, from: nextDayString(filter().from ?? todayString()) })}>
+          <div class="font-bold">{filter().date ?? todayString()}</div>
+          <button onClick={() => setFilter({ ...filter, date: nextDayString(filter().date ?? todayString()) })}>
             <RightArrow />
           </button>
         </div>
 
         <div class="absolute right-0 top-0">
-          <SimpleDatePicker value={filter().from ?? todayString()} setValue={x => setFilter({ ...filter(), from: x })} />
+          <SimpleDatePicker value={filter().date ?? todayString()} setValue={x => setFilter({ ...filter(), date: x })} />
         </div>
       </div>
 
@@ -281,7 +275,7 @@ function LeftArrow() {
       stroke-linecap="round"
       stroke-linejoin="round"
     >
-      <path d="m15 18-6-6 6-6"></path>
+      <path d="m15 18-6-6 6-6" />
     </svg>
   );
 }
@@ -299,7 +293,7 @@ function RightArrow() {
       stroke-linecap="round"
       stroke-linejoin="round"
     >
-      <path d="m9 18 6-6-6-6"></path>
+      <path d="m9 18 6-6-6-6" />
     </svg>
   );
 }

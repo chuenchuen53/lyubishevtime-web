@@ -90,9 +90,9 @@ export const TimeEventTagControllerApiAxiosParamCreator = function (configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    delete1: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    deleteTimeEventTag: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
-      assertParamExists("delete1", "id", id);
+      assertParamExists("deleteTimeEventTag", "id", id);
       const localVarPath = `/time-event-tag/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -155,9 +155,12 @@ export const TimeEventTagControllerApiAxiosParamCreator = function (configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    reorder: async (reorderTimeEventTagRequest: ReorderTimeEventTagRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    reorderTimeEventTag: async (
+      reorderTimeEventTagRequest: ReorderTimeEventTagRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'reorderTimeEventTagRequest' is not null or undefined
-      assertParamExists("reorder", "reorderTimeEventTagRequest", reorderTimeEventTagRequest);
+      assertParamExists("reorderTimeEventTag", "reorderTimeEventTagRequest", reorderTimeEventTagRequest);
       const localVarPath = `/time-event-tag/reorder`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -192,9 +195,9 @@ export const TimeEventTagControllerApiAxiosParamCreator = function (configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    update1: async (updateTimeEventTagRequest: UpdateTimeEventTagRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    updateTimeEventTag: async (updateTimeEventTagRequest: UpdateTimeEventTagRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'updateTimeEventTagRequest' is not null or undefined
-      assertParamExists("update1", "updateTimeEventTagRequest", updateTimeEventTagRequest);
+      assertParamExists("updateTimeEventTag", "updateTimeEventTagRequest", updateTimeEventTagRequest);
       const localVarPath = `/time-event-tag`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -255,10 +258,10 @@ export const TimeEventTagControllerApiFp = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async delete1(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.delete1(id, options);
+    async deleteTimeEventTag(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTimeEventTag(id, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventTagControllerApi.delete1"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventTagControllerApi.deleteTimeEventTag"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -282,13 +285,14 @@ export const TimeEventTagControllerApiFp = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async reorder(
+    async reorderTimeEventTag(
       reorderTimeEventTagRequest: ReorderTimeEventTagRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.reorder(reorderTimeEventTagRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.reorderTimeEventTag(reorderTimeEventTagRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventTagControllerApi.reorder"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath =
+        operationServerMap["TimeEventTagControllerApi.reorderTimeEventTag"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -298,13 +302,13 @@ export const TimeEventTagControllerApiFp = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async update1(
+    async updateTimeEventTag(
       updateTimeEventTagRequest: UpdateTimeEventTagRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.update1(updateTimeEventTagRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTimeEventTag(updateTimeEventTagRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventTagControllerApi.update1"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventTagControllerApi.updateTimeEventTag"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -333,8 +337,8 @@ export const TimeEventTagControllerApiFactory = function (configuration?: Config
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    delete1(id: number, options?: any): AxiosPromise<void> {
-      return localVarFp.delete1(id, options).then(request => request(axios, basePath));
+    deleteTimeEventTag(id: number, options?: any): AxiosPromise<void> {
+      return localVarFp.deleteTimeEventTag(id, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -350,8 +354,8 @@ export const TimeEventTagControllerApiFactory = function (configuration?: Config
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    reorder(reorderTimeEventTagRequest: ReorderTimeEventTagRequest, options?: any): AxiosPromise<void> {
-      return localVarFp.reorder(reorderTimeEventTagRequest, options).then(request => request(axios, basePath));
+    reorderTimeEventTag(reorderTimeEventTagRequest: ReorderTimeEventTagRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.reorderTimeEventTag(reorderTimeEventTagRequest, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -359,8 +363,8 @@ export const TimeEventTagControllerApiFactory = function (configuration?: Config
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    update1(updateTimeEventTagRequest: UpdateTimeEventTagRequest, options?: any): AxiosPromise<void> {
-      return localVarFp.update1(updateTimeEventTagRequest, options).then(request => request(axios, basePath));
+    updateTimeEventTag(updateTimeEventTagRequest: UpdateTimeEventTagRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.updateTimeEventTag(updateTimeEventTagRequest, options).then(request => request(axios, basePath));
     },
   };
 };
@@ -392,9 +396,9 @@ export class TimeEventTagControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof TimeEventTagControllerApi
    */
-  public delete1(id: number, options?: RawAxiosRequestConfig) {
+  public deleteTimeEventTag(id: number, options?: RawAxiosRequestConfig) {
     return TimeEventTagControllerApiFp(this.configuration)
-      .delete1(id, options)
+      .deleteTimeEventTag(id, options)
       .then(request => request(this.axios, this.basePath));
   }
 
@@ -417,9 +421,9 @@ export class TimeEventTagControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof TimeEventTagControllerApi
    */
-  public reorder(reorderTimeEventTagRequest: ReorderTimeEventTagRequest, options?: RawAxiosRequestConfig) {
+  public reorderTimeEventTag(reorderTimeEventTagRequest: ReorderTimeEventTagRequest, options?: RawAxiosRequestConfig) {
     return TimeEventTagControllerApiFp(this.configuration)
-      .reorder(reorderTimeEventTagRequest, options)
+      .reorderTimeEventTag(reorderTimeEventTagRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 
@@ -430,9 +434,9 @@ export class TimeEventTagControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof TimeEventTagControllerApi
    */
-  public update1(updateTimeEventTagRequest: UpdateTimeEventTagRequest, options?: RawAxiosRequestConfig) {
+  public updateTimeEventTag(updateTimeEventTagRequest: UpdateTimeEventTagRequest, options?: RawAxiosRequestConfig) {
     return TimeEventTagControllerApiFp(this.configuration)
-      .update1(updateTimeEventTagRequest, options)
+      .updateTimeEventTag(updateTimeEventTagRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 }

@@ -1,13 +1,13 @@
 import { For, Show, createResource, createSignal } from "solid-js";
-import { TagService } from "../api-service";
 import { TagCard } from "@components/tag/TagCard";
 import { Button } from "@components/general/Button";
 import { AddTagModal } from "@components/tag/AddTagModal";
 import { EmptyState } from "@components/tag/EmptyState";
-import { TimeEventTag } from "../openapi";
-import { TagForm } from "@components/tag/TagFormModal";
 import { EditTagModal } from "@components/tag/EditTagModal";
 import { useNavigate } from "@solidjs/router";
+import { TagService } from "../api-service";
+import type { TimeEventTag } from "../openapi";
+import type { TagForm } from "@components/tag/TagFormModal";
 
 export default function Tag() {
   const [tags, tagsActions] = createResource(TagService.listTimeEventTag);
@@ -38,7 +38,7 @@ export default function Tag() {
       name: editedTag.name,
       color: editedTag.color,
     };
-    await TagService.update1(newTag);
+    await TagService.updateTimeEventTag(newTag);
     setEditingTag(null);
     tagsActions.mutate(x => {
       if (!x) return x;
@@ -74,7 +74,7 @@ export default function Tag() {
     });
 
     try {
-      TagService.reorder({ tagIds: newOrder });
+      TagService.reorderTimeEventTag({ tagIds: newOrder });
     } catch (e) {
       console.log("todo error");
       tagsActions.mutate(x => {
@@ -94,7 +94,7 @@ export default function Tag() {
   }
 
   async function handleDeleteClick(id: number) {
-    await TagService.delete1(id);
+    await TagService.deleteTimeEventTag(id);
     tagsActions.mutate(x => {
       if (!x) return x;
       return {

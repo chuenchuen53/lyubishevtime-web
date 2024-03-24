@@ -47,47 +47,13 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
   return {
     /**
      *
-     * @param {number} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    _delete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("_delete", "id", id);
-      const localVarPath = `/time-event/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication bearerAuth required
-      // http bearer authentication required
-      await setBearerAuthToObject(localVarHeaderParameter, configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
      * @param {AddTimeEventRequest} addTimeEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    add: async (addTimeEventRequest: AddTimeEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    addTimeEvent: async (addTimeEventRequest: AddTimeEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'addTimeEventRequest' is not null or undefined
-      assertParamExists("add", "addTimeEventRequest", addTimeEventRequest);
+      assertParamExists("addTimeEvent", "addTimeEventRequest", addTimeEventRequest);
       const localVarPath = `/time-event`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -118,17 +84,48 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
     },
     /**
      *
-     * @param {string} from
-     * @param {string} to
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTimeEvent: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("deleteTimeEvent", "id", id);
+      const localVarPath = `/time-event/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEvents: async (from: string, to: string, tagIds?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'from' is not null or undefined
-      assertParamExists("getEvents", "from", from);
-      // verify required parameter 'to' is not null or undefined
-      assertParamExists("getEvents", "to", to);
+    getEvents: async (date: string, tagIds?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'date' is not null or undefined
+      assertParamExists("getEvents", "date", date);
       const localVarPath = `/time-event`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -149,12 +146,8 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
         localVarQueryParameter["tagIds"] = tagIds;
       }
 
-      if (from !== undefined) {
-        localVarQueryParameter["from"] = (from as any) instanceof Date ? (from as any).toISOString().substring(0, 10) : from;
-      }
-
-      if (to !== undefined) {
-        localVarQueryParameter["to"] = (to as any) instanceof Date ? (to as any).toISOString().substring(0, 10) : to;
+      if (date !== undefined) {
+        localVarQueryParameter["date"] = (date as any) instanceof Date ? (date as any).toISOString().substring(0, 10) : date;
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -172,9 +165,9 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    update: async (updateTimeEventRequest: UpdateTimeEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    updateTimeEvent: async (updateTimeEventRequest: UpdateTimeEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'updateTimeEventRequest' is not null or undefined
-      assertParamExists("update", "updateTimeEventRequest", updateTimeEventRequest);
+      assertParamExists("updateTimeEvent", "updateTimeEventRequest", updateTimeEventRequest);
       const localVarPath = `/time-event`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -215,48 +208,46 @@ export const TimeEventControllerApiFp = function (configuration?: Configuration)
   return {
     /**
      *
-     * @param {number} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async _delete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator._delete(id, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi._delete"]?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     *
      * @param {AddTimeEventRequest} addTimeEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async add(
+    async addTimeEvent(
       addTimeEventRequest: AddTimeEventRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AddTimeEventResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.add(addTimeEventRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.addTimeEvent(addTimeEventRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.add"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.addTimeEvent"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      *
-     * @param {string} from
-     * @param {string} to
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteTimeEvent(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTimeEvent(id, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.deleteTimeEvent"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getEvents(
-      from: string,
-      to: string,
+      date: string,
       tagIds?: Array<number>,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTimeEventResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getEvents(from, to, tagIds, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getEvents(date, tagIds, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.getEvents"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
@@ -268,13 +259,13 @@ export const TimeEventControllerApiFp = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async update(
+    async updateTimeEvent(
       updateTimeEventRequest: UpdateTimeEventRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.update(updateTimeEventRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTimeEvent(updateTimeEventRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.update"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.updateTimeEvent"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -290,32 +281,31 @@ export const TimeEventControllerApiFactory = function (configuration?: Configura
   return {
     /**
      *
-     * @param {number} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    _delete(id: number, options?: any): AxiosPromise<void> {
-      return localVarFp._delete(id, options).then(request => request(axios, basePath));
-    },
-    /**
-     *
      * @param {AddTimeEventRequest} addTimeEventRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    add(addTimeEventRequest: AddTimeEventRequest, options?: any): AxiosPromise<AddTimeEventResponse> {
-      return localVarFp.add(addTimeEventRequest, options).then(request => request(axios, basePath));
+    addTimeEvent(addTimeEventRequest: AddTimeEventRequest, options?: any): AxiosPromise<AddTimeEventResponse> {
+      return localVarFp.addTimeEvent(addTimeEventRequest, options).then(request => request(axios, basePath));
     },
     /**
      *
-     * @param {string} from
-     * @param {string} to
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteTimeEvent(id: number, options?: any): AxiosPromise<void> {
+      return localVarFp.deleteTimeEvent(id, options).then(request => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEvents(from: string, to: string, tagIds?: Array<number>, options?: any): AxiosPromise<ListTimeEventResponse> {
-      return localVarFp.getEvents(from, to, tagIds, options).then(request => request(axios, basePath));
+    getEvents(date: string, tagIds?: Array<number>, options?: any): AxiosPromise<ListTimeEventResponse> {
+      return localVarFp.getEvents(date, tagIds, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -323,8 +313,8 @@ export const TimeEventControllerApiFactory = function (configuration?: Configura
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    update(updateTimeEventRequest: UpdateTimeEventRequest, options?: any): AxiosPromise<void> {
-      return localVarFp.update(updateTimeEventRequest, options).then(request => request(axios, basePath));
+    updateTimeEvent(updateTimeEventRequest: UpdateTimeEventRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.updateTimeEvent(updateTimeEventRequest, options).then(request => request(axios, basePath));
     },
   };
 };
@@ -338,42 +328,41 @@ export const TimeEventControllerApiFactory = function (configuration?: Configura
 export class TimeEventControllerApi extends BaseAPI {
   /**
    *
-   * @param {number} id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TimeEventControllerApi
-   */
-  public _delete(id: number, options?: RawAxiosRequestConfig) {
-    return TimeEventControllerApiFp(this.configuration)
-      ._delete(id, options)
-      .then(request => request(this.axios, this.basePath));
-  }
-
-  /**
-   *
    * @param {AddTimeEventRequest} addTimeEventRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TimeEventControllerApi
    */
-  public add(addTimeEventRequest: AddTimeEventRequest, options?: RawAxiosRequestConfig) {
+  public addTimeEvent(addTimeEventRequest: AddTimeEventRequest, options?: RawAxiosRequestConfig) {
     return TimeEventControllerApiFp(this.configuration)
-      .add(addTimeEventRequest, options)
+      .addTimeEvent(addTimeEventRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 
   /**
    *
-   * @param {string} from
-   * @param {string} to
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TimeEventControllerApi
+   */
+  public deleteTimeEvent(id: number, options?: RawAxiosRequestConfig) {
+    return TimeEventControllerApiFp(this.configuration)
+      .deleteTimeEvent(id, options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} date
    * @param {Array<number>} [tagIds]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TimeEventControllerApi
    */
-  public getEvents(from: string, to: string, tagIds?: Array<number>, options?: RawAxiosRequestConfig) {
+  public getEvents(date: string, tagIds?: Array<number>, options?: RawAxiosRequestConfig) {
     return TimeEventControllerApiFp(this.configuration)
-      .getEvents(from, to, tagIds, options)
+      .getEvents(date, tagIds, options)
       .then(request => request(this.axios, this.basePath));
   }
 
@@ -384,9 +373,9 @@ export class TimeEventControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof TimeEventControllerApi
    */
-  public update(updateTimeEventRequest: UpdateTimeEventRequest, options?: RawAxiosRequestConfig) {
+  public updateTimeEvent(updateTimeEventRequest: UpdateTimeEventRequest, options?: RawAxiosRequestConfig) {
     return TimeEventControllerApiFp(this.configuration)
-      .update(updateTimeEventRequest, options)
+      .updateTimeEvent(updateTimeEventRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 }
