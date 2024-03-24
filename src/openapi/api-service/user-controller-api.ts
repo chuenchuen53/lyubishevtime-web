@@ -43,6 +43,8 @@ import { LoginResponse } from "../api-typing";
 import { SignUpResponse } from "../api-typing";
 // @ts-ignore
 import { SignupRequest } from "../api-typing";
+// @ts-ignore
+import { UpdatePasswordRequest } from "../api-typing";
 /**
  * UserControllerApi - axios parameter creator
  * @export
@@ -188,6 +190,119 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} nickname
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateNickname: async (nickname: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'nickname' is not null or undefined
+      assertParamExists("updateNickname", "nickname", nickname);
+      const localVarPath = `/personal-info/nickname`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "PUT", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      if (nickname !== undefined) {
+        localVarQueryParameter["nickname"] = nickname;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {UpdatePasswordRequest} updatePasswordRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePassword: async (updatePasswordRequest: UpdatePasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'updatePasswordRequest' is not null or undefined
+      assertParamExists("updatePassword", "updatePasswordRequest", updatePasswordRequest);
+      const localVarPath = `/auth/password`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "PUT", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updatePasswordRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} profilePic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateProfilePic: async (profilePic: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'profilePic' is not null or undefined
+      assertParamExists("updateProfilePic", "profilePic", profilePic);
+      const localVarPath = `/personal-info/profile-pic`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "PUT", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      if (profilePic !== undefined) {
+        localVarQueryParameter["profilePic"] = profilePic;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -258,6 +373,54 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     *
+     * @param {string} nickname
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateNickname(
+      nickname: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateNickname(nickname, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.updateNickname"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {UpdatePasswordRequest} updatePasswordRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updatePassword(
+      updatePasswordRequest: UpdatePasswordRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePassword(updatePasswordRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.updatePassword"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
+     * @param {string} profilePic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateProfilePic(
+      profilePic: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePic(profilePic, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.updateProfilePic"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -302,6 +465,33 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
      */
     signup(signupRequest: SignupRequest, options?: any): AxiosPromise<SignUpResponse> {
       return localVarFp.signup(signupRequest, options).then(request => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} nickname
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateNickname(nickname: string, options?: any): AxiosPromise<void> {
+      return localVarFp.updateNickname(nickname, options).then(request => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {UpdatePasswordRequest} updatePasswordRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePassword(updatePasswordRequest: UpdatePasswordRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.updatePassword(updatePasswordRequest, options).then(request => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} profilePic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateProfilePic(profilePic: string, options?: any): AxiosPromise<void> {
+      return localVarFp.updateProfilePic(profilePic, options).then(request => request(axios, basePath));
     },
   };
 };
@@ -361,6 +551,45 @@ export class UserControllerApi extends BaseAPI {
   public signup(signupRequest: SignupRequest, options?: RawAxiosRequestConfig) {
     return UserControllerApiFp(this.configuration)
       .signup(signupRequest, options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} nickname
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserControllerApi
+   */
+  public updateNickname(nickname: string, options?: RawAxiosRequestConfig) {
+    return UserControllerApiFp(this.configuration)
+      .updateNickname(nickname, options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {UpdatePasswordRequest} updatePasswordRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserControllerApi
+   */
+  public updatePassword(updatePasswordRequest: UpdatePasswordRequest, options?: RawAxiosRequestConfig) {
+    return UserControllerApiFp(this.configuration)
+      .updatePassword(updatePasswordRequest, options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} profilePic
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserControllerApi
+   */
+  public updateProfilePic(profilePic: string, options?: RawAxiosRequestConfig) {
+    return UserControllerApiFp(this.configuration)
+      .updateProfilePic(profilePic, options)
       .then(request => request(this.axios, this.basePath));
   }
 }

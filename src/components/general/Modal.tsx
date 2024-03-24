@@ -1,5 +1,6 @@
-import { JSX, Show } from "solid-js";
+import { Show } from "solid-js";
 import { Portal } from "solid-js/web";
+import type { JSX } from "solid-js";
 
 interface Props {
   open: boolean;
@@ -20,7 +21,7 @@ export const Modal = (props: Props) => {
           aria-hidden="true"
           class="fixed left-0 right-0 top-0 z-[1000] flex h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
         >
-          <div class="fixed inset-0 bg-gray-900/50"></div>
+          <div class="fixed inset-0 bg-gray-900/50" />
 
           <div class="relative max-h-full max-w-[calc(100vw-48px)] rounded-lg bg-white shadow dark:bg-gray-700">
             <div class="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">

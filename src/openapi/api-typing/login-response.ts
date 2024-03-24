@@ -41,7 +41,7 @@ export interface LoginResponse {
    * @type {string}
    * @memberof LoginResponse
    */
-  photoUrl: string | null;
+  profilePic: string | null;
   /**
    *
    * @type {string}

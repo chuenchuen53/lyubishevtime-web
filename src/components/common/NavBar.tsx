@@ -2,10 +2,9 @@ import { A, useNavigate } from "@solidjs/router";
 import favicon from "@assets/favicon.svg";
 import { For, ParentProps, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { useTheme } from "@context/ThemeContext";
-import { user } from "@stores/UserStore";
-import { logout } from "@stores/UserStore";
-import { DropdownOptions } from "flowbite";
+import { user, logout } from "@stores/UserStore";
 import { Dropdown } from "@components/general/Dropdown";
+import type { DropdownOptions } from "flowbite";
 
 interface NavItem {
   label: string;
@@ -33,7 +32,6 @@ export const NavBar = () => {
       label: "登出",
       action: () => {
         logout();
-        navigate("/login");
       },
     },
   ];
@@ -124,7 +122,9 @@ export const NavBar = () => {
                 >
                   <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                     <span class="sr-only">Open user menu</span>
-                    <img class="h-8 w-8 rounded-full" src="https://i.pravatar.cc/100" alt="user photo" />
+                    <Show when={nonNullUser().profilePic} fallback={<UserIcon />}>
+                      <img class="h-8 w-8 rounded-full" src={nonNullUser().profilePic} alt="user photo" />
+                    </Show>
                   </button>
                 </Dropdown>
               );
@@ -135,3 +135,23 @@ export const NavBar = () => {
     </nav>
   );
 };
+
+function UserIcon() {
+  return (
+    <svg
+      class="h-6 w-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  );
+}

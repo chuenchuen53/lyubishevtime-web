@@ -1,5 +1,6 @@
-import { TimeEventTag } from "src/openapi";
-import { EventForm, EventFormModal } from "./EventFormModal";
+import { EventFormModal } from "./EventFormModal";
+import type { TimeEventTag } from "src/openapi";
+import type { EventForm } from "./EventFormModal";
 
 interface Props {
   open: boolean;

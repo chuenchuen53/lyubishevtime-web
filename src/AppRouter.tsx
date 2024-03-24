@@ -41,6 +41,10 @@ const routes = [
         path: "/summary",
         component: lazy(() => import("./pages/Summary")),
       },
+      {
+        path: "/setting",
+        component: lazy(() => import("./pages/Setting")),
+      },
     ],
   },
   {

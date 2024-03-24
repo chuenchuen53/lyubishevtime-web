@@ -15,37 +15,19 @@
 /**
  *
  * @export
- * @interface CurrentUserResponse
+ * @interface UpdatePasswordRequest
  */
-export interface CurrentUserResponse {
-  /**
-   *
-   * @type {number}
-   * @memberof CurrentUserResponse
-   */
-  id: number;
+export interface UpdatePasswordRequest {
   /**
    *
    * @type {string}
-   * @memberof CurrentUserResponse
+   * @memberof UpdatePasswordRequest
    */
-  username: string;
+  oldPassword: string;
   /**
    *
    * @type {string}
-   * @memberof CurrentUserResponse
+   * @memberof UpdatePasswordRequest
    */
-  nickname: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  profilePic: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  token: string;
+  newPassword: string;
 }

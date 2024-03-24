@@ -52,11 +52,11 @@ export default function Summary() {
 
       <Show when={summary()}>
         {nonNullSummary => (
-          <div>
-            <div class="max-w-[400px]">
+          <Show when={nonNullSummary().tagInfos.length > 0} fallback={<div>沒有活動</div>}>
+            <div class="w-full max-w-[400px]">
               <Pie data={chartData(nonNullSummary())} />
             </div>
-          </div>
+          </Show>
         )}
       </Show>
     </div>
