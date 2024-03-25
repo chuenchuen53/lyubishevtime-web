@@ -1,6 +1,6 @@
 import { SimpleFormContainer } from "@components/common/SimpleFormContainer";
 import { Button } from "@components/general/Button";
-import { FieldInput } from "@components/general/FieldInput";
+import { FieldInput } from "@components/common/FieldInput";
 import { createForm, pattern, required } from "@modular-forms/solid";
 import { A, useNavigate } from "@solidjs/router";
 import type { SubmitHandler } from "@modular-forms/solid";

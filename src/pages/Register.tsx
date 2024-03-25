@@ -1,7 +1,7 @@
 import { Button } from "@components/general/Button";
 import { SimpleFormContainer } from "@components/common/SimpleFormContainer";
 import { createForm, custom, getValue, pattern, required } from "@modular-forms/solid";
-import { FieldInput } from "@components/general/FieldInput";
+import { FieldInput } from "@components/common/FieldInput";
 import { ValidationUtil } from "@utils/ValidationUtil";
 import { A, useNavigate } from "@solidjs/router";
 import { UserService } from "../api-service";

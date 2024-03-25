@@ -1,7 +1,7 @@
 import { splitProps } from "solid-js";
-import { Input } from "./Input";
+import { Input } from "../general/Input";
 import type { Maybe } from "@modular-forms/solid";
-import type { InputProps } from "./Input";
+import type { InputProps } from "../general/Input";
 
 type BaseField = {
   name: string;

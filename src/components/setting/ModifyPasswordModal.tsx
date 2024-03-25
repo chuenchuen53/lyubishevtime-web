@@ -1,5 +1,5 @@
 import { Button } from "@components/general/Button";
-import { FieldInput } from "@components/general/FieldInput";
+import { FieldInput } from "@components/common/FieldInput";
 import { Modal } from "@components/general/Modal";
 import { createForm, custom, getValue, pattern, required, setError } from "@modular-forms/solid";
 import { ValidationUtil } from "@utils/ValidationUtil";

@@ -8,6 +8,7 @@ import { BiSolidPencil } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
 import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
+import { TimePicker } from "@components/general/TimePicker";
 
 const selectItems = [
   { label: "React", value: "react" },
@@ -24,17 +25,10 @@ export default function TestTheme() {
   const [singleSelectedValue, setSingleSelectedValue] = createSignal("react");
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
   const [date, setDate] = createSignal(DateUtil.getTodayString());
+  const [time, setTime] = createSignal("00:00:00");
 
   return (
     <div class="space-y-10 p-6">
-      <section>
-        <h1>Date Picker</h1>
-        <div class="flex items-center gap-6">
-          <div>Selected Date: {date()}</div>
-          <DatePicker value={date()} setValue={setDate} />
-        </div>
-      </section>
-
       <section class="space-y-6">
         <h1>Button</h1>
         <div class="space-x-6">
@@ -135,6 +129,24 @@ export default function TestTheme() {
         >
           <Button class="w-36">Open</Button>
         </Dropdown>
+      </section>
+
+      <section>
+        <h1>Date Picker</h1>
+        <div class="flex items-center gap-6">
+          <div>Selected Date: {date()}</div>
+          <DatePicker value={date()} setValue={setDate} />
+        </div>
+      </section>
+
+      <section>
+        <h1>Time Picker</h1>
+        <div class="grid w-fit grid-cols-2 grid-rows-2 items-center gap-6">
+          <div>Selected Time: {time()}</div>
+          <TimePicker id="time-picker-demo" value={time()} setValue={setTime} />
+          <div>Selected Time (w/o secs): {time().slice(0, 5)}</div>
+          <TimePicker id="time-picker-no-sec-demo" value={time()} setValue={setTime} hideSeconds />
+        </div>
       </section>
     </div>
   );
