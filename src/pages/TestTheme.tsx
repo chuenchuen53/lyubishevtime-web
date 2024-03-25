@@ -9,6 +9,7 @@ import { Dropdown } from "@components/general/Dropdown";
 import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
 import { TimePicker } from "@components/general/TimePicker";
+import { Modal } from "@components/general/Modal";
 
 const selectItems = [
   { label: "React", value: "react" },
@@ -26,6 +27,7 @@ export default function TestTheme() {
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
   const [date, setDate] = createSignal(DateUtil.getTodayString());
   const [time, setTime] = createSignal("00:00:00");
+  const [modalOpened, setModalOpened] = createSignal(false);
 
   return (
     <div class="space-y-10 p-6">
@@ -147,6 +149,26 @@ export default function TestTheme() {
           <div>Selected Time (w/o secs): {time().slice(0, 5)}</div>
           <TimePicker id="time-picker-no-sec-demo" value={time()} setValue={setTime} hideSeconds />
         </div>
+      </section>
+
+      <section class="space-y-6">
+        <h1>Modal</h1>
+        <Button onClick={() => setModalOpened(true)}>Open Modal</Button>
+        <Modal
+          open={modalOpened()}
+          onClose={() => setModalOpened(false)}
+          title="Test Modal"
+          footer={
+            <div class="flex w-full justify-end">
+              <Button onClick={() => setModalOpened(false)}>OK</Button>
+            </div>
+          }
+        >
+          <div class="w-[600px] max-w-[80vw]">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nulla fugit ullam provident eius non illum esse molestias mollitia consequatur
+            doloribus rerum maiores harum fugiat pariatur maxime, sunt rem repellendus!
+          </div>
+        </Modal>
       </section>
     </div>
   );
