@@ -4,8 +4,8 @@ import { Portal } from "solid-js/web";
 import { twMerge } from "tailwind-merge";
 import { FaSolidAngleDown } from "solid-icons/fa";
 import { FiCheck } from "solid-icons/fi";
+import styles from "./index.module.scss";
 import type { JSX, JSXElement } from "solid-js";
-import "./index.scss";
 
 const { Root, Label, Control, Trigger, ValueText, Positioner, Content, ItemGroup, Item, ItemText, ItemIndicator, Indicator } = Select;
 
@@ -27,7 +27,8 @@ const StyledTrigger = (props: { class?: string; children: JSXElement }) => {
   return (
     <Trigger
       class={twMerge(
-        "select-trigger inline-flex items-center justify-between overflow-hidden rounded-lg border border-neutral-border bg-neutral-bg-container p-2.5  text-sm text-neutral-text data-[placeholder-shown]:text-neutral-text-tertiary",
+        styles.trigger,
+        "inline-flex items-center justify-between overflow-hidden rounded-lg border border-neutral-border bg-neutral-bg-container p-2.5  text-sm text-neutral-text data-[placeholder-shown]:text-neutral-text-tertiary",
         props.class,
       )}
     >
@@ -37,7 +38,7 @@ const StyledTrigger = (props: { class?: string; children: JSXElement }) => {
 };
 
 const StyledContent = (props: { children: JSXElement }) => {
-  return <Content class="select-dropdown rounded-lg bg-neutral-bg-elevated p-1 text-sm">{props.children}</Content>;
+  return <Content class={`${styles.dropdown} rounded-lg bg-neutral-bg-elevated p-1 text-sm`}>{props.children}</Content>;
 };
 
 const StyledItem = (props: { item: { label: string; value: string }; children: JSXElement }) => {
@@ -93,7 +94,6 @@ export const SingleSelect = <T extends string>(props: SingleSelectProps<T>) => {
 
 interface MultipleSelectProps<T> {
   label?: string;
-  placeholder: string;
   id: string;
   items: { label: string; value: T }[];
   value: T[];

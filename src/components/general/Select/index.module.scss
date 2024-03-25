@@ -1,4 +1,4 @@
-.select-trigger {
+.trigger {
   &:hover {
     @apply border-primary-hover;
   }
@@ -9,7 +9,7 @@
   }
 }
 
-.select-dropdown {
+.dropdown {
   box-shadow:
     0 6px 16px 0 rgb(0 0 0 / 8%),
     0 3px 6px -4px rgb(0 0 0 / 12%),

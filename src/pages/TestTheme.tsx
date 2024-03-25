@@ -3,7 +3,7 @@ import IconButton from "@components/general/Button/IconButton";
 import { LinkButton } from "@components/general/Button/LinkButton";
 import { Input } from "@components/general/Input";
 import { MultipleSelect, SingleSelect } from "@components/general/Select";
-import { createEffect, createSignal } from "solid-js";
+import { Index, createEffect, createSignal } from "solid-js";
 import { BiSolidPencil } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
 
@@ -16,32 +16,14 @@ const selectItems = [
   { label: "jQuery", value: "jquery" },
 ];
 
+const dropdownItems = ["Dashboard", "Settings", "Earnings", "Sign out"];
+
 export default function TestTheme() {
   const [singleSelectedValue, setSingleSelectedValue] = createSignal("react");
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
 
   return (
     <div class="space-y-10 p-6">
-      <section class="space-y-6">
-        <h1>Dropdown</h1>
-        <Dropdown
-          id="dropdown-ui-test"
-          class="inline-block"
-          options={{ placement: "bottom-start" }}
-          dropdownClass="w-36"
-          dropdownElement={
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-              <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</li>
-              <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</li>
-              <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</li>
-              <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</li>
-            </ul>
-          }
-        >
-          <Button class="w-36">Open</Button>
-        </Dropdown>
-      </section>
-
       <section class="space-y-6">
         <h1>Button</h1>
         <div class="space-x-6">
@@ -118,6 +100,23 @@ export default function TestTheme() {
             renderItem={item => <div>{item.label}</div>}
           />
         </div>
+      </section>
+
+      <section class="space-y-6">
+        <h1>Dropdown</h1>
+        <Dropdown
+          id="dropdown-ui-test"
+          class="inline-block"
+          options={{ placement: "bottom-start" }}
+          dropdownClass="w-36"
+          dropdownElement={
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+              <Index each={dropdownItems}>{x => <li class="block px-4 py-2 hover:bg-neutral-fill-tertiary">{x()}</li>}</Index>
+            </ul>
+          }
+        >
+          <Button class="w-36">Open</Button>
+        </Dropdown>
       </section>
     </div>
   );
