@@ -6,6 +6,8 @@ import { MultipleSelect, SingleSelect } from "@components/general/Select";
 import { Index, createEffect, createSignal } from "solid-js";
 import { BiSolidPencil } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
+import { DatePicker } from "@components/general/DatePicker";
+import { DateUtil } from "@utils/DateUtil";
 
 const selectItems = [
   { label: "React", value: "react" },
@@ -21,15 +23,25 @@ const dropdownItems = ["Dashboard", "Settings", "Earnings", "Sign out"];
 export default function TestTheme() {
   const [singleSelectedValue, setSingleSelectedValue] = createSignal("react");
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
+  const [date, setDate] = createSignal(DateUtil.getTodayString());
 
   return (
     <div class="space-y-10 p-6">
+      <section>
+        <h1>Date Picker</h1>
+        <div class="flex items-center gap-6">
+          <div>Selected Date: {date()}</div>
+          <DatePicker value={date()} setValue={setDate} />
+        </div>
+      </section>
+
       <section class="space-y-6">
         <h1>Button</h1>
         <div class="space-x-6">
           <Button>default</Button>
           <Button variant="danger">error</Button>
           <Button variant="gray">gray</Button>
+          <Button variant="text">text</Button>
         </div>
         <div class="space-x-6">
           <Button disabled>default</Button>
@@ -38,6 +50,9 @@ export default function TestTheme() {
           </Button>
           <Button disabled variant="gray">
             gray
+          </Button>
+          <Button disabled variant="text">
+            text
           </Button>
         </div>
       </section>
@@ -53,6 +68,9 @@ export default function TestTheme() {
           </LinkButton>
           <LinkButton href="/" variant="text">
             text
+          </LinkButton>
+          <LinkButton href="/" variant="link">
+            link
           </LinkButton>
         </div>
       </section>

@@ -7,7 +7,7 @@ import { Button } from "@components/general/Button";
 import { AddEventModal } from "@components/event/AddEventModal";
 import { EditEventModal } from "@components/event/EditEventModal";
 import { MultipleSelect } from "@components/general/Select";
-import { SimpleDatePicker } from "@components/general/DatePicker";
+import { DatePicker } from "@components/general/DatePicker";
 import { EventService } from "../api-service";
 import type { ListTimeEventResponse, TimeEvent, UpdateTimeEventRequest } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
@@ -157,7 +157,7 @@ export default function Event() {
         </div>
 
         <div class="absolute right-0 top-0">
-          <SimpleDatePicker value={filter().date ?? todayString()} setValue={x => setFilter({ ...filter(), date: x })} />
+          <DatePicker value={filter().date ?? todayString()} setValue={x => setFilter({ ...filter(), date: x })} />
         </div>
       </div>
 

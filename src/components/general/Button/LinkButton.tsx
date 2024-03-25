@@ -4,7 +4,7 @@ import { styles } from "./style";
 import type { Variant } from "./typing";
 import type { JSX } from "solid-js";
 
-type LinkVariant = Variant | "text";
+type LinkVariant = Variant | "link";
 
 interface Props {
   children: JSX.Element;
@@ -17,12 +17,12 @@ interface Props {
 export const LinkButton = (props: Props) => {
   return (
     <>
-      {props.variant === "text" ? (
+      {props.variant === "link" ? (
         <A href={props.href} class={twMerge("text-primary underline hover:text-primary-text-hover", props.class)}>
           {props.children}
         </A>
       ) : (
-        <A href={props.href} class={twMerge(styles({ color: props.variant }), props.class)}>
+        <A href={props.href} class={twMerge(styles({ type: props.variant }), props.class)}>
           {props.children}
         </A>
       )}

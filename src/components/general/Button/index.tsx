@@ -18,7 +18,7 @@ export const Button = (props: Props) => {
       onClick={() => props.onClick?.()}
       type={props.type || "button"}
       disabled={props.disabled}
-      class={twMerge(styles({ color: props.variant, disabled: props.disabled }), props.class)}
+      class={twMerge(styles({ type: props.variant, disabled: props.disabled }), props.class)}
     >
       {props.children}
     </button>

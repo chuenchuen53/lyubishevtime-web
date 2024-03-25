@@ -1,1 +1,1 @@
-export type Variant = "primary" | "danger" | "gray";
+export type Variant = "primary" | "danger" | "gray" | "text";

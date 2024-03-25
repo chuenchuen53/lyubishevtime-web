@@ -1,11 +1,14 @@
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
+import { Dynamic } from "solid-js/web";
 import type { JSX } from "solid-js";
 
 interface Props {
   children: JSX.Element;
   class?: string;
   variant?: "default" | "primary" | "danger";
+  as?: "button" | "div";
+  onClick?: () => void;
 }
 
 const style = tv({
@@ -21,5 +24,9 @@ const style = tv({
 });
 
 export default function IconButton(props: Props) {
-  return <button class={twMerge(style({ color: props.variant }), props.class)}>{props.children}</button>;
+  return (
+    <Dynamic component={props.as ?? "button"} onClick={() => props.onClick?.()} class={twMerge(style({ color: props.variant }), props.class)}>
+      {props.children}
+    </Dynamic>
+  );
 }
