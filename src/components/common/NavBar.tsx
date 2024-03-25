@@ -41,7 +41,7 @@ export const NavBar = () => {
   };
 
   return (
-    <nav class="fixed top-0 w-full bg-white dark:bg-gray-900">
+    <nav class="fixed top-0 z-[1000] w-full bg-white dark:bg-gray-900">
       <div class="mx-auto flex max-w-screen-xl items-center justify-between p-4">
         <A href={user() ? "/tag" : "/"}>
           <div class="flex items-center space-x-3">

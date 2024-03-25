@@ -10,6 +10,7 @@ import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
 import { TimePicker } from "@components/general/TimePicker";
 import { Modal } from "@components/general/Modal";
+import type { ParentComponent } from "solid-js";
 
 const selectItems = [
   { label: "React", value: "react" },
@@ -22,6 +23,15 @@ const selectItems = [
 
 const dropdownItems = ["Dashboard", "Settings", "Earnings", "Sign out"];
 
+const DemoSection: ParentComponent<{ title: string }> = props => (
+  <section class="mb-10">
+    <h1 class="mb-6 text-xl font-bold">{props.title}</h1>
+    <div class="flex flex-col gap-6">{props.children}</div>
+  </section>
+);
+
+const DemoRow: ParentComponent = props => <div class="flex flex-wrap items-center gap-6">{props.children}</div>;
+
 export default function TestTheme() {
   const [singleSelectedValue, setSingleSelectedValue] = createSignal("react");
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
@@ -30,16 +40,15 @@ export default function TestTheme() {
   const [modalOpened, setModalOpened] = createSignal(false);
 
   return (
-    <div class="space-y-10 p-6">
-      <section class="space-y-6">
-        <h1>Button</h1>
-        <div class="space-x-6">
+    <div class="p-6">
+      <DemoSection title="Button">
+        <DemoRow>
           <Button>default</Button>
           <Button variant="danger">error</Button>
           <Button variant="gray">gray</Button>
           <Button variant="text">text</Button>
-        </div>
-        <div class="space-x-6">
+        </DemoRow>
+        <DemoRow>
           <Button disabled>default</Button>
           <Button disabled variant="danger">
             error
@@ -50,11 +59,11 @@ export default function TestTheme() {
           <Button disabled variant="text">
             text
           </Button>
-        </div>
-      </section>
-      <section class="space-y-6">
-        <h1>Link Button</h1>
-        <div class="space-x-6">
+        </DemoRow>
+      </DemoSection>
+
+      <DemoSection title="Link Button">
+        <DemoRow>
           <LinkButton href="/">default</LinkButton>
           <LinkButton href="/" variant="danger">
             error
@@ -68,11 +77,10 @@ export default function TestTheme() {
           <LinkButton href="/" variant="link">
             link
           </LinkButton>
-        </div>
-      </section>
-      <section class="space-y-6">
-        <h1>Icon Button</h1>
-        <div class="space-x-6">
+        </DemoRow>
+      </DemoSection>
+      <DemoSection title="Icon Button">
+        <DemoRow>
           <IconButton>
             <BiSolidPencil size={24} />
           </IconButton>
@@ -82,19 +90,17 @@ export default function TestTheme() {
           <IconButton variant="danger">
             <BiSolidPencil size={24} />
           </IconButton>
-        </div>
-      </section>
-      <section class="space-y-6">
-        <h1>Input</h1>
-        <div class="space-x-6">
+        </DemoRow>
+      </DemoSection>
+      <DemoSection title="Input">
+        <DemoRow>
           <Input type="text" placeholder="input text here" value="" />
           <Input type="text" placeholder="input text here" value="" isError />
-        </div>
-      </section>
+        </DemoRow>
+      </DemoSection>
 
-      <section class="space-y-6">
-        <h1>Select</h1>
-        <div class="flex space-x-6">
+      <DemoSection title="Select">
+        <DemoRow>
           <SingleSelect
             label="Single Value Select"
             id="single-value-select-ui-test"
@@ -113,11 +119,10 @@ export default function TestTheme() {
             onValueChange={setMultiSelectedValue}
             renderItem={item => <div>{item.label}</div>}
           />
-        </div>
-      </section>
+        </DemoRow>
+      </DemoSection>
 
-      <section class="space-y-6">
-        <h1>Dropdown</h1>
+      <DemoSection title="Dropdown">
         <Dropdown
           id="dropdown-ui-test"
           class="inline-block"
@@ -131,29 +136,28 @@ export default function TestTheme() {
         >
           <Button class="w-36">Open</Button>
         </Dropdown>
-      </section>
+      </DemoSection>
 
-      <section>
-        <h1>Date Picker</h1>
-        <div class="flex items-center gap-6">
+      <DemoSection title="Date Picker">
+        <DemoRow>
           <div>Selected Date: {date()}</div>
           <DatePicker value={date()} setValue={setDate} />
-        </div>
-      </section>
+        </DemoRow>
+      </DemoSection>
 
-      <section>
-        <h1>Time Picker</h1>
+      <DemoSection title="Time Picker">
         <div class="grid w-fit grid-cols-2 grid-rows-2 items-center gap-6">
-          <div>Selected Time: {time()}</div>
+          <div>Time: {time()}</div>
           <TimePicker id="time-picker-demo" value={time()} setValue={setTime} />
-          <div>Selected Time (w/o secs): {time().slice(0, 5)}</div>
+          <div>Time: {time().slice(0, 5)}</div>
           <TimePicker id="time-picker-no-sec-demo" value={time()} setValue={setTime} hideSeconds />
         </div>
-      </section>
+      </DemoSection>
 
-      <section class="space-y-6">
-        <h1>Modal</h1>
-        <Button onClick={() => setModalOpened(true)}>Open Modal</Button>
+      <DemoSection title="Modal">
+        <Button class="w-fit" onClick={() => setModalOpened(true)}>
+          Open Modal
+        </Button>
         <Modal
           open={modalOpened()}
           onClose={() => setModalOpened(false)}
@@ -169,7 +173,7 @@ export default function TestTheme() {
             doloribus rerum maiores harum fugiat pariatur maxime, sunt rem repellendus!
           </div>
         </Modal>
-      </section>
+      </DemoSection>
     </div>
   );
 }

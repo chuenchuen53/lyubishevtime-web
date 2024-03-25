@@ -88,7 +88,7 @@ export const TimePicker = (props: Props) => {
         </div>
       }
     >
-      <div class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
+      <div class="w-full rounded-lg border border-neutral-border bg-neutral-bg-container p-2.5 text-sm text-neutral-text">
         {props.hideSeconds ? props.value.slice(0, 5) : props.value}
       </div>
     </Dropdown>
