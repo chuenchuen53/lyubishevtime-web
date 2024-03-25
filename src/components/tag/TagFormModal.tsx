@@ -70,7 +70,7 @@ export const TagFormModal = (props: Props) => {
           <Input id="name-input" class="w-full" type="text" value={form.name} required onInput={e => setForm("name", e.currentTarget.value)} />
         </div>
 
-        <Select.SimpleSelect
+        <Select.SingleSelect
           items={colorItems}
           value={[form.color]}
           onValueChange={x => setForm("color", x)}

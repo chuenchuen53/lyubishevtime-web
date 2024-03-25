@@ -63,7 +63,7 @@ export const EventFormModal = (props: Props) => {
       }
     >
       <div class="w-[320px] max-w-full space-y-6">
-        <Select.SimpleSelect
+        <Select.SingleSelect
           items={props.tags.map(x => ({ label: x.name, value: x.id.toString() }))}
           value={[form.tagId.toString()]}
           onValueChange={x => setForm("tagId", parseInt(x))}

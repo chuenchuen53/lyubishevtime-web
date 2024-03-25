@@ -1,4 +1,4 @@
-import { LinkButton } from "@components/general/Button";
+import { LinkButton } from "@components/general/Button/LinkButton";
 import HomeImg from "@assets/images/home-img.svg";
 
 export default function Home() {

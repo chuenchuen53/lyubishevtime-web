@@ -6,7 +6,7 @@ import { EventCard } from "@components/event/EventCard";
 import { Button } from "@components/general/Button";
 import { AddEventModal } from "@components/event/AddEventModal";
 import { EditEventModal } from "@components/event/EditEventModal";
-import { SimpleMultipleSelect } from "@components/general/Select";
+import { MultipleSelect } from "@components/general/Select";
 import { SimpleDatePicker } from "@components/general/DatePicker";
 import { EventService } from "../api-service";
 import type { ListTimeEventResponse, TimeEvent, UpdateTimeEventRequest } from "../openapi";
@@ -164,7 +164,7 @@ export default function Event() {
       <Show when={events()}>
         {nonNullEvents => (
           <div class="mb-6">
-            <SimpleMultipleSelect
+            <MultipleSelect
               label="標籤"
               placeholder="全部"
               id="tags-filter"

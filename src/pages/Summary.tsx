@@ -1,4 +1,4 @@
-import { SimpleSelect } from "@components/general/Select";
+import { SingleSelect } from "@components/general/Select";
 import { createMemo, createResource, createSignal, Show } from "solid-js";
 import { Pie } from "solid-chartjs";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
@@ -36,7 +36,7 @@ export default function Summary() {
   return (
     <div class="flex flex-col items-center p-6">
       <div class="mb-6 w-full">
-        <SimpleSelect
+        <SingleSelect
           label="篩選時間範圍"
           id="summary-range-select"
           items={summaryRageItems}

@@ -1,3 +1,4 @@
+import { tv } from "tailwind-variants";
 import { twMerge } from "tailwind-merge";
 import { splitProps, type JSX } from "solid-js";
 
@@ -15,20 +16,19 @@ export type InputProps = {
   onBlur?: JSX.EventHandler<HTMLInputElement, FocusEvent>;
 };
 
+const style = tv({
+  base: "rounded-lg border p-2.5 text-sm",
+  variants: {
+    color: {
+      default:
+        "border-neutral-border bg-neutral-bg-container text-neutral-text hover:border-primary-hover focus:border-primary focus:ring-primary-border",
+      danger: "border-danger bg-danger-bg text-danger-text focus:border-danger focus:ring-danger-border",
+    },
+  },
+});
+
 export const Input = (props: InputProps) => {
   const [local, inputProps] = splitProps(props, ["value", "class", "isError"]);
 
-  return (
-    <input
-      value={local.value || ""}
-      class={twMerge(
-        "rounded-lg border p-2.5 text-sm",
-        props.isError
-          ? "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-500 dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500"
-          : "border-gray-300 bg-gray-50 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
-        local.class,
-      )}
-      {...inputProps}
-    />
-  );
+  return <input value={local.value || ""} class={twMerge(style({ color: local.isError ? "danger" : "default" }), local.class)} {...inputProps} />;
 };

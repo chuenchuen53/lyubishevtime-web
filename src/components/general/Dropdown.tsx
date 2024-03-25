@@ -1,11 +1,16 @@
-import { Dropdown as FlowbiteDropdown, DropdownOptions } from "flowbite";
-import { JSX, onMount, onCleanup } from "solid-js";
+import { Dropdown as FlowbiteDropdown } from "flowbite";
+import { onMount, onCleanup } from "solid-js";
+import { twMerge } from "tailwind-merge";
+import type { DropdownOptions } from "flowbite";
+import type { JSX } from "solid-js";
 
 interface Props {
   id: string;
   options: DropdownOptions;
-  dropDownElement: JSX.Element;
+  dropdownElement: JSX.Element;
   children: JSX.Element;
+  class?: string;
+  dropdownClass?: string;
 }
 
 export const Dropdown = (props: Props) => {
@@ -23,11 +28,11 @@ export const Dropdown = (props: Props) => {
 
   return (
     <>
-      <div ref={triggerElement} id={`${props.id}-trigger`}>
+      <div ref={triggerElement} id={`${props.id}-trigger`} class={props.class}>
         {props.children}
       </div>
-      <div ref={dropdownElement} id={props.id} class="z-50 hidden">
-        {props.dropDownElement}
+      <div ref={dropdownElement} id={props.id} class={twMerge("z-10 hidden rounded-lg bg-neutral-bg-elevated", props.dropdownClass)}>
+        {props.dropdownElement}
       </div>
     </>
   );

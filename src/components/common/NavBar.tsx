@@ -97,7 +97,7 @@ export const NavBar = () => {
                 <Dropdown
                   id="user-menu-dropdown"
                   options={dropDownOptions}
-                  dropDownElement={
+                  dropdownElement={
                     <div class="my-4 w-40 divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700">
                       <div class="px-4 py-3">
                         <span class="block text-sm text-gray-900 dark:text-white">{nonNullUser().nickname}</span>

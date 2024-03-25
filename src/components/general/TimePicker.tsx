@@ -28,8 +28,8 @@ export const TimePicker = (props: Props) => {
     <Dropdown
       id="time-picker"
       options={dropDownOptions}
-      dropDownElement={
-        <div class="flex h-[175px] w-full space-x-4 overflow-hidden rounded-md bg-bg-emphasized p-2">
+      dropdownElement={
+        <div class="bg-bg-emphasized flex h-[175px] w-full space-x-4 overflow-hidden rounded-md p-2">
           <div class="flex flex-col overflow-y-scroll px-2">
             {hrs.map(x => (
               <div class="p-2" onClick={() => setHr(x)}>
