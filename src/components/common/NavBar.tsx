@@ -7,7 +7,7 @@ import { BiSolidMoon, BiSolidSun } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
 import IconButton from "@components/general/Button/IconButton";
 import { Button } from "@components/general/Button";
-import { FaSolidUserLarge } from "solid-icons/fa";
+import { UserAvatar } from "./UserAvatar";
 
 interface NavItem {
   label: string;
@@ -93,14 +93,8 @@ export const NavBar = () => {
                     </div>
                   }
                 >
-                  <button
-                    type="button"
-                    class="flex size-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-500 focus:ring-4 focus:ring-gray-300 dark:bg-gray-500 dark:text-gray-100 dark:focus:ring-gray-600"
-                  >
-                    <span class="sr-only">Open user menu</span>
-                    <Show when={nonNullUser().profilePic} fallback={<FaSolidUserLarge class="relative -bottom-1" size="24" />}>
-                      {nonNullProfilePic => <img class="size-8 rounded-full" src={nonNullProfilePic()} alt="user photo" />}
-                    </Show>
+                  <button type="button" class="rounded-full focus:ring-4 focus:ring-neutral-border">
+                    <UserAvatar size={32} />
                   </button>
                 </Dropdown>
               );

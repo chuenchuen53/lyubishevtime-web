@@ -1,17 +1,13 @@
 import { Button } from "@components/general/Button";
-import { Show, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 import { EditNicknameModal } from "@components/setting/EditNicknameModal";
 import { ModifyPasswordModal } from "@components/setting/ModifyPasswordModal";
+import { FaSolidPen } from "solid-icons/fa";
+import { UserAvatar } from "@components/common/UserAvatar";
+import { Message } from "@components/general/Message";
 import { updateProfilePic, user } from "../stores/UserStore";
 import { UserService } from "../api-service";
 import type { JSX } from "solid-js";
-
-const EditIcon = () => (
-  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg">
-    <path fill="none" d="M0 0h24v24H0z" />
-    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-  </svg>
-);
 
 export default function Setting() {
   const [editNickname, setEditNickname] = createSignal(false);
@@ -50,17 +46,17 @@ export default function Setting() {
           ctx.drawImage(image, 0, 0, width, height);
 
           // Convert the canvas to base64 string
-          const base64String = canvas.toDataURL("image/webp");
+          const base64String = canvas.toDataURL("image/webp", 0.8);
 
           try {
             UserService.updateProfilePic(base64String);
             updateProfilePic(base64String);
           } catch (e) {
-            // todo
-            console.log(e);
+            Message.createError("更新頭像失敗");
           }
         };
         // Set the source of the image to the FileReader result to trigger the load event
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         image.src = (e.currentTarget! as any).result;
       };
       reader.readAsDataURL(file);
@@ -71,21 +67,19 @@ export default function Setting() {
     <div class="p-6">
       <div class="flex flex-col items-center">
         <div class="relative flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-          <Show when={user()?.profilePic} fallback={<UserIcon />}>
-            {nonNullProfilePic => <img class="size-32 rounded-full" src={nonNullProfilePic()} alt="user photo" />}
-          </Show>
+          <UserAvatar size={128} />
           <label
             for="profile-pic-input"
-            class="absolute bottom-0 right-0 flex size-8 items-center justify-center rounded-full bg-white/80 text-gray-600"
+            class="absolute bottom-0 right-0 flex size-8 items-center justify-center rounded-full bg-white text-gray-600 shadow"
           >
-            <EditIcon />
+            <FaSolidPen size="16" />
           </label>
           <input class="hidden" id="profile-pic-input" type="file" accept=".png,.jpg,.webp" onInput={handleInputProfilePic} />
         </div>
         <div class="mt-8 text-lg font-semibold">{user()?.username}</div>
-        <div>{user()?.nickname}</div>
+        <div class="text-neutral-text-secondary">{user()?.nickname}</div>
       </div>
-      <div class="mt-8 flex flex-col gap-6">
+      <div class="mx-auto mt-8 flex max-w-xs flex-col gap-6">
         <Button onClick={() => setEditNickname(true)}>修改暱稱</Button>
         <Button onClick={() => setModifyPassword(true)}>修改密碼</Button>
       </div>
@@ -93,25 +87,5 @@ export default function Setting() {
       <EditNicknameModal open={editNickname()} onClose={() => setEditNickname(false)} />
       <ModifyPasswordModal open={modifyPassword()} onClose={() => setModifyPassword(false)} />
     </div>
-  );
-}
-
-function UserIcon() {
-  return (
-    <svg
-      class="size-32 text-gray-800 dark:text-white"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
-        clip-rule="evenodd"
-      />
-    </svg>
   );
 }
