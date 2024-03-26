@@ -1,9 +1,9 @@
 import { useNavigate } from "@SolidJS/router";
 import { Show } from "solid-js";
 import { setUserAfterLogin, user } from "@stores/UserStore";
-import type { JSX } from "solid-js";
-import { UserService } from "../../api-service";
 import { AxiosError } from "axios";
+import { UserService } from "../../api-service";
+import type { JSX } from "solid-js";
 
 interface Props {
   children?: JSX.Element;
