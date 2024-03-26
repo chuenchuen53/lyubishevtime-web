@@ -17,20 +17,12 @@ const setUserAfterLogin = (user: User) => {
 
 const updateProfilePic = (profilePic: string) => {
   const oldUser = user();
-  if (oldUser) {
-    const newUser: User = { ...oldUser };
-    newUser.profilePic = profilePic;
-    setUser(newUser);
-  }
+  if (oldUser) setUser({ ...oldUser, profilePic });
 };
 
 const updateNickname = (nickname: string) => {
   const oldUser = user();
-  if (oldUser) {
-    const newUser: User = { ...oldUser };
-    newUser.nickname = nickname;
-    setUser(newUser);
-  }
+  if (oldUser) setUser({ ...oldUser, nickname });
 };
 
 const logout = () => {

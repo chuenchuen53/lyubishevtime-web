@@ -66,7 +66,7 @@ export class Message {
     return (
       <div
         style={{ top: props.index * 50 + "px" }}
-        class="absolute flex h-9 items-center gap-2 rounded-md bg-neutral-bg-elevated px-3 py-2 text-sm shadow-elevated transition-all duration-300"
+        class="absolute flex h-9 items-center gap-2 text-nowrap rounded-md bg-neutral-bg-elevated px-3 py-2 text-sm shadow-elevated transition-all duration-300"
       >
         <span>
           <Switch>

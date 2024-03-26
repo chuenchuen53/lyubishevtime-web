@@ -16,8 +16,8 @@ export default function LoginGuard(props: Props) {
   if (!token) navigate("/", { replace: true });
   if (token && !user()) {
     UserService.currentUser()
-      .then(resp => {
-        setUserAfterLogin(resp.data);
+      .then(data => {
+        setUserAfterLogin(data);
       })
       .catch(e => {
         if (e instanceof AxiosError && e.response?.status === 401) {
