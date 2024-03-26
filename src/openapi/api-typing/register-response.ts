@@ -15,19 +15,19 @@
 /**
  *
  * @export
- * @interface SignUpResponse
+ * @interface RegisterResponse
  */
-export interface SignUpResponse {
+export interface RegisterResponse {
   /**
    *
    * @type {string}
-   * @memberof SignUpResponse
+   * @memberof RegisterResponse
    */
   username: string;
   /**
    *
    * @type {string}
-   * @memberof SignUpResponse
+   * @memberof RegisterResponse
    */
   nickname: string;
 }

@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { styles } from "./style";
+import { Spinner } from "./Spinner";
 import type { Variant } from "./typing";
 import type { JSX } from "solid-js";
 
@@ -10,6 +11,7 @@ interface Props {
   type?: "button" | "submit" | "reset";
   class?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Button = (props: Props) => {
@@ -17,10 +19,10 @@ export const Button = (props: Props) => {
     <button
       onClick={() => props.onClick?.()}
       type={props.type || "button"}
-      disabled={props.disabled}
-      class={twMerge(styles({ type: props.variant, disabled: props.disabled }), props.class)}
+      disabled={props.disabled || props.loading}
+      class={twMerge(styles({ type: props.variant, disabled: props.disabled || props.loading }), props.class)}
     >
-      {props.children}
+      {props.loading && <Spinner />} {props.children}
     </button>
   );
 };

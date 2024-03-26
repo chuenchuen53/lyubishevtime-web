@@ -15,25 +15,25 @@
 /**
  *
  * @export
- * @interface SignupRequest
+ * @interface RegisterRequest
  */
-export interface SignupRequest {
+export interface RegisterRequest {
   /**
    *
    * @type {string}
-   * @memberof SignupRequest
+   * @memberof RegisterRequest
    */
   username: string;
   /**
    *
    * @type {string}
-   * @memberof SignupRequest
+   * @memberof RegisterRequest
    */
   password: string;
   /**
    *
    * @type {string}
-   * @memberof SignupRequest
+   * @memberof RegisterRequest
    */
   nickname: string;
 }

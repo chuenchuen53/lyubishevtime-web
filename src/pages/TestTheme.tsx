@@ -3,7 +3,7 @@ import IconButton from "@components/general/Button/IconButton";
 import { LinkButton } from "@components/general/Button/LinkButton";
 import { Input } from "@components/general/Input";
 import { MultipleSelect, SingleSelect } from "@components/general/Select";
-import { Index, createEffect, createSignal } from "solid-js";
+import { Index, createSignal } from "solid-js";
 import { BiSolidPencil } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
 import { DatePicker } from "@components/general/DatePicker";
@@ -43,14 +43,6 @@ export default function TestTheme() {
 
   return (
     <div class="p-6">
-      <DemoSection title="Message">
-        <DemoRow>
-          <Button onClick={() => Message.create("Default")}>Default</Button>
-          <Button onClick={() => Message.create("Success", "success")}>Success</Button>
-          <Button onClick={() => Message.create("Error", "error")}>Error</Button>
-        </DemoRow>
-      </DemoSection>
-
       <DemoSection title="Button">
         <DemoRow>
           <Button>default</Button>
@@ -67,6 +59,18 @@ export default function TestTheme() {
             gray
           </Button>
           <Button disabled variant="text">
+            text
+          </Button>
+        </DemoRow>
+        <DemoRow>
+          <Button loading>default</Button>
+          <Button loading variant="danger">
+            error
+          </Button>
+          <Button loading variant="gray">
+            gray
+          </Button>
+          <Button loading variant="text">
             text
           </Button>
         </DemoRow>
@@ -183,6 +187,14 @@ export default function TestTheme() {
             doloribus rerum maiores harum fugiat pariatur maxime, sunt rem repellendus!
           </div>
         </Modal>
+      </DemoSection>
+
+      <DemoSection title="Message">
+        <DemoRow>
+          <Button onClick={() => Message.create("Default")}>Default</Button>
+          <Button onClick={() => Message.create("Success", "success")}>Success</Button>
+          <Button onClick={() => Message.create("Error", "error")}>Error</Button>
+        </DemoRow>
       </DemoSection>
     </div>
   );

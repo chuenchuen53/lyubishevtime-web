@@ -1,4 +1,4 @@
-import { For, Match, Switch, onCleanup, onMount } from "solid-js";
+import { For, Match, Switch, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 import { AiFillCloseCircle, AiFillCheckCircle, AiFillInfoCircle } from "solid-icons/ai";
 import { nanoid } from "nanoid";
@@ -30,6 +30,14 @@ export class Message {
         if (Message.setStore) Message.setStore(prev => prev.filter(x => x !== newItem));
       }, Message.DURATION);
     }
+  }
+
+  public static createSuccess(message: string) {
+    Message.create(message, "success");
+  }
+
+  public static createError(message: string) {
+    Message.create(message, "error");
   }
 
   public static Root = () => {

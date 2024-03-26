@@ -40,9 +40,9 @@ import { LoginRequest } from "../api-typing";
 // @ts-ignore
 import { LoginResponse } from "../api-typing";
 // @ts-ignore
-import { SignUpResponse } from "../api-typing";
+import { RegisterRequest } from "../api-typing";
 // @ts-ignore
-import { SignupRequest } from "../api-typing";
+import { RegisterResponse } from "../api-typing";
 // @ts-ignore
 import { UpdatePasswordRequest } from "../api-typing";
 /**
@@ -155,14 +155,14 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
     },
     /**
      *
-     * @param {SignupRequest} signupRequest
+     * @param {RegisterRequest} registerRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    signup: async (signupRequest: SignupRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'signupRequest' is not null or undefined
-      assertParamExists("signup", "signupRequest", signupRequest);
-      const localVarPath = `/signup`;
+    register: async (registerRequest: RegisterRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'registerRequest' is not null or undefined
+      assertParamExists("register", "registerRequest", registerRequest);
+      const localVarPath = `/register`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -183,7 +183,7 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(signupRequest, localVarRequestOptions, configuration);
+      localVarRequestOptions.data = serializeDataIfNeeded(registerRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -359,17 +359,17 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {SignupRequest} signupRequest
+     * @param {RegisterRequest} registerRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async signup(
-      signupRequest: SignupRequest,
+    async register(
+      registerRequest: RegisterRequest,
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SignUpResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.signup(signupRequest, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.register(registerRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.signup"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["UserControllerApi.register"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -459,12 +459,12 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
     },
     /**
      *
-     * @param {SignupRequest} signupRequest
+     * @param {RegisterRequest} registerRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    signup(signupRequest: SignupRequest, options?: any): AxiosPromise<SignUpResponse> {
-      return localVarFp.signup(signupRequest, options).then(request => request(axios, basePath));
+    register(registerRequest: RegisterRequest, options?: any): AxiosPromise<RegisterResponse> {
+      return localVarFp.register(registerRequest, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -543,14 +543,14 @@ export class UserControllerApi extends BaseAPI {
 
   /**
    *
-   * @param {SignupRequest} signupRequest
+   * @param {RegisterRequest} registerRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserControllerApi
    */
-  public signup(signupRequest: SignupRequest, options?: RawAxiosRequestConfig) {
+  public register(registerRequest: RegisterRequest, options?: RawAxiosRequestConfig) {
     return UserControllerApiFp(this.configuration)
-      .signup(signupRequest, options)
+      .register(registerRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 
