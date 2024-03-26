@@ -10,6 +10,8 @@ import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
 import { TimePicker } from "@components/general/TimePicker";
 import { Modal } from "@components/general/Modal";
+
+import { Message } from "@components/general/Message";
 import type { ParentComponent } from "solid-js";
 
 const selectItems = [
@@ -41,6 +43,14 @@ export default function TestTheme() {
 
   return (
     <div class="p-6">
+      <DemoSection title="Message">
+        <DemoRow>
+          <Button onClick={() => Message.create("Default")}>Default</Button>
+          <Button onClick={() => Message.create("Success", "success")}>Success</Button>
+          <Button onClick={() => Message.create("Error", "error")}>Error</Button>
+        </DemoRow>
+      </DemoSection>
+
       <DemoSection title="Button">
         <DemoRow>
           <Button>default</Button>

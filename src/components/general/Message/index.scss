@@ -1,0 +1,9 @@
+.message-item-animation-enter {
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.message-item-animation-exit-to {
+  transform: translateX(-20px);
+  opacity: 0;
+}
