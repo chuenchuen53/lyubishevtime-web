@@ -21,11 +21,11 @@ export const Modal = (props: Props) => {
           id={props.modalId}
           tabindex="-1"
           aria-hidden="true"
-          class="fixed left-0 right-0 top-0 z-[1000] flex h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+          class="fixed left-0 right-0 top-0 z-[1001] flex h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
         >
           <div class="fixed inset-0 bg-neutral-bg-mask" />
 
-          <div class="shadow-elevated relative max-h-full max-w-[calc(100vw-48px)] rounded-lg bg-neutral-bg-elevated">
+          <div class="relative max-h-full max-w-[calc(100vw-48px)] rounded-lg bg-neutral-bg-elevated shadow-elevated">
             <div class="flex items-center justify-between rounded-t border-b border-solid border-neutral-border p-4 md:p-5">
               <div class="text-xl font-semibold">{props.title}</div>
               <Show when={props.onClose}>

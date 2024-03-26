@@ -5,27 +5,26 @@ import { AddTagModal } from "@components/tag/AddTagModal";
 import { EmptyState } from "@components/tag/EmptyState";
 import { EditTagModal } from "@components/tag/EditTagModal";
 import { useNavigate } from "@solidjs/router";
+import { ApiUtil } from "@utils/ApiUtil";
 import { TagService } from "../api-service";
+import type { TagForm } from "@stores/TagStore";
 import type { TimeEventTag } from "../openapi";
-import type { TagForm } from "@components/tag/TagFormModal";
 
 export default function Tag() {
   const [tags, tagsActions] = createResource(TagService.listTimeEventTag);
-
   const [showAddTagModal, setShowAddTagModal] = createSignal(false);
   const [editingTag, setEditingTag] = createSignal<null | TimeEventTag>(null);
   const navigate = useNavigate();
 
   async function handleAddTag(x: TagForm) {
-    const newTag = (await TagService.addTimeEventTag(x)).timeEventTag;
+    const newTag = (await ApiUtil.fetchWithErrorMessage("新增標籤失敗", TagService.addTimeEventTag, x))?.timeEventTag;
+    if (!newTag) return;
     tagsActions.mutate(x => {
-      if (!x) return x;
-      return {
-        timeEventTags: [...x.timeEventTags, newTag],
-        timeEventTagOrder: [...x.timeEventTagOrder, newTag.id],
-      };
+      if (!x) return;
+      x.timeEventTags.push(newTag);
+      x.timeEventTagOrder.push(newTag.id);
+      return { ...x };
     });
-
     setShowAddTagModal(false);
   }
 

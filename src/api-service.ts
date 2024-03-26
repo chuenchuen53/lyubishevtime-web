@@ -1,5 +1,4 @@
 import { user } from "@stores/UserStore";
-import { AxiosError } from "axios";
 import { Configuration } from "./openapi/configuration";
 import { UserControllerApiFactory, TimeEventTagControllerApiFactory, TimeEventControllerApiFactory, SummaryControllerApiFactory } from "./openapi";
 import type { AxiosResponse } from "axios";
@@ -29,10 +28,6 @@ const createService = <T extends ControllerApi>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any;
 };
-
-export function isAxiosErrorWithStatus(e: unknown, status: number): e is AxiosError {
-  return e instanceof AxiosError && e.response?.status === status;
-}
 
 export const TagService = createService(TimeEventTagControllerApiFactory(configuration));
 export const EventService = createService(TimeEventControllerApiFactory(configuration));

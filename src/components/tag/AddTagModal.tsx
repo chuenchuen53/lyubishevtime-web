@@ -1,4 +1,5 @@
-import { TagForm, TagFormModal } from "./TagFormModal";
+import { TagFormModal } from "./TagFormModal";
+import type { TagForm } from "./TagFormModal";
 
 interface Props {
   open: boolean;

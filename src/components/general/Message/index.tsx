@@ -50,7 +50,7 @@ export class Message {
     });
 
     return (
-      <div class="fixed left-1/2 top-24 z-10 flex -translate-x-1/2 flex-col items-center">
+      <div class="fixed left-1/2 top-24 z-[1002] flex -translate-x-1/2 flex-col items-center">
         <TransitionGroup name="message-item-animation">
           <For each={store}>{(x, index) => <Message.Item {...x} index={index()} />}</For>
         </TransitionGroup>

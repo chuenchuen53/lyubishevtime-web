@@ -6,7 +6,8 @@ import { ValidationUtil } from "@utils/ValidationUtil";
 import { Show, createSignal } from "solid-js";
 import { LinkButton } from "@components/general/Button/LinkButton";
 import { SuccessRegisterModal } from "@components/register/SuccessRegisteModal";
-import { UserService, isAxiosErrorWithStatus } from "../api-service";
+import { ApiUtil } from "@utils/ApiUtil";
+import { UserService } from "../api-service";
 import type { RegisterResponse } from "../openapi";
 import type { SubmitHandler } from "@modular-forms/solid";
 
@@ -28,7 +29,7 @@ export default function Register() {
       const data = await UserService.register(values);
       setSuccessData(data);
     } catch (error) {
-      if (isAxiosErrorWithStatus(error, 409)) {
+      if (ApiUtil.isAxiosErrorWithStatus(error, 409)) {
         setError(registerForm, "username", "使用者名稱已被使用");
       } else {
         throw error;

@@ -1,6 +1,5 @@
 import { Select } from "@ark-ui/solid";
 import { Index } from "solid-js";
-import { Portal } from "solid-js/web";
 import { twMerge } from "tailwind-merge";
 import { FaSolidAngleDown } from "solid-icons/fa";
 import { FiCheck } from "solid-icons/fi";
@@ -72,22 +71,21 @@ export const SingleSelect = <T extends string>(props: SingleSelectProps<T>) => {
           </Indicator>
         </StyledTrigger>
       </Control>
-      <Portal>
-        <Positioner>
-          <StyledContent>
-            <ItemGroup id={props.id}>
-              <Index each={props.items}>
-                {x => (
-                  <StyledItem item={x()}>
-                    <ItemText>{props.renderItem(x())}</ItemText>
-                    <StyledItemIndicator />
-                  </StyledItem>
-                )}
-              </Index>
-            </ItemGroup>
-          </StyledContent>
-        </Positioner>
-      </Portal>
+
+      <Positioner>
+        <StyledContent>
+          <ItemGroup id={props.id}>
+            <Index each={props.items}>
+              {x => (
+                <StyledItem item={x()}>
+                  <ItemText>{props.renderItem(x())}</ItemText>
+                  <StyledItemIndicator />
+                </StyledItem>
+              )}
+            </Index>
+          </ItemGroup>
+        </StyledContent>
+      </Positioner>
     </StyleRoot>
   );
 };
@@ -120,22 +118,20 @@ export const MultipleSelect = <T extends string>(props: MultipleSelectProps<T>) 
           </Indicator>
         </StyledTrigger>
       </Control>
-      <Portal>
-        <Positioner>
-          <StyledContent>
-            <ItemGroup id={props.id}>
-              <Index each={props.items}>
-                {x => (
-                  <StyledItem item={x()}>
-                    <ItemText>{props.renderItem(x())}</ItemText>
-                    <StyledItemIndicator />
-                  </StyledItem>
-                )}
-              </Index>
-            </ItemGroup>
-          </StyledContent>
-        </Positioner>
-      </Portal>
+      <Positioner>
+        <StyledContent>
+          <ItemGroup id={props.id}>
+            <Index each={props.items}>
+              {x => (
+                <StyledItem item={x()}>
+                  <ItemText>{props.renderItem(x())}</ItemText>
+                  <StyledItemIndicator />
+                </StyledItem>
+              )}
+            </Index>
+          </ItemGroup>
+        </StyledContent>
+      </Positioner>
     </StyleRoot>
   );
 };

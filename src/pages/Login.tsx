@@ -8,7 +8,8 @@ import { setUserAfterLogin } from "@stores/UserStore";
 import { Message } from "@components/general/Message";
 import { createSignal } from "solid-js";
 import { LinkButton } from "@components/general/Button/LinkButton";
-import { UserService, isAxiosErrorWithStatus } from "../api-service";
+import { ApiUtil } from "@utils/ApiUtil";
+import { UserService } from "../api-service";
 import type { SubmitHandler } from "@modular-forms/solid";
 
 type LoginForm = {
@@ -28,7 +29,7 @@ export default function Login() {
       setUserAfterLogin(data);
       navigate("/tag");
     } catch (e) {
-      if (isAxiosErrorWithStatus(e, 401)) {
+      if (ApiUtil.isAxiosErrorWithStatus(e, 401)) {
         Message.createError("使用者名稱或密碼錯誤");
       }
     } finally {

@@ -1,6 +1,6 @@
 import { lazy } from "solid-js";
-import { Router } from "@solidjs/router";
-import { AppLayout } from "./Layouts/AppLayout";
+import { Navigate, Router } from "@solidjs/router";
+import { AppLayout } from "./layouts/AppLayout";
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: "/",
-    component: lazy(() => import("./components/common/AutoLoginRedirect")),
+    component: lazy(() => import("./auth/AutoLoginRedirect")),
     children: [
       {
         path: "/",
@@ -27,7 +27,7 @@ const routes = [
   },
   {
     path: "/",
-    component: lazy(() => import("./components/common/LoginGuard")),
+    component: lazy(() => import("./auth/LoginGuard")),
     children: [
       {
         path: "/tag",
@@ -49,7 +49,7 @@ const routes = [
   },
   {
     path: "/*404",
-    component: lazy(() => import("./pages/NotFound")),
+    component: () => <Navigate href="/" />,
   },
 ];
 

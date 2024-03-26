@@ -1,12 +1,11 @@
 import { Button } from "@components/general/Button";
 import { Modal } from "@components/general/Modal";
-import { TimeEventTagColor } from "../../openapi";
 import * as Select from "@components/general/Select";
 import { createStore } from "solid-js/store";
 import { Input } from "@components/general/Input";
 import { timeEventTagColorTranslate } from "@utils/ApiTranslator";
 import { EnumUtil } from "@utils/EnumUtil";
-import { createEffect, untrack } from "solid-js";
+import { TimeEventTagColor } from "../../openapi";
 
 export interface TagForm {
   color: TimeEventTagColor;
@@ -72,7 +71,7 @@ export const TagFormModal = (props: Props) => {
 
         <Select.SingleSelect
           items={colorItems}
-          value={[form.color]}
+          value={form.color}
           onValueChange={x => setForm("color", x)}
           label="標籤顏色 *"
           id="tag-color-select"
