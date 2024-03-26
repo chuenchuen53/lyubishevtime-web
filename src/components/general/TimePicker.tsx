@@ -73,7 +73,9 @@ export const TimePicker = (props: Props) => {
                       {y => (
                         <button
                           class="rounded-md px-4 py-2 text-neutral-text hover:bg-neutral-fill-secondary"
-                          classList={{ "!bg-primary !text-primary-content": y() === x().selected() }}
+                          classList={{
+                            "bg-primary-bg font-semi-bold hover:bg-primary-bg dark:bg-primary/90 dark:hover:bg-primary/90": y() === x().selected(),
+                          }}
                           onClick={() => x().handleClick(y())}
                         >
                           {y()}

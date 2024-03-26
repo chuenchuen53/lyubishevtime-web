@@ -56,7 +56,7 @@ const StyledTableCellTrigger = (props: { children: JSX.Element; class: string })
     <TableCellTrigger
       class={twJoin(
         props.class,
-        "h-10 rounded-md hover:bg-neutral-fill-secondary data-[disabled]:cursor-not-allowed data-[selected]:bg-primary data-[selected]:text-primary-content data-[disabled]:opacity-30 data-[disabled]:hover:bg-transparent",
+        "h-10 rounded-md hover:bg-neutral-fill-secondary data-[disabled]:cursor-not-allowed data-[selected]:bg-primary/90 data-[selected]:text-primary-content data-[disabled]:opacity-30 data-[disabled]:hover:bg-transparent",
       )}
     >
       {props.children}
@@ -80,7 +80,7 @@ export const DatePicker = (props: DatePickerProps) => {
       </Control>
       <Portal>
         <Positioner>
-          <Content class="shadow-elevated w-[344px] gap-3 rounded-md bg-neutral-bg-elevated p-4">
+          <Content class="w-[344px] gap-3 rounded-md bg-neutral-bg-elevated p-4 shadow-elevated">
             <StyledView view="day">
               {api => (
                 <>

@@ -61,7 +61,7 @@ export const NavBar = () => {
         </Show>
 
         <div class="flex items-center space-x-4">
-          <IconButton class="text-neutral-text-tertiary" onClick={() => setIsDark(!isDark())}>
+          <IconButton class="text-neutral-text-tertiary dark:text-neutral-text-secondary" onClick={() => setIsDark(!isDark())}>
             <Show when={isDark()} fallback={<BiSolidMoon size="24" />}>
               <BiSolidSun size="24" />
             </Show>
@@ -95,7 +95,7 @@ export const NavBar = () => {
                 >
                   <button
                     type="button"
-                    class="flex size-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-500 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    class="flex size-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-500 focus:ring-4 focus:ring-gray-300 dark:bg-gray-500 dark:text-gray-100 dark:focus:ring-gray-600"
                   >
                     <span class="sr-only">Open user menu</span>
                     <Show when={nonNullUser().profilePic} fallback={<FaSolidUserLarge class="relative -bottom-1" size="24" />}>

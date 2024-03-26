@@ -50,5 +50,42 @@ body,
 }
 
 .dark:root {
-  --color-primary: 141 162 251;
+  --color-text: rgb(255 255 255 / 85%);
+  --color-text-secondary: rgb(255 255 255 / 65%);
+  --color-text-tertiary: rgb(255 255 255 / 45%);
+  --color-text-quaternary: rgb(255 255 255 / 25%);
+  --color-border: #424242;
+  --color-border-secondary: #303030;
+  --color-fill: rgb(255 255 255 / 18%);
+  --color-fill-secondary: rgb(255 255 255 / 12%);
+  --color-fill-tertiary: rgb(255 255 255 / 8%);
+  --color-fill-quaternary: rgb(255 255 255 / 4%);
+  --color-bg-container: #141414;
+  --color-bg-elevated: #1f1f1f;
+  --color-bg-layout: #000;
+  --color-bg-spotlight: #424242;
+  --color-bg-mask: rgb(0 0 0 / 45%);
+  --color-primary: 91 102 211;
+  --color-primary-content: 255 255 255;
+  --color-primary-bg: 25 26 42;
+  --color-primary-bg-hover: 34 36 67;
+  --color-primary-border: 45 49 88;
+  --color-primary-border-hover: 58 64 121;
+  --color-primary-hover: 135 148 232;
+  --color-primary-active: 75 83 166;
+  --color-primary-text-hover: 135 148 232;
+  --color-primary-text: 91 102 211;
+  --color-primary-text-active: 75 83 166;
+  --color-danger: 207 73 73;
+  --color-danger-content: 255 255 255;
+  --color-danger-bg: 41 23 24;
+  --color-danger-bg-hover: 65 30 31;
+  --color-danger-border: 86 39 39;
+  --color-danger-border-hover: 119 48 48;
+  --color-danger-hover: 229 119 115;
+  --color-danger-active: 163 60 60;
+  --color-danger-text-hover: 229 119 115;
+  --color-danger-text: 207 73 73;
+  --color-danger-text-active: 163 60 60;
+  --elevated-shadow-color: rgb(0 0 0 / 24%);
 }

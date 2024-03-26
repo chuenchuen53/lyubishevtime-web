@@ -44,7 +44,7 @@ const StyledContent = (props: { children: JSXElement }) => {
 const StyledItem = (props: { item: { label: string; value: string }; children: JSXElement }) => {
   return (
     <Item
-      class="flex cursor-pointer items-center justify-between rounded-md px-1.5 py-2 hover:bg-neutral-fill-tertiary data-[state=checked]:bg-primary-bg data-[state=checked]:font-semibold"
+      class="flex cursor-pointer items-center justify-between rounded-md px-1.5 py-2 hover:bg-neutral-fill-tertiary data-[state=checked]:bg-primary-bg data-[state=checked]:font-semibold dark:data-[state=checked]:bg-primary/90"
       item={props.item}
     >
       {props.children}
@@ -54,7 +54,7 @@ const StyledItem = (props: { item: { label: string; value: string }; children: J
 
 const StyledItemIndicator = () => {
   return (
-    <ItemIndicator class="data-[state=checked]:text-primary">
+    <ItemIndicator class="data-[state=checked]:text-primary dark:data-[state=checked]:text-primary-200">
       <FiCheck />
     </ItemIndicator>
   );
