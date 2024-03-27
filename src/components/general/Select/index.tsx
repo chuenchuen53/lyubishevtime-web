@@ -97,6 +97,8 @@ interface MultipleSelectProps<T> {
   value: T[];
   onValueChange: (newValue: T[]) => void;
   renderItem: (item: { label: string; value: T }) => JSX.Element;
+  placeholder?: string;
+  onExitComplete?: () => void;
   triggerClass?: string;
 }
 
@@ -108,11 +110,12 @@ export const MultipleSelect = <T extends string>(props: MultipleSelectProps<T>) 
       items={props.items}
       value={props.value}
       onValueChange={detail => props.onValueChange(detail.value as T[])}
+      onExitComplete={props.onExitComplete}
     >
       <Label>{props.label}</Label>
       <Control>
         <StyledTrigger class={props.triggerClass}>
-          <ValueText class="truncate" placeholder="請選擇" />
+          <ValueText class="truncate" placeholder={props.placeholder} />
           <Indicator>
             <FaSolidAngleDown />
           </Indicator>

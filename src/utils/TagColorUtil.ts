@@ -42,4 +42,46 @@ export class TagColorUtil {
         return "bg-gray-100/40 dark:bg-gray-900/85";
     }
   }
+
+  public static shadow(x: TimeEventTagColor): string {
+    switch (x) {
+      case TimeEventTagColor.RED:
+        return "shadow-red-600 dark:shadow-red-700";
+      case TimeEventTagColor.ORANGE:
+        return "shadow-orange-600 dark:shadow-red-700";
+      case TimeEventTagColor.YELLOW:
+        return "shadow-yellow-600 dark:shadow-red-700";
+      case TimeEventTagColor.GREEN:
+        return "shadow-green-600 dark:shadow-red-700";
+      case TimeEventTagColor.CYAN:
+        return "shadow-cyan-600 dark:shadow-red-700";
+      case TimeEventTagColor.BLUE:
+        return "shadow-blue-600 dark:shadow-red-700";
+      case TimeEventTagColor.PURPLE:
+        return "shadow-purple-600 dark:shadow-red-700";
+      case TimeEventTagColor.GREY:
+        return "shadow-gray-600 dark:shadow-red-700";
+    }
+  }
+
+  public static bgGradient(x: TimeEventTagColor): string {
+    switch (x) {
+      case TimeEventTagColor.RED:
+        return "from-red-200 to-red-50 dark:from-red-400 dark:to-red-100";
+      case TimeEventTagColor.ORANGE:
+        return "from-orange-200 to-orange-50 dark:from-orange-400 dark:to-orange-100";
+      case TimeEventTagColor.YELLOW:
+        return "from-yellow-200 to-yellow-50 dark:from-yellow-400 dark:to-yellow-100";
+      case TimeEventTagColor.GREEN:
+        return "from-green-200 to-green-50 dark:from-green-400 dark:to-green-100";
+      case TimeEventTagColor.CYAN:
+        return "from-cyan-200 to-cyan-50 dark:from-cyan-400 dark:to-cyan-100";
+      case TimeEventTagColor.BLUE:
+        return "from-blue-200 to-blue-50 dark:from-blue-400 dark:to-blue-100";
+      case TimeEventTagColor.PURPLE:
+        return "from-purple-200 to-purple-50 dark:from-purple-400 dark:to-purple-100";
+      case TimeEventTagColor.GREY:
+        return "from-gray-200 to-gray-50 dark:from-gray-400 dark:to-gray-100";
+    }
+  }
 }
