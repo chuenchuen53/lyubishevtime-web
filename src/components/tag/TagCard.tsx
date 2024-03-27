@@ -2,7 +2,6 @@ import { FaSolidPen, FaSolidTrash, FaSolidArrowDownLong, FaSolidArrowUpLong } fr
 import IconButton from "@components/general/Button/IconButton";
 import { TagColorUtil } from "@utils/TagColorUtil";
 import { Button } from "@components/general/Button";
-import { createEffect } from "solid-js";
 import type { TimeEventTagColor } from "../../openapi";
 
 interface Props {
@@ -16,12 +15,8 @@ interface Props {
 }
 
 export const TagCard = (props: Props) => {
-  createEffect(() => {
-    console.log("create card " + props.name);
-  });
-
   return (
-    <div class={`flex flex-col overflow-hidden rounded-xl shadow-sm ${TagColorUtil.main(props.color)}`}>
+    <div class={`flex flex-col overflow-hidden rounded-xl shadow-md ${TagColorUtil.main(props.color)}`}>
       <div class="h-10 px-4 text-center leading-10">
         <Button variant="text" class="text-[16px] font-medium leading-none text-white" onClick={() => props.onNameClick(props.id)}>
           {props.name}

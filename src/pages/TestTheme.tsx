@@ -10,9 +10,8 @@ import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
 import { TimePicker } from "@components/general/TimePicker";
 import { Modal } from "@components/general/Modal";
-
 import { Message } from "@components/general/Message";
-import { TagsColor } from "@components/test-theme/TagsColor";
+import { TagColor } from "@components/test-theme/TagsColor";
 import type { ParentComponent } from "solid-js";
 
 const selectItems = [
@@ -199,7 +198,7 @@ export default function TestTheme() {
       </DemoSection>
 
       <DemoSection title="Tags Color">
-        <TagsColor />
+        <TagColor />
       </DemoSection>
     </div>
   );

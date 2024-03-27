@@ -1,13 +1,11 @@
 import { For, Match, Switch, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 import { AiFillCloseCircle, AiFillCheckCircle, AiFillInfoCircle } from "solid-icons/ai";
-import { nanoid } from "nanoid";
 import { TransitionGroup } from "solid-transition-group";
 import type { SetStoreFunction } from "solid-js/store";
 import "./index.scss";
 
 interface MessageItem {
-  id: string;
   message: string;
   type?: "success" | "error";
 }
@@ -22,7 +20,7 @@ export class Message {
 
   public static create(message: string, type?: "success" | "error") {
     if (Message.setStore) {
-      const newItem = { id: this.generateId(), message, type };
+      const newItem = { message, type };
 
       Message.setStore(prev => [...prev, newItem]);
 
@@ -57,10 +55,6 @@ export class Message {
       </div>
     );
   };
-
-  private static generateId() {
-    return nanoid();
-  }
 
   private static Item = (props: MessageItemProps) => {
     return (

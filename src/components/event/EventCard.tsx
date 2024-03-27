@@ -26,10 +26,10 @@ export const EventCard = (props: Props) => {
           <div class="w-[72px]">{DateUtil.removeSec(props.startTime)}</div>
           <div>{props.minute}分鐘</div>
           <div class="space-x-2">
-            <IconButton class="size-8 text-neutral-600/80" onClick={() => props.onEditClick(props.id)}>
+            <IconButton class="size-8 text-neutral-600/80 dark:hover:bg-neutral-600/30" onClick={() => props.onEditClick(props.id)}>
               <FaSolidPen />
             </IconButton>
-            <IconButton class="size-8 text-neutral-600/80" onClick={() => props.onDeleteClick(props.id)}>
+            <IconButton class="size-8 text-neutral-600/80 dark:hover:bg-neutral-600/30" onClick={() => props.onDeleteClick(props.id)}>
               <FaSolidTrash />
             </IconButton>
           </div>
