@@ -27,7 +27,7 @@ const StyledTrigger = (props: { class?: string; children: JSXElement }) => {
     <Trigger
       class={twMerge(
         styles.trigger,
-        "inline-flex items-center justify-between overflow-hidden rounded-lg border border-neutral-border bg-neutral-bg-container p-2.5  text-sm text-neutral-text data-[placeholder-shown]:text-neutral-text-tertiary",
+        "flex w-full items-center justify-between overflow-hidden rounded-lg border border-neutral-border bg-neutral-bg-container p-2.5 text-sm text-neutral-text data-[placeholder-shown]:text-neutral-text-tertiary",
         props.class,
       )}
     >
@@ -37,7 +37,7 @@ const StyledTrigger = (props: { class?: string; children: JSXElement }) => {
 };
 
 const StyledContent = (props: { children: JSXElement }) => {
-  return <Content class={`${styles.dropdown} rounded-lg bg-neutral-bg-elevated p-1 text-sm`}>{props.children}</Content>;
+  return <Content class={`${styles.dropdown} z-10 rounded-lg bg-neutral-bg-elevated p-1 text-sm`}>{props.children}</Content>;
 };
 
 const StyledItem = (props: { item: { label: string; value: string }; children: JSXElement }) => {

@@ -14,6 +14,9 @@ dependencies:
   '@park-ui/tailwind-plugin':
     specifier: 0.20.1
     version: 0.20.1(tailwindcss@3.4.1)
+  '@solid-primitives/keyed':
+    specifier: 1.2.2
+    version: 1.2.2(solid-js@1.8.15)
   '@solidjs/router':
     specifier: 0.13.0
     version: 0.13.0(solid-js@1.8.15)
@@ -1173,6 +1176,14 @@ packages:
       '@solid-primitives/utils': 6.2.3(solid-js@1.8.15)
       solid-js: 1.8.15
     dev: true
+
+  /@solid-primitives/keyed@1.2.2(solid-js@1.8.15):
+    resolution: {integrity: sha512-oBziY40JK4XmJ57XGkFl8j0GtEarSu0hhjdkUQgqL/U0QQE3TZrRo9uhgH7I6VGJKBKG7SAraTPE6S5lVLM1ow==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.15
+    dev: false
 
   /@solid-primitives/media@2.2.8(solid-js@1.8.15):
     resolution: {integrity: sha512-jcwTxjEn07W5KEeQIc0nR+07xRjvsWTf115PIwScCWgo6aPkfW3x74aq7lH5F3mLfb/9SeTn0ixz8fBVel3cHg==}

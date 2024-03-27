@@ -12,6 +12,7 @@ import { TimePicker } from "@components/general/TimePicker";
 import { Modal } from "@components/general/Modal";
 
 import { Message } from "@components/general/Message";
+import { TagsColor } from "@components/test-theme/TagsColor";
 import type { ParentComponent } from "solid-js";
 
 const selectItems = [
@@ -42,7 +43,7 @@ export default function TestTheme() {
   const [modalOpened, setModalOpened] = createSignal(false);
 
   return (
-    <div class="p-6">
+    <div>
       <DemoSection title="Button">
         <DemoRow>
           <Button>default</Button>
@@ -195,6 +196,10 @@ export default function TestTheme() {
           <Button onClick={() => Message.create("Success", "success")}>Success</Button>
           <Button onClick={() => Message.create("Error", "error")}>Error</Button>
         </DemoRow>
+      </DemoSection>
+
+      <DemoSection title="Tags Color">
+        <TagsColor />
       </DemoSection>
     </div>
   );

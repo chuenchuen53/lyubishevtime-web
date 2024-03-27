@@ -6,12 +6,19 @@ export class ApiUtil {
     return e instanceof AxiosError && e.response?.status === status;
   }
 
-  public static async fetchWithErrorMessage<T, R>(errMsg: string, fetcher: (...args: T[]) => Promise<R>, ...args: T[]): Promise<R | null> {
+  public static async loadingAndErrHandling<T, R>(
+    fetcher: (...args: T[]) => Promise<R>,
+    setLoading: (x: boolean) => void,
+    errMsg?: string,
+  ): Promise<R> {
     try {
-      return await fetcher(...args);
+      setLoading(true);
+      return await fetcher();
     } catch (e) {
-      Message.createError(errMsg);
+      if (errMsg) Message.createError(errMsg);
       throw e;
+    } finally {
+      setLoading(false);
     }
   }
 }

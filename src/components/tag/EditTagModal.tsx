@@ -1,14 +1,41 @@
-import { TagForm, TagFormModal } from "./TagFormModal";
+import { createMemo, createSignal } from "solid-js";
+import { ApiUtil } from "@utils/ApiUtil";
+import { TagService } from "../../api-service";
+import { TagFormModal } from "./TagFormModal";
+import type { TimeEventTag } from "../../openapi";
+import type { TagForm } from "./TagFormModal";
 
 interface Props {
-  open: boolean;
   onClose: () => void;
-  handleSubmitEditTag: (x: TagForm) => void;
-  initialForm: TagForm;
+  onSuccessfulEdit: (x: TimeEventTag) => void;
+  editingTag: TimeEventTag;
 }
 
 export const EditTagModal = (props: Props) => {
+  const initialForm = createMemo<TagForm>(() => ({ name: props.editingTag.name, color: props.editingTag.color }));
+
+  const [loading, setLoading] = createSignal(false);
+
+  const handleSubmit = async (tag: TagForm) => {
+    const newTag: TimeEventTag = {
+      id: props.editingTag.id,
+      name: tag.name,
+      color: tag.color,
+    };
+    await ApiUtil.loadingAndErrHandling(async () => TagService.updateTimeEventTag(newTag), setLoading, "編輯標籤失敗");
+    props.onClose();
+    props.onSuccessfulEdit(newTag);
+  };
+
   return (
-    <TagFormModal open={props.open} onClose={props.onClose} handleSubmit={props.handleSubmitEditTag} mode="edit" initialForm={props.initialForm} />
+    <TagFormModal
+      open
+      onClose={props.onClose}
+      submitText="編輯"
+      handleSubmit={handleSubmit}
+      disableSubmit={x => !x.name || (x.color === initialForm().color && x.name === initialForm().name)}
+      loading={loading()}
+      initialForm={initialForm()}
+    />
   );
 };

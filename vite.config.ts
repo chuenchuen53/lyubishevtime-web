@@ -26,6 +26,8 @@ export default defineConfig({
       "@context/": "/src/context/",
       "@utils/": "/src/utils/",
       "@lib/": "/src/lib/",
+      "@auth/": "/src/auth/",
+      "@openapi/": "/src/openapi/",
     },
   },
 });

@@ -20,7 +20,7 @@ export const Button = (props: Props) => {
       onClick={() => props.onClick?.()}
       type={props.type || "button"}
       disabled={props.disabled || props.loading}
-      class={twMerge(styles({ type: props.variant, disabled: props.disabled || props.loading }), props.class)}
+      class={twMerge(styles({ type: props.variant }), props.class)}
     >
       {props.loading && <Spinner />} {props.children}
     </button>

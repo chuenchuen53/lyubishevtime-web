@@ -6,6 +6,7 @@ html,
 body,
 #root {
   height: 100%;
+  overflow-x: hidden;
 }
 
 :root {
@@ -88,4 +89,18 @@ body,
   --color-danger-text: 207 73 73;
   --color-danger-text-active: 163 60 60;
   --elevated-shadow-color: rgb(0 0 0 / 24%);
+}
+
+.group-item {
+  transition: all 0.4s ease-in-out;
+}
+
+.group-item-enter {
+  opacity: 0;
+  transform: translateX(50%);
+}
+
+.group-item-exit-to {
+  opacity: 0;
+  transform: translateX(50%);
 }

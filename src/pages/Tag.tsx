@@ -1,49 +1,39 @@
-import { For, Show, createResource, createSignal } from "solid-js";
+import { Show, createResource, createSignal } from "solid-js";
 import { TagCard } from "@components/tag/TagCard";
 import { Button } from "@components/general/Button";
 import { AddTagModal } from "@components/tag/AddTagModal";
 import { EmptyState } from "@components/tag/EmptyState";
 import { EditTagModal } from "@components/tag/EditTagModal";
 import { useNavigate } from "@solidjs/router";
-import { ApiUtil } from "@utils/ApiUtil";
+import { TagPageSkeleton } from "@components/tag/TagPageSkeleton";
+import { Message } from "@components/general/Message";
+import { TransitionGroup } from "solid-transition-group";
+import { Key } from "@solid-primitives/keyed";
+import { AiFillTag } from "solid-icons/ai";
 import { TagService } from "../api-service";
-import type { TagForm } from "@stores/TagStore";
 import type { TimeEventTag } from "../openapi";
 
 export default function Tag() {
-  const [tags, tagsActions] = createResource(TagService.listTimeEventTag);
+  const [data, dataActions] = createResource(TagService.listTimeEventTag);
   const [showAddTagModal, setShowAddTagModal] = createSignal(false);
   const [editingTag, setEditingTag] = createSignal<null | TimeEventTag>(null);
   const navigate = useNavigate();
 
-  async function handleAddTag(x: TagForm) {
-    const newTag = (await ApiUtil.fetchWithErrorMessage("新增標籤失敗", TagService.addTimeEventTag, x))?.timeEventTag;
-    if (!newTag) return;
-    tagsActions.mutate(x => {
+  async function handleAddTag(newTag: TimeEventTag) {
+    dataActions.mutate(x => {
       if (!x) return;
       x.timeEventTags.push(newTag);
       x.timeEventTagOrder.push(newTag.id);
       return { ...x };
     });
-    setShowAddTagModal(false);
   }
 
-  async function handleSubmitEditTag(editedTag: TagForm) {
-    const initTag = editingTag();
-    if (!initTag) return;
-
-    const newTag: TimeEventTag = {
-      id: initTag.id,
-      name: editedTag.name,
-      color: editedTag.color,
-    };
-    await TagService.updateTimeEventTag(newTag);
-    setEditingTag(null);
-    tagsActions.mutate(x => {
+  async function handleSubmitEditTag(newTag: TimeEventTag) {
+    dataActions.mutate(x => {
       if (!x) return x;
       return {
         timeEventTags: x.timeEventTags.map(y => (y.id === newTag.id ? newTag : y)),
-        timeEventTagOrder: [...x.timeEventTagOrder],
+        timeEventTagOrder: x.timeEventTagOrder,
       };
     });
   }
@@ -53,7 +43,7 @@ export default function Tag() {
   }
 
   async function handleReorder(id: number, direction: "up" | "down") {
-    const oldOrder = tags()?.timeEventTagOrder;
+    const oldOrder = data()?.timeEventTagOrder;
     if (!oldOrder) return;
 
     const currentIndex = oldOrder.findIndex(x => x === id);
@@ -64,19 +54,19 @@ export default function Tag() {
     const newOrder = [...oldOrder];
     [newOrder[currentIndex], newOrder[newIndex]] = [newOrder[newIndex], newOrder[currentIndex]];
 
-    tagsActions.mutate(x => {
+    dataActions.mutate(x => {
       if (!x) return x;
       return {
-        timeEventTags: [...x.timeEventTags],
+        timeEventTags: x.timeEventTags,
         timeEventTagOrder: newOrder,
       };
     });
 
     try {
-      TagService.reorderTimeEventTag({ tagIds: newOrder });
+      await TagService.reorderTimeEventTag({ tagIds: newOrder });
     } catch (e) {
-      console.log("todo error");
-      tagsActions.mutate(x => {
+      Message.createError("重新排序失敗");
+      dataActions.mutate(x => {
         return x
           ? {
               timeEventTags: x.timeEventTags,
@@ -88,13 +78,13 @@ export default function Tag() {
   }
 
   async function handleEditClick(id: number) {
-    const selected = tags()?.timeEventTags.find(x => x.id === id);
+    const selected = data()?.timeEventTags.find(x => x.id === id);
     if (selected) setEditingTag(selected);
   }
 
   async function handleDeleteClick(id: number) {
     await TagService.deleteTimeEventTag(id);
-    tagsActions.mutate(x => {
+    dataActions.mutate(x => {
       if (!x) return x;
       return {
         timeEventTags: x.timeEventTags.filter(y => y.id !== id),
@@ -104,30 +94,43 @@ export default function Tag() {
   }
 
   return (
-    <div class="p-6">
-      <Show when={tags.loading}>
-        <div>Loading...</div>
+    <div>
+      <Show when={data.loading}>
+        <TagPageSkeleton />
       </Show>
 
-      <Show when={tags()}>
+      <Show when={data()}>
         {nonNullData => (
-          <Show when={nonNullData().timeEventTags.length > 0} fallback={<EmptyState />}>
-            <div class="space-y-6 pb-24">
-              <For
-                each={nonNullData().timeEventTags.sort(
-                  (a, b) => nonNullData().timeEventTagOrder.findIndex(x => x === a.id) - nonNullData().timeEventTagOrder.findIndex(x => x === b.id),
-                )}
-              >
-                {x => (
-                  <TagCard
-                    {...x}
-                    onNameClick={handleNameClick}
-                    onReorderClick={handleReorder}
-                    onEditClick={handleEditClick}
-                    onDeleteClick={handleDeleteClick}
-                  />
-                )}
-              </For>
+          <Show
+            when={nonNullData().timeEventTags.length > 0}
+            fallback={
+              <div class="flex min-h-[400px] items-center justify-center">
+                <EmptyState title="您目前没有標籤" icon={<AiFillTag size="80" />} />
+              </div>
+            }
+          >
+            <div class="relative flex flex-col gap-6 pb-24">
+              <TransitionGroup name="group-item">
+                <Key
+                  each={nonNullData().timeEventTags.sort(
+                    (a, b) => nonNullData().timeEventTagOrder.findIndex(x => x === a.id) - nonNullData().timeEventTagOrder.findIndex(x => x === b.id),
+                  )}
+                  by={item => item.id}
+                  fallback={<div>cant loop</div>}
+                >
+                  {x => (
+                    <div class="group-item">
+                      <TagCard
+                        {...x()}
+                        onNameClick={handleNameClick}
+                        onReorderClick={handleReorder}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteClick}
+                      />
+                    </div>
+                  )}
+                </Key>
+              </TransitionGroup>
             </div>
           </Show>
         )}
@@ -136,10 +139,10 @@ export default function Tag() {
       <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddTagModal(true)}>
         + 新增
       </Button>
-      <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} handleAddTag={handleAddTag} />
+      <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} onSuccessfulAdd={handleAddTag} />
       <Show when={editingTag()}>
         {nonNullEditingTag => (
-          <EditTagModal open onClose={() => setEditingTag(null)} handleSubmitEditTag={handleSubmitEditTag} initialForm={{ ...nonNullEditingTag() }} />
+          <EditTagModal onClose={() => setEditingTag(null)} onSuccessfulEdit={handleSubmitEditTag} editingTag={nonNullEditingTag()} />
         )}
       </Show>
     </div>
