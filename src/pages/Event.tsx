@@ -1,7 +1,7 @@
 import { useSearchParams } from "@solidjs/router";
 import { For, Show, createEffect, createResource, createSignal } from "solid-js";
 import { z } from "zod";
-import { EmptyState } from "@components/tag/EmptyState";
+import { EmptyState } from "@components/common/EmptyState";
 import { EventCard } from "@components/event/EventCard";
 import { Button } from "@components/general/Button";
 import { AddEventModal } from "@components/event/AddEventModal";

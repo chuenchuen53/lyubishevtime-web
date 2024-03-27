@@ -2,7 +2,7 @@ import { Show, createResource, createSignal } from "solid-js";
 import { TagCard } from "@components/tag/TagCard";
 import { Button } from "@components/general/Button";
 import { AddTagModal } from "@components/tag/AddTagModal";
-import { EmptyState } from "@components/tag/EmptyState";
+import { EmptyState } from "@components/common/EmptyState";
 import { EditTagModal } from "@components/tag/EditTagModal";
 import { useNavigate } from "@solidjs/router";
 import { TagPageSkeleton } from "@components/tag/TagPageSkeleton";
