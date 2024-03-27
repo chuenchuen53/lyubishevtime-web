@@ -15,6 +15,8 @@ import { createStore } from "solid-js/store";
 import { IoTime } from "solid-icons/io";
 import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
+import { PageLoading } from "@components/common/PageLoading";
+import { useDelayedLoading } from "@reactivity/useDelayWhen";
 import { EventService } from "../api-service";
 import type { ListTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
@@ -72,12 +74,21 @@ export default function Event() {
   const [tagIdsForSelect, setTagIdsForSelect] = createSignal<string[]>([]);
   const [showAddEventModal, setShowAddEventModal] = createSignal(false);
   const [editingEvent, setEditingTag] = createSignal<TimeEvent | null>(null);
+  const [loading, setDeferLoading, setNotLoading] = useDelayedLoading(750);
 
   createEffect(() => {
     setSearchParams({
       date: filter.date,
       tagIds: filter.tagIds ? btoa(filter.tagIds.join(",")) : undefined,
     });
+  });
+
+  createEffect(() => {
+    if (events.loading) {
+      setDeferLoading();
+    } else {
+      setNotLoading();
+    }
   });
 
   const newInitialForm: () => EventForm = () => ({
@@ -93,7 +104,7 @@ export default function Event() {
     if (selected) setEditingTag(selected);
   };
 
-  const handleSubmitEditEvent = async (editedEvent: TimeEvent) => {
+  const updateEvent = async (editedEvent: TimeEvent) => {
     eventsActions.mutate(data => {
       if (!data) return data;
       return {
@@ -116,7 +127,7 @@ export default function Event() {
     });
   };
 
-  const handleAddTag = async (newEvent: TimeEvent) => {
+  const addEvent = async (newEvent: TimeEvent) => {
     eventsActions.mutate(data => {
       if (!data) return data;
       return {
@@ -127,10 +138,12 @@ export default function Event() {
     });
   };
 
-  // todo: loading indicator
-
   return (
     <div>
+      <Show when={loading()}>
+        <PageLoading />
+      </Show>
+
       <div class="relative -mt-4 mb-6 h-10">
         <div class="flex h-10 flex-grow items-center justify-center gap-2">
           <IconButton onClick={() => setFilter("date", DateUtil.prevDayString(filter.date ?? DateUtil.todayString()))}>
@@ -218,7 +231,7 @@ export default function Event() {
             <Show when={showAddEventModal()}>
               <AddEventModal
                 onClose={() => setShowAddEventModal(false)}
-                onSuccessfulAdd={handleAddTag}
+                onSuccessfulAdd={addEvent}
                 tags={nonNullTags()}
                 initialForm={newInitialForm()}
               />
@@ -227,7 +240,7 @@ export default function Event() {
               {nonNullEvent => (
                 <EditEventModal
                   onClose={() => setEditingTag(null)}
-                  onSuccessfulEdit={handleSubmitEditEvent}
+                  onSuccessfulEdit={updateEvent}
                   tags={nonNullTags()}
                   initialForm={{ ...nonNullEvent() }}
                 />

@@ -28,6 +28,7 @@ export default defineConfig({
       "@lib/": "/src/lib/",
       "@auth/": "/src/auth/",
       "@openapi/": "/src/openapi/",
+      "@reactivity/": "/src/reactivity/",
     },
   },
 });

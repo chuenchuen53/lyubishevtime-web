@@ -25,17 +25,6 @@ interface Props {
   initialForm: EventForm;
 }
 
-// disabled={
-//   form.name === "" ||
-//   (props.mode === "edit" &&
-//     form.tagId === props.initialForm?.tagId &&
-//     form.name === props.initialForm?.name &&
-//     form.startTime === props.initialForm?.startTime &&
-//     form.minute === props.initialForm?.minute)
-// }
-
-// {props.mode === "add" ? "新增" : "編輯"}
-
 export const EventFormModal = (props: Props) => {
   const [form, setForm] = createStore<EventForm>({ ...props.initialForm });
 

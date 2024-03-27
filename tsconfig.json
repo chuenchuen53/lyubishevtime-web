@@ -11,7 +11,8 @@
       "@lib/*": ["lib/*"],
       "@auth/*": ["auth/*"],
       "@openapi": ["openapi/index.ts"],
-      "@openapi/*": ["openapi/*"]
+      "@openapi/*": ["openapi/*"],
+      "@reactivity/*": ["reactivity/*"]
     },
     "strict": true,
     "target": "ESNext",
