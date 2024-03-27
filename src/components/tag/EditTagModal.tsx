@@ -22,7 +22,7 @@ export const EditTagModal = (props: Props) => {
       name: tag.name,
       color: tag.color,
     };
-    await ApiUtil.loadingAndErrHandling(async () => TagService.updateTimeEventTag(newTag), setLoading, "編輯標籤失敗");
+    await ApiUtil.loadingAndErrHandling(async () => TagService.updateTimeEventTag(newTag), setLoading, "修改標籤失敗");
     props.onClose();
     props.onSuccessfulEdit(newTag);
   };

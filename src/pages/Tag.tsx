@@ -19,7 +19,7 @@ export default function Tag() {
   const [editingTag, setEditingTag] = createSignal<null | TimeEventTag>(null);
   const navigate = useNavigate();
 
-  async function handleAddTag(newTag: TimeEventTag) {
+  function addTag(newTag: TimeEventTag) {
     dataActions.mutate(x => {
       if (!x) return;
       x.timeEventTags.push(newTag);
@@ -28,17 +28,17 @@ export default function Tag() {
     });
   }
 
-  async function handleSubmitEditTag(newTag: TimeEventTag) {
+  function updateTag(modifiedTag: TimeEventTag) {
     dataActions.mutate(x => {
       if (!x) return x;
       return {
-        timeEventTags: x.timeEventTags.map(y => (y.id === newTag.id ? newTag : y)),
+        timeEventTags: x.timeEventTags.map(y => (y.id === modifiedTag.id ? modifiedTag : y)),
         timeEventTagOrder: x.timeEventTagOrder,
       };
     });
   }
 
-  async function handleNameClick(id: number) {
+  function handleNameClick(id: number) {
     navigate(`/event/?tagIds=${btoa(id.toString())}`);
   }
 
@@ -77,7 +77,7 @@ export default function Tag() {
     }
   }
 
-  async function handleEditClick(id: number) {
+  function handleEditClick(id: number) {
     const selected = data()?.timeEventTags.find(x => x.id === id);
     if (selected) setEditingTag(selected);
   }
@@ -139,11 +139,9 @@ export default function Tag() {
       <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddTagModal(true)}>
         + 新增
       </Button>
-      <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} onSuccessfulAdd={handleAddTag} />
+      <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} onSuccessfulAdd={addTag} />
       <Show when={editingTag()}>
-        {nonNullEditingTag => (
-          <EditTagModal onClose={() => setEditingTag(null)} onSuccessfulEdit={handleSubmitEditTag} editingTag={nonNullEditingTag()} />
-        )}
+        {nonNullEditingTag => <EditTagModal onClose={() => setEditingTag(null)} onSuccessfulEdit={updateTag} editingTag={nonNullEditingTag()} />}
       </Show>
     </div>
   );

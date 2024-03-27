@@ -7,6 +7,7 @@ import { TimePicker } from "@components/general/TimePicker";
 import type { TimeEventTag } from "../../openapi";
 
 export interface EventForm {
+  date: string;
   tagId: number;
   name: string;
   startTime: string;
@@ -16,24 +17,30 @@ export interface EventForm {
 interface Props {
   open: boolean;
   onClose: () => void;
-  handleSubmit: (x: EventForm) => void;
+  submitText: string;
+  handleSubmit: (x: EventForm) => Promise<void>;
+  disableSubmit: (eventForm: EventForm) => boolean;
+  loading: boolean;
   tags: TimeEventTag[];
-  initialForm?: EventForm;
-  mode: "add" | "edit";
+  initialForm: EventForm;
 }
 
+// disabled={
+//   form.name === "" ||
+//   (props.mode === "edit" &&
+//     form.tagId === props.initialForm?.tagId &&
+//     form.name === props.initialForm?.name &&
+//     form.startTime === props.initialForm?.startTime &&
+//     form.minute === props.initialForm?.minute)
+// }
+
+// {props.mode === "add" ? "新增" : "編輯"}
+
 export const EventFormModal = (props: Props) => {
-  const [form, setForm] = createStore<EventForm>(
-    props.initialForm ?? {
-      tagId: props.tags[0].id,
-      name: "",
-      startTime: "00:00:00",
-      minute: 1,
-    },
-  );
+  const [form, setForm] = createStore<EventForm>({ ...props.initialForm });
 
   const handleSubmit = async () => {
-    props.handleSubmit(form);
+    await props.handleSubmit(form);
   };
 
   return (
@@ -43,18 +50,8 @@ export const EventFormModal = (props: Props) => {
       onClose={props.onClose}
       footer={
         <div class="w-full space-x-4 text-end">
-          <Button
-            disabled={
-              form.name === "" ||
-              (props.mode === "edit" &&
-                form.tagId === props.initialForm?.tagId &&
-                form.name === props.initialForm?.name &&
-                form.startTime === props.initialForm?.startTime &&
-                form.minute === props.initialForm?.minute)
-            }
-            onClick={handleSubmit}
-          >
-            {props.mode === "add" ? "新增" : "編輯"}
+          <Button disabled={props.disableSubmit(form)} loading={props.loading} onClick={handleSubmit}>
+            {props.submitText}
           </Button>
           <Button variant="gray" onClick={props.onClose}>
             取消
@@ -65,7 +62,7 @@ export const EventFormModal = (props: Props) => {
       <div class="w-[320px] max-w-full space-y-6">
         <Select.SingleSelect
           items={props.tags.map(x => ({ label: x.name, value: x.id.toString() }))}
-          value={[form.tagId.toString()]}
+          value={form.tagId.toString()}
           onValueChange={x => setForm("tagId", parseInt(x))}
           label="標籤 *"
           id="tag-select"
@@ -83,7 +80,7 @@ export const EventFormModal = (props: Props) => {
           <label for="event-start-time-input" class="mb-2 block text-sm font-medium">
             開始時間 *
           </label>
-          <TimePicker value={form.startTime} setValue={x => setForm("startTime", x)} />
+          <TimePicker id="event-form-time-picker" value={form.startTime} setValue={x => setForm("startTime", x)} hideSeconds />
         </div>
 
         <div>

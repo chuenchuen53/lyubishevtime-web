@@ -16,7 +16,7 @@ import { IoTime } from "solid-icons/io";
 import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { EventService } from "../api-service";
-import type { ListTimeEventResponse, TimeEvent, UpdateTimeEventRequest } from "../openapi";
+import type { ListTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
 
 interface Filter {
@@ -62,13 +62,10 @@ function parseParams(searchParams: Params): Filter {
 }
 
 async function fetchEvents(filter: Omit<Filter, "tagIdsForSelect">): Promise<ListTimeEventResponse> {
-  console.log("fetching events", filter);
   return await EventService.getEvents(filter.date ?? DateUtil.getTodayString(), filter.tagIds);
 }
 
 export default function Event() {
-  console.log("rendering Event");
-
   const [searchParams, setSearchParams] = useSearchParams<Params>();
   const [filter, setFilter] = createStore<Filter>(parseParams(searchParams));
   const [events, eventsActions] = createResource(() => ({ ...filter }), fetchEvents);
@@ -83,30 +80,26 @@ export default function Event() {
     });
   });
 
+  const newInitialForm: () => EventForm = () => ({
+    date: filter.date ?? DateUtil.todayString(),
+    tagId: events()!.timeEventTags[0].id,
+    name: "",
+    startTime: "00:00:00",
+    minute: 1,
+  });
+
   const handleEditClick = (id: number) => {
     const selected = events()?.timeEvents.find(x => x.id === id);
     if (selected) setEditingTag(selected);
   };
 
-  const handleSubmitEditEvent = async (editedEvent: EventForm) => {
-    const initEvent = editingEvent();
-    if (!initEvent) return;
-
-    await EventService.updateTimeEvent({
-      id: initEvent.id,
-      tagId: editedEvent.tagId,
-      name: editedEvent.name,
-      startTime: editedEvent.startTime,
-      minute: editedEvent.minute,
-    } satisfies UpdateTimeEventRequest);
-
-    setEditingTag(null);
+  const handleSubmitEditEvent = async (editedEvent: TimeEvent) => {
     eventsActions.mutate(data => {
       if (!data) return data;
       return {
-        timeEvents: data.timeEvents.map(x => (x.id === initEvent.id ? { ...x, ...editedEvent } : x)),
-        timeEventTags: [...data.timeEventTags],
-        timeEventTagOrder: [...data.timeEventTagOrder],
+        timeEvents: data.timeEvents.map(x => (x.id === editedEvent.id ? editedEvent : x)),
+        timeEventTags: data.timeEventTags,
+        timeEventTagOrder: data.timeEventTagOrder,
       } satisfies ListTimeEventResponse;
     });
   };
@@ -123,19 +116,15 @@ export default function Event() {
     });
   };
 
-  const handleAddTag = async (x: EventForm) => {
-    const newEvent = (await EventService.addTimeEvent({ ...x, date: filter.date ?? DateUtil.todayString() })).timeEvent;
-
+  const handleAddTag = async (newEvent: TimeEvent) => {
     eventsActions.mutate(data => {
       if (!data) return data;
       return {
         timeEvents: [...data.timeEvents, newEvent],
-        timeEventTags: [...data.timeEventTags],
-        timeEventTagOrder: [...data.timeEventTagOrder],
+        timeEventTags: data.timeEventTags,
+        timeEventTagOrder: data.timeEventTagOrder,
       } satisfies ListTimeEventResponse;
     });
-
-    setShowAddEventModal(false);
   };
 
   // todo: loading indicator
@@ -217,20 +206,28 @@ export default function Event() {
         )}
       </Show>
 
-      <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddEventModal(true)}>
-        + 新增
-      </Button>
+      <Show when={events()?.timeEventTags.length}>
+        <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddEventModal(true)}>
+          + 新增
+        </Button>
+      </Show>
 
       <Show when={events()?.timeEventTags}>
         {nonNullTags => (
           <>
-            <AddEventModal open={showAddEventModal()} onClose={() => setShowAddEventModal(false)} handleSubmit={handleAddTag} tags={nonNullTags()} />
+            <Show when={showAddEventModal()}>
+              <AddEventModal
+                onClose={() => setShowAddEventModal(false)}
+                onSuccessfulAdd={handleAddTag}
+                tags={nonNullTags()}
+                initialForm={newInitialForm()}
+              />
+            </Show>
             <Show when={editingEvent()}>
               {nonNullEvent => (
                 <EditEventModal
-                  open
                   onClose={() => setEditingTag(null)}
-                  handleSubmit={handleSubmitEditEvent}
+                  onSuccessfulEdit={handleSubmitEditEvent}
                   tags={nonNullTags()}
                   initialForm={{ ...nonNullEvent() }}
                 />

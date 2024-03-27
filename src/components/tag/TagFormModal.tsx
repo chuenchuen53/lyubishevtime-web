@@ -17,7 +17,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   submitText: string;
-  handleSubmit: (x: TagForm) => void;
+  handleSubmit: (x: TagForm) => Promise<void>;
   disableSubmit: (tagForm: TagForm) => boolean;
   loading: boolean;
   initialForm?: TagForm;
@@ -39,7 +39,7 @@ export const TagFormModal = (props: Props) => {
   );
 
   const handleSubmit = async () => {
-    props.handleSubmit(form);
+    await props.handleSubmit(form);
   };
 
   return (
