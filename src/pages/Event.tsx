@@ -16,7 +16,7 @@ import { IoTime } from "solid-icons/io";
 import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { PageLoading } from "@components/common/PageLoading";
-import { useDelayedLoading } from "@reactivity/useDelayWhen";
+import { useDelayedLoading } from "@reactivity/useDelayedLoading";
 import { EventService } from "../api-service";
 import type { ListTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";

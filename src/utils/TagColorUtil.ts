@@ -84,4 +84,25 @@ export class TagColorUtil {
         return "from-gray-200 to-gray-50 dark:from-gray-400 dark:to-gray-100";
     }
   }
+
+  public static chartColor(x: TimeEventTagColor): string {
+    switch (x) {
+      case TimeEventTagColor.RED:
+        return "#E02424";
+      case TimeEventTagColor.ORANGE:
+        return "#EA580C";
+      case TimeEventTagColor.YELLOW:
+        return "#9F580A";
+      case TimeEventTagColor.GREEN:
+        return "#057A55";
+      case TimeEventTagColor.CYAN:
+        return "#0891b2";
+      case TimeEventTagColor.BLUE:
+        return "#1C64F2";
+      case TimeEventTagColor.PURPLE:
+        return "#7E3AF2";
+      case TimeEventTagColor.GREY:
+        return "#4B5563";
+    }
+  }
 }
