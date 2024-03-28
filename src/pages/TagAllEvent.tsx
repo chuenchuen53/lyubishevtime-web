@@ -23,7 +23,7 @@ interface Data {
   tags: TimeEventTag[];
 }
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 20;
 const OFFSET_LIMIT = 10;
 
 export default function TagAllEvent() {
