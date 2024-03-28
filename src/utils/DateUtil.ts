@@ -9,6 +9,10 @@ export class DateUtil {
     return !isNaN(date.getTime()) && date.toISOString().startsWith(dateString);
   }
 
+  public static shortDateString(dateString: string): string {
+    return dateString.slice(2);
+  }
+
   public static removeSec(dateString: string): string {
     return dateString.slice(0, -3);
   }

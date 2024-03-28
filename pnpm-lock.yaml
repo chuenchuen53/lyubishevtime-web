@@ -14,6 +14,9 @@ dependencies:
   '@solid-primitives/keyed':
     specifier: 1.2.2
     version: 1.2.2(solid-js@1.8.15)
+  '@solid-primitives/scroll':
+    specifier: 2.0.23
+    version: 2.0.23(solid-js@1.8.15)
   '@solidjs/router':
     specifier: 0.13.0
     version: 0.13.0(solid-js@1.8.15)
@@ -1146,7 +1149,6 @@ packages:
     dependencies:
       '@solid-primitives/utils': 6.2.3(solid-js@1.8.15)
       solid-js: 1.8.15
-    dev: true
 
   /@solid-primitives/keyboard@1.2.8(solid-js@1.8.15):
     resolution: {integrity: sha512-pJtcbkjozS6L1xvTht9rPpyPpX55nAkfBzbFWdf3y0Suwh6qClTibvvObzKOf7uzQ+8aZRDH4LsoGmbTKXtJjQ==}
@@ -1214,7 +1216,6 @@ packages:
     dependencies:
       '@solid-primitives/utils': 6.2.3(solid-js@1.8.15)
       solid-js: 1.8.15
-    dev: true
 
   /@solid-primitives/scheduled@1.4.3(solid-js@1.8.15):
     resolution: {integrity: sha512-HfWN5w7b7FEc6VPLBKnnE302h90jsLMuR28Fcf7neRGGf8jBj6wm6/UFQ00VlKexHFMR6KQ2u4VBh5a1ZcqM8g==}
@@ -1223,6 +1224,17 @@ packages:
     dependencies:
       solid-js: 1.8.15
     dev: true
+
+  /@solid-primitives/scroll@2.0.23(solid-js@1.8.15):
+    resolution: {integrity: sha512-kO0YpXKEUHaAnHp3zIsHYmxxuKXO3/LxVhZQHHmhqsmUY6A5IBObkSkoQ/ChIPl/WMKE7ynxEq40OgRmhvyUSw==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/event-listener': 2.3.3(solid-js@1.8.15)
+      '@solid-primitives/rootless': 1.4.5(solid-js@1.8.15)
+      '@solid-primitives/static-store': 0.0.8(solid-js@1.8.15)
+      solid-js: 1.8.15
+    dev: false
 
   /@solid-primitives/static-store@0.0.5(solid-js@1.8.15):
     resolution: {integrity: sha512-ssQ+s/wrlFAEE4Zw8GV499yBfvWx7SMm+ZVc11wvao4T5xg9VfXCL9Oa+x4h+vPMvSV/Knv5LrsLiUa+wlJUXQ==}
@@ -1240,7 +1252,6 @@ packages:
     dependencies:
       '@solid-primitives/utils': 6.2.3(solid-js@1.8.15)
       solid-js: 1.8.15
-    dev: true
 
   /@solid-primitives/styles@0.0.111(solid-js@1.8.15):
     resolution: {integrity: sha512-1mBxOGAPXmfD5oYCvqjKBDN7SuNjz2qz7RdH7KtsuNLQh6lpuSKadtHnLvru0Y8Vz1InqTJisBIy/6P5kyDmPw==}

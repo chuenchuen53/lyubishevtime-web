@@ -19,7 +19,7 @@ import { PageLoading } from "@components/common/PageLoading";
 import { useDelayedLoading } from "@reactivity/useDelayedLoading";
 import { ConfirmationModal } from "@components/general/ConfirmationModal";
 import { EventService } from "../api-service";
-import type { ListTimeEventResponse, TimeEvent } from "../openapi";
+import type { ListOneDayTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
 
 interface Filter {
@@ -64,8 +64,8 @@ function parseParams(searchParams: Params): Filter {
   return emptyFilter;
 }
 
-async function fetchEvents(filter: Omit<Filter, "tagIdsForSelect">): Promise<ListTimeEventResponse> {
-  return await EventService.getEvents(filter.date ?? DateUtil.getTodayString(), filter.tagIds);
+async function fetchEvents(filter: Omit<Filter, "tagIdsForSelect">): Promise<ListOneDayTimeEventResponse> {
+  return await EventService.getOneDayEvents(filter.date ?? DateUtil.getTodayString(), filter.tagIds);
 }
 
 export default function Event() {
@@ -112,7 +112,7 @@ export default function Event() {
         timeEvents: data.timeEvents.map(x => (x.id === editedEvent.id ? editedEvent : x)),
         timeEventTags: data.timeEventTags,
         timeEventTagOrder: data.timeEventTagOrder,
-      } satisfies ListTimeEventResponse;
+      } satisfies ListOneDayTimeEventResponse;
     });
   };
 
@@ -130,7 +130,7 @@ export default function Event() {
         timeEvents: data.timeEvents.filter(x => x.id !== id),
         timeEventTags: [...data.timeEventTags],
         timeEventTagOrder: [...data.timeEventTagOrder],
-      } satisfies ListTimeEventResponse;
+      } satisfies ListOneDayTimeEventResponse;
     });
   };
 
@@ -141,7 +141,7 @@ export default function Event() {
         timeEvents: [...data.timeEvents, newEvent],
         timeEventTags: data.timeEventTags,
         timeEventTagOrder: data.timeEventTagOrder,
-      } satisfies ListTimeEventResponse;
+      } satisfies ListOneDayTimeEventResponse;
     });
   };
 
@@ -156,9 +156,7 @@ export default function Event() {
           <IconButton onClick={() => setFilter("date", DateUtil.prevDayString(filter.date ?? DateUtil.todayString()))}>
             <RiArrowsArrowLeftSLine size="24" />
           </IconButton>
-          <Button variant="text" class="text-[16px] font-bold leading-none">
-            {filter.date ?? DateUtil.todayString()}
-          </Button>
+          <div class="font-bold">{filter.date ?? DateUtil.todayString()}</div>
           <IconButton onClick={() => setFilter("date", DateUtil.nextDayString(filter.date ?? DateUtil.todayString()))}>
             <RiArrowsArrowRightSLine size="24" />
           </IconButton>

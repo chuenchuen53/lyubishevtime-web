@@ -2,8 +2,6 @@ import { BottomBar } from "@components/common/BottomBar";
 import { MainContent } from "@components/common/MainContent";
 import { Show, type ParentComponent } from "solid-js";
 import { user } from "@stores/UserStore";
-import { Message } from "@components/general/Message";
-import { ConfirmationModal } from "@components/general/ConfirmationModal";
 import { NavBar } from "../components/common/NavBar";
 
 export const AppLayout: ParentComponent = props => {
@@ -14,8 +12,6 @@ export const AppLayout: ParentComponent = props => {
       <Show when={user()}>
         <BottomBar />
       </Show>
-      <ConfirmationModal.Root />
-      <Message.Root />
     </div>
   );
 };

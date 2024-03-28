@@ -1,8 +1,9 @@
 import { lazy } from "solid-js";
 import { Navigate, Router } from "@solidjs/router";
 import { AppLayout } from "./layouts/AppLayout";
+import type { RouteDefinition } from "@solidjs/router";
 
-const routes = [
+const routes: RouteDefinition[] = [
   {
     path: "/test-theme",
     component: lazy(() => import("./pages/TestTheme")),
@@ -31,7 +32,19 @@ const routes = [
     children: [
       {
         path: "/tag",
-        component: lazy(() => import("./pages/Tag")),
+        children: [
+          {
+            path: "/",
+            component: lazy(() => import("./pages/Tag")),
+          },
+          {
+            path: "/:tagId/all-event",
+            component: lazy(() => import("./pages/TagAllEvent")),
+            matchFilters: {
+              tagId: /^\d+$/,
+            },
+          },
+        ],
       },
       {
         path: "/event",

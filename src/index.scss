@@ -104,3 +104,16 @@ body,
   opacity: 0;
   transform: translateX(50%);
 }
+
+.group-item-2 {
+  transition: all 0.5s ease-in-out;
+}
+
+.group-item-2-enter {
+  opacity: 0;
+}
+
+.group-item-2-exit-to {
+  opacity: 0;
+  transform: translateX(50%);
+}

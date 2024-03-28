@@ -36,6 +36,8 @@ import { AddTimeEventRequest } from "../api-typing";
 // @ts-ignore
 import { AddTimeEventResponse } from "../api-typing";
 // @ts-ignore
+import { ListOneDayTimeEventResponse } from "../api-typing";
+// @ts-ignore
 import { ListTimeEventResponse } from "../api-typing";
 // @ts-ignore
 import { UpdateTimeEventRequest } from "../api-typing";
@@ -118,14 +120,57 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
     },
     /**
      *
+     * @param {number} tagId
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllTagEvents: async (tagId: number, page: number, pageSize: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'tagId' is not null or undefined
+      assertParamExists("getAllTagEvents", "tagId", tagId);
+      // verify required parameter 'page' is not null or undefined
+      assertParamExists("getAllTagEvents", "page", page);
+      // verify required parameter 'pageSize' is not null or undefined
+      assertParamExists("getAllTagEvents", "pageSize", pageSize);
+      const localVarPath = `/time-event/all-tag-events/{tagId}/{page}/{pageSize}`
+        .replace(`{${"tagId"}}`, encodeURIComponent(String(tagId)))
+        .replace(`{${"page"}}`, encodeURIComponent(String(page)))
+        .replace(`{${"pageSize"}}`, encodeURIComponent(String(pageSize)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication bearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEvents: async (date: string, tagIds?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getOneDayEvents: async (date: string, tagIds?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'date' is not null or undefined
-      assertParamExists("getEvents", "date", date);
+      assertParamExists("getOneDayEvents", "date", date);
       const localVarPath = `/time-event`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -237,19 +282,39 @@ export const TimeEventControllerApiFp = function (configuration?: Configuration)
     },
     /**
      *
+     * @param {number} tagId
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAllTagEvents(
+      tagId: number,
+      page: number,
+      pageSize: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTimeEventResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTagEvents(tagId, page, pageSize, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.getAllTagEvents"]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     *
      * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getEvents(
+    async getOneDayEvents(
       date: string,
       tagIds?: Array<number>,
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTimeEventResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getEvents(date, tagIds, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOneDayTimeEventResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getOneDayEvents(date, tagIds, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.getEvents"]?.[localVarOperationServerIndex]?.url;
+      const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.getOneDayEvents"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
     },
@@ -299,13 +364,24 @@ export const TimeEventControllerApiFactory = function (configuration?: Configura
     },
     /**
      *
+     * @param {number} tagId
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAllTagEvents(tagId: number, page: number, pageSize: number, options?: any): AxiosPromise<ListTimeEventResponse> {
+      return localVarFp.getAllTagEvents(tagId, page, pageSize, options).then(request => request(axios, basePath));
+    },
+    /**
+     *
      * @param {string} date
      * @param {Array<number>} [tagIds]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEvents(date: string, tagIds?: Array<number>, options?: any): AxiosPromise<ListTimeEventResponse> {
-      return localVarFp.getEvents(date, tagIds, options).then(request => request(axios, basePath));
+    getOneDayEvents(date: string, tagIds?: Array<number>, options?: any): AxiosPromise<ListOneDayTimeEventResponse> {
+      return localVarFp.getOneDayEvents(date, tagIds, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -354,15 +430,30 @@ export class TimeEventControllerApi extends BaseAPI {
 
   /**
    *
+   * @param {number} tagId
+   * @param {number} page
+   * @param {number} pageSize
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TimeEventControllerApi
+   */
+  public getAllTagEvents(tagId: number, page: number, pageSize: number, options?: RawAxiosRequestConfig) {
+    return TimeEventControllerApiFp(this.configuration)
+      .getAllTagEvents(tagId, page, pageSize, options)
+      .then(request => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @param {string} date
    * @param {Array<number>} [tagIds]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TimeEventControllerApi
    */
-  public getEvents(date: string, tagIds?: Array<number>, options?: RawAxiosRequestConfig) {
+  public getOneDayEvents(date: string, tagIds?: Array<number>, options?: RawAxiosRequestConfig) {
     return TimeEventControllerApiFp(this.configuration)
-      .getEvents(date, tagIds, options)
+      .getOneDayEvents(date, tagIds, options)
       .then(request => request(this.axios, this.basePath));
   }
 

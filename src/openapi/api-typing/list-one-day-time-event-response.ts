@@ -22,31 +22,25 @@ import { TimeEventTag } from "./time-event-tag";
 /**
  *
  * @export
- * @interface ListTimeEventResponse
+ * @interface ListOneDayTimeEventResponse
  */
-export interface ListTimeEventResponse {
+export interface ListOneDayTimeEventResponse {
   /**
    *
    * @type {Array<TimeEvent>}
-   * @memberof ListTimeEventResponse
+   * @memberof ListOneDayTimeEventResponse
    */
   timeEvents: Array<TimeEvent>;
   /**
    *
    * @type {Array<TimeEventTag>}
-   * @memberof ListTimeEventResponse
+   * @memberof ListOneDayTimeEventResponse
    */
   timeEventTags: Array<TimeEventTag>;
   /**
    *
    * @type {Array<number>}
-   * @memberof ListTimeEventResponse
+   * @memberof ListOneDayTimeEventResponse
    */
   timeEventTagOrder: Array<number>;
-  /**
-   *
-   * @type {boolean}
-   * @memberof ListTimeEventResponse
-   */
-  haveNext: boolean;
 }

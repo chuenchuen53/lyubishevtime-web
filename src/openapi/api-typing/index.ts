@@ -6,6 +6,7 @@ export * from "./any-event-response";
 export * from "./current-user-response";
 export * from "./get-summary-response";
 export * from "./is-username-exist-response";
+export * from "./list-one-day-time-event-response";
 export * from "./list-time-event-response";
 export * from "./list-time-event-tag-response";
 export * from "./login-request";

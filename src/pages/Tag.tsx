@@ -40,7 +40,7 @@ export default function Tag() {
   }
 
   function handleNameClick(id: number) {
-    navigate(`/event/?tagIds=${btoa(id.toString())}`);
+    navigate(`/tag/${id.toString()}/all-event`);
   }
 
   async function handleReorder(id: number, direction: "up" | "down") {
