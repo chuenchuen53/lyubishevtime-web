@@ -17,6 +17,7 @@ import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { PageLoading } from "@components/common/PageLoading";
 import { useDelayedLoading } from "@reactivity/useDelayedLoading";
+import { ConfirmationModal } from "@components/general/ConfirmationModal";
 import { EventService } from "../api-service";
 import type { ListTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
@@ -116,6 +117,12 @@ export default function Event() {
   };
 
   const handleDeleteClick = async (id: number) => {
+    const confirm = await ConfirmationModal.create({
+      title: "刪除活動",
+      message: "確定要刪除這個活動嗎？",
+      confirmButtonVariant: "danger",
+    });
+    if (!confirm) return;
     await EventService.deleteTimeEvent(id);
     eventsActions.mutate(data => {
       if (!data) return data;
