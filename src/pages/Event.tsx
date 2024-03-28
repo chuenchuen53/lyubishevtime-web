@@ -191,7 +191,7 @@ export default function Event() {
           <Show
             when={nonNullData().timeEvents.length > 0}
             fallback={
-              <div class="flex min-h-[400px] items-center justify-center">
+              <div class="flex min-h-[280px] items-center justify-center">
                 <EmptyState title="這天没有活動記錄" icon={<IoTime size="90" />} />
               </div>
             }

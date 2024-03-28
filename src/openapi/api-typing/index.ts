@@ -2,6 +2,7 @@ export * from "./add-time-event-request";
 export * from "./add-time-event-response";
 export * from "./add-time-event-tag-request";
 export * from "./add-time-event-tag-response";
+export * from "./any-event-response";
 export * from "./current-user-response";
 export * from "./get-summary-response";
 export * from "./is-username-exist-response";

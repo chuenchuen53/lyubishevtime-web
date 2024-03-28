@@ -10,6 +10,7 @@ import { Message } from "@components/general/Message";
 import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { AiFillTag } from "solid-icons/ai";
+import { ConfirmationModal } from "@components/general/ConfirmationModal";
 import { TagService } from "../api-service";
 import type { TimeEventTag } from "../openapi";
 
@@ -83,6 +84,17 @@ export default function Tag() {
   }
 
   async function handleDeleteClick(id: number) {
+    const { anyEvent } = await TagService.anyEvent(id);
+    if (anyEvent) {
+      Message.createError("請先刪除所有相關的活動後再刪除標籤");
+      return;
+    }
+    const confirm = await ConfirmationModal.create({
+      title: "確認刪除",
+      message: "您確定要刪除這個標籤嗎？",
+      confirmButtonVariant: "danger",
+    });
+    if (!confirm) return;
     await TagService.deleteTimeEventTag(id);
     dataActions.mutate(x => {
       if (!x) return x;
