@@ -80,10 +80,5 @@ module.exports = {
     },
   },
   plugins: [require("@tailwindcss/forms"), require("flowbite/plugin")],
-  parkUI: {
-    accentColor: "indigo",
-    grayColor: "neutral",
-    borderRadius: "sm",
-  },
   darkMode: ["class"],
 };
