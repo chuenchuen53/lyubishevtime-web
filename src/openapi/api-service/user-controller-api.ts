@@ -42,7 +42,11 @@ import { RegisterRequest } from "../api-typing";
 // @ts-ignore
 import { RegisterResponse } from "../api-typing";
 // @ts-ignore
+import { UpdateNicknameRequest } from "../api-typing";
+// @ts-ignore
 import { UpdatePasswordRequest } from "../api-typing";
+// @ts-ignore
+import { UpdateProfilePicRequest } from "../api-typing";
 /**
  * UserControllerApi - axios parameter creator
  * @export
@@ -156,13 +160,13 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
     },
     /**
      *
-     * @param {string} nickname
+     * @param {UpdateNicknameRequest} updateNicknameRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateNickname: async (nickname: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'nickname' is not null or undefined
-      assertParamExists("updateNickname", "nickname", nickname);
+    updateNickname: async (updateNicknameRequest: UpdateNicknameRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'updateNicknameRequest' is not null or undefined
+      assertParamExists("updateNickname", "updateNicknameRequest", updateNicknameRequest);
       const localVarPath = `/personal-info/nickname`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -179,13 +183,12 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration);
 
-      if (nickname !== undefined) {
-        localVarQueryParameter["nickname"] = nickname;
-      }
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updateNicknameRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -231,13 +234,13 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
     },
     /**
      *
-     * @param {string} profilePic
+     * @param {UpdateProfilePicRequest} updateProfilePicRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateProfilePic: async (profilePic: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'profilePic' is not null or undefined
-      assertParamExists("updateProfilePic", "profilePic", profilePic);
+    updateProfilePic: async (updateProfilePicRequest: UpdateProfilePicRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'updateProfilePicRequest' is not null or undefined
+      assertParamExists("updateProfilePic", "updateProfilePicRequest", updateProfilePicRequest);
       const localVarPath = `/personal-info/profile-pic`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -254,13 +257,12 @@ export const UserControllerApiAxiosParamCreator = function (configuration?: Conf
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration);
 
-      if (profilePic !== undefined) {
-        localVarQueryParameter["profilePic"] = profilePic;
-      }
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updateProfilePicRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -323,15 +325,15 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {string} nickname
+     * @param {UpdateNicknameRequest} updateNicknameRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async updateNickname(
-      nickname: string,
+      updateNicknameRequest: UpdateNicknameRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.updateNickname(nickname, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateNickname(updateNicknameRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath = operationServerMap["UserControllerApi.updateNickname"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
@@ -355,15 +357,15 @@ export const UserControllerApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {string} profilePic
+     * @param {UpdateProfilePicRequest} updateProfilePicRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async updateProfilePic(
-      profilePic: string,
+      updateProfilePicRequest: UpdateProfilePicRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePic(profilePic, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfilePic(updateProfilePicRequest, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath = operationServerMap["UserControllerApi.updateProfilePic"]?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
@@ -407,12 +409,12 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
     },
     /**
      *
-     * @param {string} nickname
+     * @param {UpdateNicknameRequest} updateNicknameRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateNickname(nickname: string, options?: any): AxiosPromise<void> {
-      return localVarFp.updateNickname(nickname, options).then(request => request(axios, basePath));
+    updateNickname(updateNicknameRequest: UpdateNicknameRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.updateNickname(updateNicknameRequest, options).then(request => request(axios, basePath));
     },
     /**
      *
@@ -425,12 +427,12 @@ export const UserControllerApiFactory = function (configuration?: Configuration,
     },
     /**
      *
-     * @param {string} profilePic
+     * @param {UpdateProfilePicRequest} updateProfilePicRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateProfilePic(profilePic: string, options?: any): AxiosPromise<void> {
-      return localVarFp.updateProfilePic(profilePic, options).then(request => request(axios, basePath));
+    updateProfilePic(updateProfilePicRequest: UpdateProfilePicRequest, options?: any): AxiosPromise<void> {
+      return localVarFp.updateProfilePic(updateProfilePicRequest, options).then(request => request(axios, basePath));
     },
   };
 };
@@ -482,14 +484,14 @@ export class UserControllerApi extends BaseAPI {
 
   /**
    *
-   * @param {string} nickname
+   * @param {UpdateNicknameRequest} updateNicknameRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserControllerApi
    */
-  public updateNickname(nickname: string, options?: RawAxiosRequestConfig) {
+  public updateNickname(updateNicknameRequest: UpdateNicknameRequest, options?: RawAxiosRequestConfig) {
     return UserControllerApiFp(this.configuration)
-      .updateNickname(nickname, options)
+      .updateNickname(updateNicknameRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 
@@ -508,14 +510,14 @@ export class UserControllerApi extends BaseAPI {
 
   /**
    *
-   * @param {string} profilePic
+   * @param {UpdateProfilePicRequest} updateProfilePicRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserControllerApi
    */
-  public updateProfilePic(profilePic: string, options?: RawAxiosRequestConfig) {
+  public updateProfilePic(updateProfilePicRequest: UpdateProfilePicRequest, options?: RawAxiosRequestConfig) {
     return UserControllerApiFp(this.configuration)
-      .updateProfilePic(profilePic, options)
+      .updateProfilePic(updateProfilePicRequest, options)
       .then(request => request(this.axios, this.basePath));
   }
 }

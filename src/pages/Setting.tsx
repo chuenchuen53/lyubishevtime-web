@@ -49,7 +49,7 @@ export default function Setting() {
           const base64String = canvas.toDataURL("image/webp", 0.8);
 
           try {
-            UserService.updateProfilePic(base64String);
+            UserService.updateProfilePic({ profilePic: base64String });
             updateProfilePic(base64String);
           } catch (e) {
             Message.createError("更新頭像失敗");

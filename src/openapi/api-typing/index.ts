@@ -18,6 +18,8 @@ export * from "./tag-info";
 export * from "./time-event";
 export * from "./time-event-tag";
 export * from "./time-event-tag-color";
+export * from "./update-nickname-request";
 export * from "./update-password-request";
+export * from "./update-profile-pic-request";
 export * from "./update-time-event-request";
 export * from "./update-time-event-tag-request";

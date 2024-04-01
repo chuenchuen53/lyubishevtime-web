@@ -15,7 +15,7 @@ export const EditNicknameModal = (props: Props) => {
 
   const handleSubmit = async () => {
     try {
-      await UserService.updateNickname(nickname());
+      await UserService.updateNickname({ nickname: nickname() });
       updateNickname(nickname());
       props.onClose();
     } catch (e) {
