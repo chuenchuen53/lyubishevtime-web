@@ -19,7 +19,7 @@ export default function AutoLoginRedirect(props: Props) {
   if (token && !user()) {
     UserService.currentUser()
       .then(data => {
-        setUserAfterLogin(data);
+        setUserAfterLogin(data.appUser);
         navigate("/tag", { replace: true });
       })
       .catch(e => {

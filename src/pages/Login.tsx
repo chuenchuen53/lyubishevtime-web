@@ -25,8 +25,8 @@ export default function Login() {
   const handleLogin: SubmitHandler<LoginForm> = async (values, _e) => {
     try {
       setLoading(true);
-      const data = await UserService.login(values);
-      setUserAfterLogin(data);
+      const { appUser } = await UserService.login(values);
+      setUserAfterLogin(appUser);
       navigate("/tag");
     } catch (e) {
       if (ApiUtil.isAxiosErrorWithStatus(e, 401)) {

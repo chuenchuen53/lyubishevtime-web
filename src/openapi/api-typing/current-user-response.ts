@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { AppUser } from "./app-user";
+
 /**
  *
  * @export
@@ -20,32 +24,8 @@
 export interface CurrentUserResponse {
   /**
    *
-   * @type {number}
+   * @type {AppUser}
    * @memberof CurrentUserResponse
    */
-  id: number;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  username: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  nickname: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  profilePic: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrentUserResponse
-   */
-  token: string;
+  appUser: AppUser;
 }

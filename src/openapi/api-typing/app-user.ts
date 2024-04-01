@@ -15,13 +15,37 @@
 /**
  *
  * @export
- * @interface IsUsernameExistResponse
+ * @interface AppUser
  */
-export interface IsUsernameExistResponse {
+export interface AppUser {
   /**
    *
-   * @type {boolean}
-   * @memberof IsUsernameExistResponse
+   * @type {number}
+   * @memberof AppUser
    */
-  exist?: boolean;
+  id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUser
+   */
+  username: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUser
+   */
+  nickname: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUser
+   */
+  profilePic: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUser
+   */
+  token: string;
 }
