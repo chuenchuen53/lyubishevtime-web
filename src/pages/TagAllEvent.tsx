@@ -3,17 +3,20 @@ import { useNavigate, useParams } from "@solidjs/router";
 import { RiArrowsArrowLeftSLine } from "solid-icons/ri";
 import { createStore, produce } from "solid-js/store";
 import { Show, createEffect, on, onMount } from "solid-js";
-import { TagAllEventSkeleton, Card } from "@components/tag/TagAllEventSkeleton";
+import { TagAllEventSkeleton, SkeletonCard } from "@components/tag-all-event/TagAllEventSkeleton";
 import { ApiUtil } from "@utils/ApiUtil";
 import { EmptyState } from "@components/common/EmptyState";
 import { IoTime } from "solid-icons/io";
-import { TransitionGroup } from "solid-transition-group";
-import { Key } from "@solid-primitives/keyed";
 import { EventCard } from "@components/event/EventCard";
 import { createScrollPosition } from "@solid-primitives/scroll";
 import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
+import { TransitionList } from "@components/common/TransitionList";
 import { EventService, TagService } from "../api-service";
 import type { TimeEvent, TimeEventTagColor } from "@openapi";
+
+type Params = {
+  tagId: string;
+};
 
 interface Tag {
   tagName: string;
@@ -31,9 +34,9 @@ const PAGE_SIZE = 20;
 const OFFSET_LIMIT = 10;
 
 export default function TagAllEvent() {
-  const params = useParams();
-  const tagId = parseInt(params.tagId);
   const navigate = useNavigate();
+  const params = useParams<Params>();
+  const tagId = parseInt(params.tagId);
   const [data, setData] = createStore<EventData>({
     tag: null,
     events: [],
@@ -75,9 +78,9 @@ export default function TagAllEvent() {
       confirmButtonVariant: "danger",
     });
     if (!confirm) return;
-    const numbOfEvents = data.events.length;
+    const numOfEventsBeforeDel = data.events.length;
     await EventService.deleteTimeEvent(id);
-    const respData = await fetchEvent(1, numbOfEvents);
+    const respData = await fetchEvent(1, numOfEventsBeforeDel);
     setData(
       produce(draft => {
         draft.events = respData.timeEvents;
@@ -126,8 +129,8 @@ export default function TagAllEvent() {
           </div>
         </div>
       </div>
-      <Show when={data.tag !== null} fallback={<TagAllEventSkeleton />}>
-        <div class="relative">
+      <Show when={data.tag} fallback={<TagAllEventSkeleton />}>
+        <div>
           <Show
             when={data.events.length > 0}
             fallback={
@@ -137,30 +140,26 @@ export default function TagAllEvent() {
             }
           >
             <div class="space-y-6">
-              <TransitionGroup name="group-item-2">
-                <Key each={data.events} by={x => x.id}>
-                  {x => (
-                    <div class="group-item-2">
-                      <EventCard
-                        id={x().id}
-                        tagId={x().tagId}
-                        date={x().date}
-                        startTime={x().startTime}
-                        minute={x().minute}
-                        name={x().name}
-                        color={data.tag!.tagColor}
-                        tagName={data.tag!.tagName}
-                        onDeleteClick={handleDeleteClick}
-                      />
-                    </div>
-                  )}
-                </Key>
-              </TransitionGroup>
+              <TransitionList data={data.events} key="id" animation="fade-in-slide-out">
+                {x => (
+                  <EventCard
+                    id={x().id}
+                    tagId={x().tagId}
+                    date={x().date}
+                    startTime={x().startTime}
+                    minute={x().minute}
+                    name={x().name}
+                    color={data.tag!.tagColor}
+                    tagName={data.tag!.tagName}
+                    onDeleteClick={handleDeleteClick}
+                  />
+                )}
+              </TransitionList>
               <Show when={data.loading}>
-                <Card />
+                <SkeletonCard />
               </Show>
               <Show when={!data.haveNext}>
-                <div class="text-center">己加載所有活動</div>
+                <div class="text-center text-neutral-text-secondary">己加載所有活動</div>
               </Show>
             </div>
           </Show>
