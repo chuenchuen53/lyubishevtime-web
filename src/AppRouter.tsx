@@ -1,6 +1,6 @@
 import { lazy } from "solid-js";
 import { Navigate, Router } from "@solidjs/router";
-import { AppLayout } from "./layoutsabc/AppLayout";
+import { AppLayout } from "./layouts/AppLayout";
 import type { RouteDefinition } from "@solidjs/router";
 
 const routes: RouteDefinition[] = [
