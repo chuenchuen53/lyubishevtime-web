@@ -1,5 +1,8 @@
+import forms from "@tailwindcss/forms";
+import flowbite from "flowbite/plugin";
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js"],
   theme: {
     transitionDuration: {
@@ -82,6 +85,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("flowbite/plugin")],
+  plugins: [forms, flowbite],
   darkMode: ["class"],
 };
