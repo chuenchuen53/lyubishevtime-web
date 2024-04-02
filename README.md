@@ -11,6 +11,6 @@ vite + typescript + solidjs + ark-ui + tailwindcss
   </tr>
   <tr>
     <td><img src="/screenshot/screenshot-3.png" width="100%" /></td>
-    <td></td>
+    <td><img src="/screenshot/screenshot-4.png" width="100%" /></td>
   </tr>
 </table>
