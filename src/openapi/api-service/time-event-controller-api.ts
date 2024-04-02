@@ -38,7 +38,7 @@ import { AddTimeEventResponse } from "../api-typing";
 // @ts-ignore
 import { ListOneDayTimeEventResponse } from "../api-typing";
 // @ts-ignore
-import { ListTimeEventResponse } from "../api-typing";
+import { ListTimeEventByTagIdResponse } from "../api-typing";
 // @ts-ignore
 import { UpdateTimeEventRequest } from "../api-typing";
 /**
@@ -171,7 +171,7 @@ export const TimeEventControllerApiAxiosParamCreator = function (configuration?:
     getOneDayEvents: async (date: string, tagIds?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'date' is not null or undefined
       assertParamExists("getOneDayEvents", "date", date);
-      const localVarPath = `/time-event`;
+      const localVarPath = `/time-event/one-day`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -293,7 +293,7 @@ export const TimeEventControllerApiFp = function (configuration?: Configuration)
       page: number,
       pageSize: number,
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTimeEventResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTimeEventByTagIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTagEvents(tagId, page, pageSize, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath = operationServerMap["TimeEventControllerApi.getAllTagEvents"]?.[localVarOperationServerIndex]?.url;
@@ -370,7 +370,7 @@ export const TimeEventControllerApiFactory = function (configuration?: Configura
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllTagEvents(tagId: number, page: number, pageSize: number, options?: any): AxiosPromise<ListTimeEventResponse> {
+    getAllTagEvents(tagId: number, page: number, pageSize: number, options?: any): AxiosPromise<ListTimeEventByTagIdResponse> {
       return localVarFp.getAllTagEvents(tagId, page, pageSize, options).then(request => request(axios, basePath));
     },
     /**

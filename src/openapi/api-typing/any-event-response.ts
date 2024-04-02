@@ -23,5 +23,5 @@ export interface AnyEventResponse {
    * @type {boolean}
    * @memberof AnyEventResponse
    */
-  anyEvent?: boolean;
+  anyEvent: boolean;
 }

@@ -18,7 +18,7 @@ import { Key } from "@solid-primitives/keyed";
 import { PageLoading } from "@components/common/PageLoading";
 import { useDelayedLoading } from "@reactivity/useDelayedLoading";
 import { ConfirmationModal } from "@components/general/ConfirmationModal";
-import { EventService } from "../api-service";
+import { EventService, TagService } from "../api-service";
 import type { ListOneDayTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";
 
@@ -72,6 +72,7 @@ export default function Event() {
   const [searchParams, setSearchParams] = useSearchParams<Params>();
   const [filter, setFilter] = createStore<Filter>(parseParams(searchParams));
   const [events, eventsActions] = createResource(() => ({ ...filter }), fetchEvents);
+  const [tags, _tagsActions] = createResource(TagService.listTimeEventTag);
   const [tagIdsForSelect, setTagIdsForSelect] = createSignal<string[]>([]);
   const [showAddEventModal, setShowAddEventModal] = createSignal(false);
   const [editingEvent, setEditingTag] = createSignal<TimeEvent | null>(null);
@@ -94,7 +95,7 @@ export default function Event() {
 
   const newInitialForm: () => EventForm = () => ({
     date: filter.date ?? DateUtil.todayString(),
-    tagId: events()!.timeEventTags[0].id,
+    tagId: tags()!.timeEventTags[0].id,
     name: "",
     startTime: "00:00:00",
     minute: 1,
@@ -110,8 +111,6 @@ export default function Event() {
       if (!data) return data;
       return {
         timeEvents: data.timeEvents.map(x => (x.id === editedEvent.id ? editedEvent : x)),
-        timeEventTags: data.timeEventTags,
-        timeEventTagOrder: data.timeEventTagOrder,
       } satisfies ListOneDayTimeEventResponse;
     });
   };
@@ -128,8 +127,6 @@ export default function Event() {
       if (!data) return data;
       return {
         timeEvents: data.timeEvents.filter(x => x.id !== id),
-        timeEventTags: [...data.timeEventTags],
-        timeEventTagOrder: [...data.timeEventTagOrder],
       } satisfies ListOneDayTimeEventResponse;
     });
   };
@@ -139,8 +136,6 @@ export default function Event() {
       if (!data) return data;
       return {
         timeEvents: [...data.timeEvents, newEvent],
-        timeEventTags: data.timeEventTags,
-        timeEventTagOrder: data.timeEventTagOrder,
       } satisfies ListOneDayTimeEventResponse;
     });
   };
@@ -167,91 +162,84 @@ export default function Event() {
         </div>
       </div>
 
-      <Show when={events()}>
-        {nonNullEvents => (
-          <div class="mb-6">
-            <MultipleSelect
-              label="標籤"
-              placeholder="全部"
-              id="tags-filter"
-              items={nonNullEvents().timeEventTags.map(x => ({ label: x.name, value: x.id.toString() }))}
-              value={tagIdsForSelect()}
-              onValueChange={tagIds => setTagIdsForSelect(tagIds)}
-              onExitComplete={() => setFilter("tagIds", tagIdsForSelect().map(Number))}
-              renderItem={x => <span>{x.label}</span>}
-            />
-          </div>
-        )}
-      </Show>
-
-      <Show when={events()}>
-        {nonNullData => (
-          <Show
-            when={nonNullData().timeEvents.length > 0}
-            fallback={
-              <div class="flex min-h-[280px] items-center justify-center">
-                <EmptyState title="這天没有活動記錄" icon={<IoTime size="90" />} />
-              </div>
-            }
-          >
-            <div class="space-y-6 pb-24">
-              <TransitionGroup name="group-item">
-                <Key
-                  each={nonNullData()
-                    .timeEvents.slice()
-                    .sort((a, b) => DateUtil.minsFromTimeString(a.startTime) - DateUtil.minsFromTimeString(b.startTime))}
-                  by={x => x.id}
-                >
-                  {x => (
-                    <div class="group-item">
-                      <EventCard
-                        id={x().id}
-                        tagId={x().tagId}
-                        startTime={x().startTime}
-                        minute={x().minute}
-                        name={x().name}
-                        color={nonNullData().timeEventTags.find(y => y.id === x().tagId)!.color}
-                        tagName={nonNullData().timeEventTags.find(y => y.id === x().tagId)!.name}
-                        onEditClick={handleEditClick}
-                        onDeleteClick={handleDeleteClick}
-                      />
-                    </div>
-                  )}
-                </Key>
-              </TransitionGroup>
-            </div>
-          </Show>
-        )}
-      </Show>
-
-      <Show when={events()?.timeEventTags.length}>
-        <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddEventModal(true)}>
-          + 新增
-        </Button>
-      </Show>
-
-      <Show when={events()?.timeEventTags}>
+      <Show when={tags()}>
         {nonNullTags => (
-          <>
-            <Show when={showAddEventModal()}>
-              <AddEventModal
-                onClose={() => setShowAddEventModal(false)}
-                onSuccessfulAdd={addEvent}
-                tags={nonNullTags()}
-                initialForm={newInitialForm()}
-              />
-            </Show>
-            <Show when={editingEvent()}>
-              {nonNullEvent => (
-                <EditEventModal
-                  onClose={() => setEditingTag(null)}
-                  onSuccessfulEdit={updateEvent}
-                  tags={nonNullTags()}
-                  initialForm={{ ...nonNullEvent() }}
-                />
-              )}
-            </Show>
-          </>
+          <Show when={events()}>
+            {nonNullEvents => (
+              <>
+                <div class="mb-6">
+                  <MultipleSelect
+                    label="標籤"
+                    placeholder="全部"
+                    id="tags-filter"
+                    items={nonNullTags().timeEventTags.map(x => ({ label: x.name, value: x.id.toString() }))}
+                    value={tagIdsForSelect()}
+                    onValueChange={tagIds => setTagIdsForSelect(tagIds)}
+                    onExitComplete={() => setFilter("tagIds", tagIdsForSelect().map(Number))}
+                    renderItem={x => <span>{x.label}</span>}
+                  />
+                </div>
+                <Show
+                  when={nonNullEvents().timeEvents.length > 0}
+                  fallback={
+                    <div class="flex min-h-[280px] items-center justify-center">
+                      <EmptyState title="這天没有活動記錄" icon={<IoTime size="90" />} />
+                    </div>
+                  }
+                >
+                  <div class="space-y-6 pb-24">
+                    <TransitionGroup name="group-item">
+                      <Key
+                        each={nonNullEvents()
+                          .timeEvents.slice()
+                          .sort((a, b) => DateUtil.minsFromTimeString(a.startTime) - DateUtil.minsFromTimeString(b.startTime))}
+                        by={x => x.id}
+                      >
+                        {x => (
+                          <div class="group-item">
+                            <EventCard
+                              id={x().id}
+                              tagId={x().tagId}
+                              startTime={x().startTime}
+                              minute={x().minute}
+                              name={x().name}
+                              color={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.color}
+                              tagName={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.name}
+                              onEditClick={handleEditClick}
+                              onDeleteClick={handleDeleteClick}
+                            />
+                          </div>
+                        )}
+                      </Key>
+                    </TransitionGroup>
+                  </div>
+                </Show>
+                <Show when={nonNullTags()?.timeEventTags.length}>
+                  <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddEventModal(true)}>
+                    + 新增
+                  </Button>
+                </Show>
+                <Show when={showAddEventModal()}>
+                  <AddEventModal
+                    onClose={() => setShowAddEventModal(false)}
+                    onSuccessfulAdd={addEvent}
+                    tags={nonNullTags().timeEventTags}
+                    initialForm={newInitialForm()}
+                  />
+                </Show>
+                <Show when={editingEvent()}>
+                  {nonNullEvent => (
+                    <EditEventModal
+                      onClose={() => setEditingTag(null)}
+                      onSuccessfulEdit={updateEvent}
+                      tags={nonNullTags().timeEventTags}
+                      initialForm={{ ...nonNullEvent() }}
+                    />
+                  )}
+                </Show>
+              </>
+            )}
+          </Show>
         )}
       </Show>
     </div>

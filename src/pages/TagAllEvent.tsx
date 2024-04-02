@@ -12,15 +12,19 @@ import { Key } from "@solid-primitives/keyed";
 import { EventCard } from "@components/event/EventCard";
 import { createScrollPosition } from "@solid-primitives/scroll";
 import { ConfirmationModal } from "@components/general/ConfirmationModal";
-import { EventService } from "../api-service";
-import type { TimeEvent, TimeEventTag } from "@openapi";
+import { EventService, TagService } from "../api-service";
+import type { TimeEvent, TimeEventTagColor } from "@openapi";
 
-interface Data {
-  tagName: string | null;
+interface Tag {
+  tagName: string;
+  tagColor: TimeEventTagColor;
+}
+
+interface EventData {
+  tag: Tag | null;
   events: TimeEvent[];
   haveNext: boolean;
   loading: boolean;
-  tags: TimeEventTag[];
 }
 
 const PAGE_SIZE = 20;
@@ -30,12 +34,11 @@ export default function TagAllEvent() {
   const params = useParams();
   const tagId = parseInt(params.tagId);
   const navigate = useNavigate();
-  const [data, setData] = createStore<Data>({
-    tagName: null,
+  const [data, setData] = createStore<EventData>({
+    tag: null,
     events: [],
     haveNext: false,
     loading: true,
-    tags: [],
   });
 
   const rootElement = document.querySelector<HTMLDivElement>("#root")!;
@@ -84,15 +87,16 @@ export default function TagAllEvent() {
   };
 
   onMount(async () => {
-    const respData = await fetchEvent(1);
-    const tagName = respData.timeEventTags.find(x => x.id === tagId)!.name;
+    const eventPromise = fetchEvent(1);
+    const tagsPromise = TagService.listTimeEventTag();
+    const [eventData, tags] = await Promise.all([eventPromise, tagsPromise]);
+    const { name: tagName, color: tagColor } = tags.timeEventTags.find(x => x.id === tagId)!;
 
     setData(
       produce(draft => {
-        draft.tags = respData.timeEventTags;
-        draft.tagName = tagName;
-        draft.events.push(...respData.timeEvents);
-        draft.haveNext = respData.haveNext;
+        draft.tag = { tagName, tagColor };
+        draft.events.push(...eventData.timeEvents);
+        draft.haveNext = eventData.haveNext;
       }),
     );
   });
@@ -116,13 +120,13 @@ export default function TagAllEvent() {
             <RiArrowsArrowLeftSLine size="30" />
           </IconButton>
           <div class="text-lg font-semibold">
-            <Show when={data.tagName !== null} fallback="加載中">
-              {data.tagName}
+            <Show when={data.tag?.tagName} fallback="加載中">
+              {data.tag?.tagName}
             </Show>
           </div>
         </div>
       </div>
-      <Show when={data.tagName !== null} fallback={<TagAllEventSkeleton />}>
+      <Show when={data.tag !== null} fallback={<TagAllEventSkeleton />}>
         <div class="relative">
           <Show
             when={data.events.length > 0}
@@ -144,8 +148,8 @@ export default function TagAllEvent() {
                         startTime={x().startTime}
                         minute={x().minute}
                         name={x().name}
-                        color={data.tags.find(y => y.id === x().tagId)!.color}
-                        tagName={data.tagName!}
+                        color={data.tag!.tagColor}
+                        tagName={data.tag!.tagName}
                         onDeleteClick={handleDeleteClick}
                       />
                     </div>

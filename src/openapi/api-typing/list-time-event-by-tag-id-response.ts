@@ -15,38 +15,23 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import { TimeEvent } from "./time-event";
-// May contain unused imports in some cases
-// @ts-ignore
-import { TimeEventTag } from "./time-event-tag";
 
 /**
  *
  * @export
- * @interface ListTimeEventResponse
+ * @interface ListTimeEventByTagIdResponse
  */
-export interface ListTimeEventResponse {
+export interface ListTimeEventByTagIdResponse {
   /**
    *
    * @type {Array<TimeEvent>}
-   * @memberof ListTimeEventResponse
+   * @memberof ListTimeEventByTagIdResponse
    */
   timeEvents: Array<TimeEvent>;
   /**
    *
-   * @type {Array<TimeEventTag>}
-   * @memberof ListTimeEventResponse
-   */
-  timeEventTags: Array<TimeEventTag>;
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof ListTimeEventResponse
-   */
-  timeEventTagOrder: Array<number>;
-  /**
-   *
    * @type {boolean}
-   * @memberof ListTimeEventResponse
+   * @memberof ListTimeEventByTagIdResponse
    */
   haveNext: boolean;
 }

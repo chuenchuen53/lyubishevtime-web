@@ -7,7 +7,7 @@ export * from "./app-user";
 export * from "./current-user-response";
 export * from "./get-summary-response";
 export * from "./list-one-day-time-event-response";
-export * from "./list-time-event-response";
+export * from "./list-time-event-by-tag-id-response";
 export * from "./list-time-event-tag-response";
 export * from "./login-request";
 export * from "./login-response";
