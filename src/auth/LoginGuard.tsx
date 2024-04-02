@@ -2,6 +2,7 @@ import { useNavigate } from "@SolidJS/router";
 import { Show } from "solid-js";
 import { setUserAfterLogin, user } from "@stores/UserStore";
 import { AxiosError } from "axios";
+import { PageLoading } from "@components/common/PageLoading";
 import { UserService } from "../api-service";
 import type { JSX } from "solid-js";
 
@@ -30,7 +31,7 @@ export default function LoginGuard(props: Props) {
   }
 
   return (
-    <Show when={user() !== null} fallback={<div>Loading...</div>}>
+    <Show when={user() !== null} fallback={<PageLoading />}>
       {props.children}
     </Show>
   );
