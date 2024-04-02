@@ -1,7 +1,7 @@
 import { Show, createSignal, onCleanup, onMount } from "solid-js";
 import { Button } from "../Button";
 import { Modal } from ".";
-import type { Accessor, Setter } from "solid-js";
+import type { Setter } from "solid-js";
 
 interface CreateOption {
   title: string;
@@ -15,19 +15,16 @@ interface ModalOption extends CreateOption {
 }
 
 export class ConfirmationModal {
-  private static option: Accessor<ModalOption | null> | null = null;
   private static setOption: Setter<ModalOption | null> | null = null;
 
   public static Root = () => {
     const [option, setOption] = createSignal<ModalOption | null>(null);
 
     onMount(() => {
-      ConfirmationModal.option = option;
       ConfirmationModal.setOption = setOption;
     });
 
     onCleanup(() => {
-      ConfirmationModal.option = null;
       ConfirmationModal.setOption = null;
     });
 
@@ -58,9 +55,9 @@ export class ConfirmationModal {
 
   public static create(option: CreateOption): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      if (!ConfirmationModal.setOption) throw reject("ConfirmationModal.Root is not mounted");
-
       const setOption = ConfirmationModal.setOption;
+      if (!setOption) throw reject("ConfirmationModal.Root is not mounted");
+
       setOption({
         ...option,
         confirm: () => {

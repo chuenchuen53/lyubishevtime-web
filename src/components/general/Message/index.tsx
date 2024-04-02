@@ -1,4 +1,4 @@
-import { For, Match, Switch, onCleanup } from "solid-js";
+import { For, Match, Switch, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import { AiFillCloseCircle, AiFillCheckCircle, AiFillInfoCircle } from "solid-icons/ai";
 import { TransitionGroup } from "solid-transition-group";
@@ -40,7 +40,10 @@ export class Message {
 
   public static Root = () => {
     const [store, setStore] = createStore<MessageItem[]>([]);
-    Message.setStore = setStore;
+
+    onMount(() => {
+      Message.setStore = setStore;
+    });
 
     onCleanup(() => {
       setStore([]);
@@ -60,7 +63,7 @@ export class Message {
     return (
       <div
         style={{ top: props.index * 50 + "px" }}
-        class="absolute flex h-9 items-center gap-2 text-nowrap rounded-md bg-neutral-bg-elevated px-3 py-2 text-sm shadow-elevated transition-all duration-300"
+        class="duration-300 absolute flex h-9 items-center gap-2 text-nowrap rounded-md bg-neutral-bg-elevated px-3 py-2 text-sm shadow-elevated transition-all"
       >
         <span>
           <Switch>
