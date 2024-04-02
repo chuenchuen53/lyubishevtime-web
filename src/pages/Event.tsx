@@ -157,18 +157,21 @@ export default function Event() {
           <Show when={events()}>
             {nonNullEvents => (
               <>
-                <div class="mb-6">
-                  <MultipleSelect
-                    label="標籤"
-                    placeholder="全部"
-                    id="tags-filter"
-                    items={nonNullTags().timeEventTags.map(x => ({ label: x.name, value: x.id.toString() }))}
-                    value={tagIdsForSelect()}
-                    onValueChange={setTagIdsForSelect}
-                    onExitComplete={() => setFilter("tagIds", tagIdsForSelect().map(Number))}
-                    renderItem={x => x.label}
-                  />
-                </div>
+                <Show when={nonNullTags().timeEventTags.length > 0}>
+                  <div class="mb-6">
+                    <MultipleSelect
+                      label="標籤"
+                      placeholder="全部"
+                      id="tags-filter"
+                      items={nonNullTags().timeEventTags.map(x => ({ label: x.name, value: x.id.toString() }))}
+                      value={tagIdsForSelect()}
+                      onValueChange={setTagIdsForSelect}
+                      onExitComplete={() => setFilter("tagIds", tagIdsForSelect().map(Number))}
+                      renderItem={x => x.label}
+                    />
+                  </div>
+                </Show>
+
                 <Show
                   when={nonNullEvents().timeEvents.length > 0}
                   fallback={
