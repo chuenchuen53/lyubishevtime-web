@@ -2,6 +2,7 @@ import { ApiUtil } from "@utils/ApiUtil";
 import { createEffect, createSignal } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 import { DateUtil } from "@utils/DateUtil";
+import { Message } from "@components/general/Message";
 import { EventService } from "../../api-service";
 import { EventFormModal } from "./EventFormModal";
 import type { TimeEvent, TimeEventTag } from "@openapi";
@@ -26,6 +27,11 @@ export const AddEventModal = (props: Props) => {
   const [loading, setLoading] = createSignal(false);
 
   const handleSubmit = async () => {
+    if (form.name.length > 255) {
+      Message.createError("簡介長度不可超過255字");
+      return;
+    }
+
     const { timeEvent } = await ApiUtil.loadingAndErrHandling(() => EventService.addTimeEvent(form), setLoading, "新增活動失敗");
     props.onSuccessfulAdd(timeEvent);
     setForm(

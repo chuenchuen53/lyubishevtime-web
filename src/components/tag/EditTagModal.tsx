@@ -1,6 +1,7 @@
 import { createEffect, createSignal } from "solid-js";
 import { ApiUtil } from "@utils/ApiUtil";
 import { createStore } from "solid-js/store";
+import { Message } from "@components/general/Message";
 import { TagService } from "../../api-service";
 import { TagFormModal } from "./TagFormModal";
 import type { TimeEventTag } from "../../openapi";
@@ -18,6 +19,11 @@ export const EditTagModal = (props: Props) => {
 
   const handleSubmit = async () => {
     if (!props.editingTag) return;
+
+    if (form.name.length > 255) {
+      Message.createError("標籤名稱長度不可超過255字");
+      return;
+    }
 
     const newTag: TimeEventTag = {
       id: props.editingTag.id,
