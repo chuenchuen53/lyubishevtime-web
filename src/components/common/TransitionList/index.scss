@@ -1,0 +1,22 @@
+.transition-list-item {
+  transition: all 0.3s ease-in-out;
+}
+
+.transition-list-fade-slide-in-out-enter {
+  opacity: 0;
+  transform: translateX(50%);
+}
+
+.transition-list-fade-slide-in-out-exit-to {
+  opacity: 0;
+  transform: translateX(50%);
+}
+
+.transition-list-fade-in-slide-out-enter {
+  opacity: 0;
+}
+
+.transition-list-fade-in-slide-out-exit-to {
+  opacity: 0;
+  transform: translateX(50%);
+}

@@ -7,18 +7,17 @@ import { EditTagModal } from "@components/tag/EditTagModal";
 import { useNavigate } from "@solidjs/router";
 import { TagPageSkeleton } from "@components/tag/TagPageSkeleton";
 import { Message } from "@components/general/Message";
-import { TransitionGroup } from "solid-transition-group";
-import { Key } from "@solid-primitives/keyed";
 import { AiFillTag } from "solid-icons/ai";
 import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
+import { TransitionList } from "@components/common/TransitionList";
 import { TagService } from "../api-service";
 import type { TimeEventTag } from "../openapi";
 
 export default function Tag() {
+  const navigate = useNavigate();
   const [data, dataActions] = createResource(TagService.listTimeEventTag);
   const [showAddTagModal, setShowAddTagModal] = createSignal(false);
   const [editingTag, setEditingTag] = createSignal<null | TimeEventTag>(null);
-  const navigate = useNavigate();
 
   function addTag(newTag: TimeEventTag) {
     dataActions.mutate(x => {
@@ -40,7 +39,7 @@ export default function Tag() {
   }
 
   function handleNameClick(id: number) {
-    navigate(`/tag/${id.toString()}/all-event`);
+    navigate(`/tag/${id}/all-event`);
   }
 
   async function handleReorder(id: number, direction: "up" | "down") {
@@ -113,47 +112,43 @@ export default function Tag() {
 
       <Show when={data()}>
         {nonNullData => (
-          <Show
-            when={nonNullData().timeEventTags.length > 0}
-            fallback={
-              <div class="flex min-h-[400px] items-center justify-center">
-                <EmptyState title="您目前没有標籤" icon={<AiFillTag size="80" />} />
-              </div>
-            }
-          >
-            <div class="relative flex flex-col gap-6 pb-24">
-              <TransitionGroup name="group-item">
-                <Key
-                  each={nonNullData().timeEventTags.sort(
+          <>
+            <Show
+              when={nonNullData().timeEventTags.length > 0}
+              fallback={
+                <div class="flex min-h-[400px] items-center justify-center">
+                  <EmptyState title="您目前没有標籤" icon={<AiFillTag size="80" />} />
+                </div>
+              }
+            >
+              <div class="flex flex-col gap-6 pb-24">
+                <TransitionList
+                  data={nonNullData().timeEventTags.sort(
                     (a, b) => nonNullData().timeEventTagOrder.findIndex(x => x === a.id) - nonNullData().timeEventTagOrder.findIndex(x => x === b.id),
                   )}
-                  by={item => item.id}
-                  fallback={<div>cant loop</div>}
+                  key="id"
+                  animation="fade-slide-in-out"
                 >
                   {x => (
-                    <div class="group-item">
-                      <TagCard
-                        {...x()}
-                        onNameClick={handleNameClick}
-                        onReorderClick={handleReorder}
-                        onEditClick={handleEditClick}
-                        onDeleteClick={handleDeleteClick}
-                      />
-                    </div>
+                    <TagCard
+                      {...x()}
+                      onNameClick={handleNameClick}
+                      onReorderClick={handleReorder}
+                      onEditClick={handleEditClick}
+                      onDeleteClick={handleDeleteClick}
+                    />
                   )}
-                </Key>
-              </TransitionGroup>
-            </div>
-          </Show>
-        )}
-      </Show>
+                </TransitionList>
+              </div>
+            </Show>
 
-      <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddTagModal(true)}>
-        + 新增
-      </Button>
-      <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} onSuccessfulAdd={addTag} />
-      <Show when={editingTag()}>
-        {nonNullEditingTag => <EditTagModal onClose={() => setEditingTag(null)} onSuccessfulEdit={updateTag} editingTag={nonNullEditingTag()} />}
+            <Button class="fixed bottom-24 left-1/2 -translate-x-1/2" onClick={() => setShowAddTagModal(true)}>
+              + 新增
+            </Button>
+            <AddTagModal open={showAddTagModal()} onClose={() => setShowAddTagModal(false)} onSuccessfulAdd={addTag} />
+            <EditTagModal onClose={() => setEditingTag(null)} onSuccessfulEdit={updateTag} editingTag={editingTag()} />
+          </>
+        )}
       </Show>
     </div>
   );

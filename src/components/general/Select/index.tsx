@@ -1,5 +1,5 @@
 import { Select } from "@ark-ui/solid";
-import { Index } from "solid-js";
+import { Index, Show } from "solid-js";
 import { twMerge } from "tailwind-merge";
 import { FaSolidAngleDown } from "solid-icons/fa";
 import { FiCheck } from "solid-icons/fi";
@@ -15,6 +15,7 @@ interface SingleSelectProps<T> {
   value: T;
   onValueChange: (newValue: T) => void;
   renderItem: (item: { label: string; value: T }) => JSX.Element;
+  renderSelected?: (vt: JSX.Element) => JSX.Element;
   triggerClass?: string;
 }
 
@@ -65,7 +66,9 @@ export const SingleSelect = <T extends string>(props: SingleSelectProps<T>) => {
       <Label>{props.label}</Label>
       <Control>
         <StyledTrigger class={props.triggerClass}>
-          <ValueText class="truncate" placeholder="請選擇一個" />
+          <Show when={props.renderSelected} fallback={<ValueText class="truncate" placeholder="請選擇一個" />}>
+            {nonNullRenderSelected => nonNullRenderSelected()(<ValueText class="truncate" placeholder="請選擇一個" />)}
+          </Show>
           <Indicator>
             <FaSolidAngleDown />
           </Indicator>

@@ -37,7 +37,7 @@ const DemoRow: ParentComponent = props => <div class="flex flex-wrap items-cente
 export default function TestTheme() {
   const [singleSelectedValue, setSingleSelectedValue] = createSignal("react");
   const [multiSelectedValue, setMultiSelectedValue] = createSignal(["react", "solid"]);
-  const [date, setDate] = createSignal(DateUtil.getTodayString());
+  const [date, setDate] = createSignal(DateUtil.todayString());
   const [time, setTime] = createSignal("00:00:00");
   const [modalOpened, setModalOpened] = createSignal(false);
 

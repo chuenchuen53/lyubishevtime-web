@@ -65,7 +65,7 @@ function parseParams(searchParams: Params): Filter {
 }
 
 async function fetchEvents(filter: Omit<Filter, "tagIdsForSelect">): Promise<ListOneDayTimeEventResponse> {
-  return await EventService.getOneDayEvents(filter.date ?? DateUtil.getTodayString(), filter.tagIds);
+  return await EventService.getOneDayEvents(filter.date ?? DateUtil.todayString(), filter.tagIds);
 }
 
 export default function Event() {

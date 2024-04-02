@@ -30,5 +30,12 @@ const style = tv({
 export const Input = (props: InputProps) => {
   const [local, inputProps] = splitProps(props, ["value", "class", "isError"]);
 
-  return <input value={local.value || ""} class={twMerge(style({ color: local.isError ? "danger" : "default" }), local.class)} {...inputProps} />;
+  return (
+    <input
+      autocomplete="off"
+      value={local.value || ""}
+      class={twMerge(style({ color: local.isError ? "danger" : "default" }), local.class)}
+      {...inputProps}
+    />
+  );
 };

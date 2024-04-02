@@ -31,6 +31,8 @@ export default function Login() {
     } catch (e) {
       if (ApiUtil.isAxiosErrorWithStatus(e, 401)) {
         Message.createError("使用者名稱或密碼錯誤");
+      } else {
+        Message.createError("登入失敗");
       }
     } finally {
       setLoading(false);
@@ -52,7 +54,7 @@ export default function Login() {
           </Button>
         </div>
       </Form>
-      <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+      <p class="text-sm font-light text-neutral-text-secondary">
         沒有帳戶嗎？
         <LinkButton href="/register" variant="link">
           在這裡註冊
