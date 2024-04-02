@@ -1,36 +1,61 @@
 import { ApiUtil } from "@utils/ApiUtil";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
+import { createStore, produce } from "solid-js/store";
+import { DateUtil } from "@utils/DateUtil";
 import { EventService } from "../../api-service";
 import { EventFormModal } from "./EventFormModal";
 import type { TimeEvent, TimeEventTag } from "@openapi";
 import type { EventForm } from "./EventFormModal";
 
 interface Props {
+  open: boolean;
   onClose: () => void;
   onSuccessfulAdd: (x: TimeEvent) => void;
   tags: TimeEventTag[];
-  initialForm: EventForm;
+  pageDate: string;
 }
 
 export const AddEventModal = (props: Props) => {
+  const [form, setForm] = createStore<EventForm>({
+    date: DateUtil.todayString(),
+    tagId: -1,
+    minute: 1,
+    name: "",
+    startTime: "00:00:00",
+  });
   const [loading, setLoading] = createSignal(false);
 
-  const handleSubmit = async (event: EventForm) => {
-    const { timeEvent } = await ApiUtil.loadingAndErrHandling(() => EventService.addTimeEvent(event), setLoading, "新增活動失敗");
-    props.onClose();
+  const handleSubmit = async () => {
+    const { timeEvent } = await ApiUtil.loadingAndErrHandling(() => EventService.addTimeEvent(form), setLoading, "新增活動失敗");
     props.onSuccessfulAdd(timeEvent);
+    setForm(
+      produce(draft => {
+        draft.name = "";
+        draft.minute = 1;
+      }),
+    );
+    props.onClose();
   };
+
+  createEffect(() => {
+    setForm("date", props.pageDate);
+  });
+
+  createEffect(() => {
+    setForm("tagId", props.tags[0]?.id);
+  });
 
   return (
     <EventFormModal
-      open
+      open={props.open}
       onClose={props.onClose}
       submitText="新增"
       handleSubmit={handleSubmit}
-      disableSubmit={x => !x.name}
+      disableSubmit={!form.name}
       loading={loading()}
       tags={props.tags}
-      initialForm={props.initialForm}
+      form={form}
+      setForm={setForm}
     />
   );
 };

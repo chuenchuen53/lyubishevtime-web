@@ -1,9 +1,9 @@
 import { Button } from "@components/general/Button";
 import { Modal } from "@components/general/Modal";
-import * as Select from "@components/general/Select";
-import { createStore } from "solid-js/store";
+import { SingleSelect } from "@components/general/Select";
 import { Input } from "@components/general/Input";
 import { TimePicker } from "@components/general/TimePicker";
+import type { SetStoreFunction } from "solid-js/store";
 import type { TimeEventTag } from "../../openapi";
 
 export interface EventForm {
@@ -18,20 +18,15 @@ interface Props {
   open: boolean;
   onClose: () => void;
   submitText: string;
-  handleSubmit: (x: EventForm) => Promise<void>;
-  disableSubmit: (eventForm: EventForm) => boolean;
+  handleSubmit: () => Promise<void>;
+  disableSubmit: boolean;
   loading: boolean;
   tags: TimeEventTag[];
-  initialForm: EventForm;
+  form: EventForm;
+  setForm: SetStoreFunction<EventForm>;
 }
 
 export const EventFormModal = (props: Props) => {
-  const [form, setForm] = createStore<EventForm>({ ...props.initialForm });
-
-  const handleSubmit = async () => {
-    await props.handleSubmit(form);
-  };
-
   return (
     <Modal
       open={props.open}
@@ -39,7 +34,7 @@ export const EventFormModal = (props: Props) => {
       onClose={props.onClose}
       footer={
         <div class="w-full space-x-4 text-end">
-          <Button disabled={props.disableSubmit(form)} loading={props.loading} onClick={handleSubmit}>
+          <Button disabled={props.disableSubmit} loading={props.loading} onClick={props.handleSubmit}>
             {props.submitText}
           </Button>
           <Button variant="gray" onClick={props.onClose}>
@@ -49,10 +44,10 @@ export const EventFormModal = (props: Props) => {
       }
     >
       <div class="w-[320px] max-w-full space-y-6">
-        <Select.SingleSelect
+        <SingleSelect
           items={props.tags.map(x => ({ label: x.name, value: x.id.toString() }))}
-          value={form.tagId.toString()}
-          onValueChange={x => setForm("tagId", parseInt(x))}
+          value={props.form.tagId.toString()}
+          onValueChange={x => props.setForm("tagId", parseInt(x))}
           label="標籤 *"
           id="tag-select"
           renderItem={item => item.label}
@@ -62,14 +57,21 @@ export const EventFormModal = (props: Props) => {
           <label for="event-name-input" class="mb-2 block text-sm font-medium">
             活動名稱 / 簡介
           </label>
-          <Input id="event-name-input" class="w-full" type="text" value={form.name} required onInput={e => setForm("name", e.currentTarget.value)} />
+          <Input
+            id="event-name-input"
+            class="w-full"
+            type="text"
+            value={props.form.name}
+            required
+            onInput={e => props.setForm("name", e.currentTarget.value)}
+          />
         </div>
 
         <div>
           <label for="event-start-time-input" class="mb-2 block text-sm font-medium">
             開始時間 *
           </label>
-          <TimePicker id="event-form-time-picker" value={form.startTime} setValue={x => setForm("startTime", x)} hideSeconds />
+          <TimePicker id="event-form-time-picker" value={props.form.startTime} setValue={x => props.setForm("startTime", x)} hideSeconds />
         </div>
 
         <div>
@@ -80,15 +82,15 @@ export const EventFormModal = (props: Props) => {
             id="event-minute-input"
             class="w-full"
             type="number"
-            value={form.minute}
+            value={props.form.minute}
             required
             onBlur={e => {
               const value = parseInt(e.currentTarget.value);
               if (!isNaN(value) && value > 0 && value < 1440) {
-                setForm("minute", value);
+                props.setForm("minute", value);
                 e.currentTarget.value = value.toString();
               } else {
-                e.currentTarget.value = form.minute.toString();
+                e.currentTarget.value = props.form.minute.toString();
               }
             }}
           />

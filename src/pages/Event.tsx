@@ -1,5 +1,5 @@
 import { useSearchParams } from "@solidjs/router";
-import { Show, createEffect, createResource, createSignal } from "solid-js";
+import { Show, createEffect, createMemo, createResource, createSignal, untrack } from "solid-js";
 import { z } from "zod";
 import { EmptyState } from "@components/common/EmptyState";
 import { EventCard } from "@components/event/EventCard";
@@ -13,14 +13,12 @@ import { RiArrowsArrowLeftSLine, RiArrowsArrowRightSLine } from "solid-icons/ri"
 import IconButton from "@components/general/Button/IconButton";
 import { createStore } from "solid-js/store";
 import { IoTime } from "solid-icons/io";
-import { TransitionGroup } from "solid-transition-group";
-import { Key } from "@solid-primitives/keyed";
 import { PageLoading } from "@components/common/PageLoading";
 import { useDelayedLoading } from "@reactivity/useDelayedLoading";
 import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
+import { TransitionList } from "@components/common/TransitionList";
 import { EventService, TagService } from "../api-service";
 import type { ListOneDayTimeEventResponse, TimeEvent } from "../openapi";
-import type { EventForm } from "@components/event/EventFormModal";
 
 interface Filter {
   date?: string;
@@ -48,11 +46,6 @@ const ParamsSchema = z.object({
 
 type Params = z.infer<typeof ParamsSchema>;
 
-const emptyFilter: Filter = {
-  date: undefined,
-  tagIds: undefined,
-};
-
 function parseParams(searchParams: Params): Filter {
   const result = ParamsSchema.safeParse(searchParams);
   if (result.success) {
@@ -61,10 +54,13 @@ function parseParams(searchParams: Params): Filter {
       tagIds: result.data.tagIds?.split(",").map(Number),
     };
   }
-  return emptyFilter;
+  return {
+    date: undefined,
+    tagIds: undefined,
+  };
 }
 
-async function fetchEvents(filter: Omit<Filter, "tagIdsForSelect">): Promise<ListOneDayTimeEventResponse> {
+async function fetchEvents(filter: Filter): Promise<ListOneDayTimeEventResponse> {
   return await EventService.getOneDayEvents(filter.date ?? DateUtil.todayString(), filter.tagIds);
 }
 
@@ -73,10 +69,12 @@ export default function Event() {
   const [filter, setFilter] = createStore<Filter>(parseParams(searchParams));
   const [events, eventsActions] = createResource(() => ({ ...filter }), fetchEvents);
   const [tags, _tagsActions] = createResource(TagService.listTimeEventTag);
-  const [tagIdsForSelect, setTagIdsForSelect] = createSignal<string[]>([]);
+  const [tagIdsForSelect, setTagIdsForSelect] = createSignal<string[]>(untrack(() => filter.tagIds?.map(String)) ?? []);
   const [showAddEventModal, setShowAddEventModal] = createSignal(false);
   const [editingEvent, setEditingTag] = createSignal<TimeEvent | null>(null);
   const [loading, setDeferLoading, setNotLoading] = useDelayedLoading(750);
+
+  const pageDate = createMemo(() => filter.date ?? DateUtil.todayString());
 
   createEffect(() => {
     setSearchParams({
@@ -91,14 +89,6 @@ export default function Event() {
     } else {
       setNotLoading();
     }
-  });
-
-  const newInitialForm: () => EventForm = () => ({
-    date: filter.date ?? DateUtil.todayString(),
-    tagId: tags()!.timeEventTags[0].id,
-    name: "",
-    startTime: "00:00:00",
-    minute: 1,
   });
 
   const handleEditClick = (id: number) => {
@@ -148,17 +138,17 @@ export default function Event() {
 
       <div class="relative -mt-4 mb-6 h-10">
         <div class="flex h-10 flex-grow items-center justify-center gap-2">
-          <IconButton onClick={() => setFilter("date", DateUtil.prevDayString(filter.date ?? DateUtil.todayString()))}>
+          <IconButton onClick={() => setFilter("date", DateUtil.prevDayString(pageDate()))}>
             <RiArrowsArrowLeftSLine size="24" />
           </IconButton>
-          <div class="font-bold">{filter.date ?? DateUtil.todayString()}</div>
-          <IconButton onClick={() => setFilter("date", DateUtil.nextDayString(filter.date ?? DateUtil.todayString()))}>
+          <div class="font-bold">{pageDate()}</div>
+          <IconButton onClick={() => setFilter("date", DateUtil.nextDayString(pageDate()))}>
             <RiArrowsArrowRightSLine size="24" />
           </IconButton>
         </div>
 
         <div class="absolute right-0 top-0">
-          <DatePicker value={filter.date ?? DateUtil.todayString()} setValue={x => setFilter("date", x)} />
+          <DatePicker value={pageDate()} setValue={x => setFilter("date", x)} />
         </div>
       </div>
 
@@ -174,9 +164,9 @@ export default function Event() {
                     id="tags-filter"
                     items={nonNullTags().timeEventTags.map(x => ({ label: x.name, value: x.id.toString() }))}
                     value={tagIdsForSelect()}
-                    onValueChange={tagIds => setTagIdsForSelect(tagIds)}
+                    onValueChange={setTagIdsForSelect}
                     onExitComplete={() => setFilter("tagIds", tagIdsForSelect().map(Number))}
-                    renderItem={x => <span>{x.label}</span>}
+                    renderItem={x => x.label}
                   />
                 </div>
                 <Show
@@ -188,30 +178,27 @@ export default function Event() {
                   }
                 >
                   <div class="space-y-6 pb-24">
-                    <TransitionGroup name="group-item">
-                      <Key
-                        each={nonNullEvents()
-                          .timeEvents.slice()
-                          .sort((a, b) => DateUtil.minsFromTimeString(a.startTime) - DateUtil.minsFromTimeString(b.startTime))}
-                        by={x => x.id}
-                      >
-                        {x => (
-                          <div class="group-item">
-                            <EventCard
-                              id={x().id}
-                              tagId={x().tagId}
-                              startTime={x().startTime}
-                              minute={x().minute}
-                              name={x().name}
-                              color={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.color}
-                              tagName={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.name}
-                              onEditClick={handleEditClick}
-                              onDeleteClick={handleDeleteClick}
-                            />
-                          </div>
-                        )}
-                      </Key>
-                    </TransitionGroup>
+                    <TransitionList
+                      data={nonNullEvents()
+                        .timeEvents.slice()
+                        .sort((a, b) => DateUtil.minsFromTimeString(a.startTime) - DateUtil.minsFromTimeString(b.startTime))}
+                      key="id"
+                      animation="fade-slide-in-out"
+                    >
+                      {x => (
+                        <EventCard
+                          id={x().id}
+                          tagId={x().tagId}
+                          startTime={x().startTime}
+                          minute={x().minute}
+                          name={x().name}
+                          color={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.color}
+                          tagName={nonNullTags().timeEventTags.find(y => y.id === x().tagId)!.name}
+                          onEditClick={handleEditClick}
+                          onDeleteClick={handleDeleteClick}
+                        />
+                      )}
+                    </TransitionList>
                   </div>
                 </Show>
                 <Show when={nonNullTags()?.timeEventTags.length}>
@@ -219,24 +206,20 @@ export default function Event() {
                     + 新增
                   </Button>
                 </Show>
-                <Show when={showAddEventModal()}>
-                  <AddEventModal
-                    onClose={() => setShowAddEventModal(false)}
-                    onSuccessfulAdd={addEvent}
-                    tags={nonNullTags().timeEventTags}
-                    initialForm={newInitialForm()}
-                  />
-                </Show>
-                <Show when={editingEvent()}>
-                  {nonNullEvent => (
-                    <EditEventModal
-                      onClose={() => setEditingTag(null)}
-                      onSuccessfulEdit={updateEvent}
-                      tags={nonNullTags().timeEventTags}
-                      initialForm={{ ...nonNullEvent() }}
-                    />
-                  )}
-                </Show>
+                <AddEventModal
+                  open={showAddEventModal()}
+                  onClose={() => setShowAddEventModal(false)}
+                  onSuccessfulAdd={addEvent}
+                  tags={nonNullTags().timeEventTags}
+                  pageDate={pageDate()}
+                />
+                <EditEventModal
+                  open={Boolean(editingEvent())}
+                  onClose={() => setEditingTag(null)}
+                  onSuccessfulEdit={updateEvent}
+                  tags={nonNullTags().timeEventTags}
+                  editingEvent={editingEvent()}
+                />
               </>
             )}
           </Show>

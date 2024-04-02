@@ -1,49 +1,74 @@
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { ApiUtil } from "@utils/ApiUtil";
+import { createStore } from "solid-js/store";
+import { DateUtil } from "@utils/DateUtil";
 import { EventService } from "../../api-service";
 import { EventFormModal } from "./EventFormModal";
 import type { TimeEvent, TimeEventTag, UpdateTimeEventRequest } from "@openapi";
 import type { EventForm } from "./EventFormModal";
 
 interface Props {
+  open: boolean;
   onClose: () => void;
   onSuccessfulEdit: (x: TimeEvent) => void;
   tags: TimeEventTag[];
-  initialForm: TimeEvent;
+  editingEvent: TimeEvent | null;
 }
 
 export const EditEventModal = (props: Props) => {
+  const [form, setForm] = createStore<EventForm>({
+    date: DateUtil.todayString(),
+    tagId: -1,
+    minute: 1,
+    name: "",
+    startTime: "00:00:00",
+  });
   const [loading, setLoading] = createSignal(false);
 
-  const handleSubmit = async (editedEvent: EventForm) => {
+  const handleSubmit = async () => {
+    if (!props.editingEvent) return;
     const newEvent: UpdateTimeEventRequest = {
-      id: props.initialForm.id,
-      tagId: editedEvent.tagId,
-      name: editedEvent.name,
-      startTime: editedEvent.startTime,
-      minute: editedEvent.minute,
+      id: props.editingEvent.id,
+      tagId: form.tagId,
+      name: form.name,
+      startTime: form.startTime,
+      minute: form.minute,
     };
     await ApiUtil.loadingAndErrHandling(() => EventService.updateTimeEvent(newEvent), setLoading, "修改活動失敗");
-    props.onSuccessfulEdit({ ...newEvent, date: props.initialForm.date });
+    props.onSuccessfulEdit({ ...newEvent, date: props.editingEvent.date });
     props.onClose();
   };
 
+  createEffect(() => {
+    if (props.editingEvent) {
+      setForm({
+        date: props.editingEvent.date,
+        tagId: props.editingEvent.tagId,
+        minute: props.editingEvent.minute,
+        name: props.editingEvent.name,
+        startTime: props.editingEvent.startTime,
+      });
+    }
+  });
+
   return (
     <EventFormModal
-      open
+      open={props.open}
       onClose={props.onClose}
       submitText="編輯"
       handleSubmit={handleSubmit}
-      disableSubmit={x =>
-        !x.name ||
-        (x.tagId === props.initialForm.tagId &&
-          x.name === props.initialForm.name &&
-          x.startTime === props.initialForm.startTime &&
-          x.minute === props.initialForm.minute)
+      disableSubmit={
+        props.editingEvent === null ||
+        !form.name ||
+        (form.tagId === props.editingEvent.tagId &&
+          form.name === props.editingEvent.name &&
+          form.startTime === props.editingEvent.startTime &&
+          form.minute === props.editingEvent.minute)
       }
       loading={loading()}
       tags={props.tags}
-      initialForm={props.initialForm}
+      form={form}
+      setForm={setForm}
     />
   );
 };
