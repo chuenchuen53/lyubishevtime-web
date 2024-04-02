@@ -18,7 +18,7 @@ export const LinkButton = (props: Props) => {
   return (
     <>
       {props.variant === "link" ? (
-        <A href={props.href} class={twMerge("text-primary underline hover:text-primary-text-hover", props.class)}>
+        <A href={props.href} class={twMerge("text-primary underline transition-all hover:text-primary-text-hover", props.class)}>
           {props.children}
         </A>
       ) : (

@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const styles = tv({
-  base: "rounded-lg px-5 py-2.5 text-center text-sm font-medium focus-visible:outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-50",
+  base: "rounded-lg px-5 py-2.5 text-center text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-50",
   defaultVariants: { type: "primary" },
   variants: {
     type: {

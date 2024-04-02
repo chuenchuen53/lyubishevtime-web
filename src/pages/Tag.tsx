@@ -10,7 +10,7 @@ import { Message } from "@components/general/Message";
 import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { AiFillTag } from "solid-icons/ai";
-import { ConfirmationModal } from "@components/general/ConfirmationModal";
+import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
 import { TagService } from "../api-service";
 import type { TimeEventTag } from "../openapi";
 

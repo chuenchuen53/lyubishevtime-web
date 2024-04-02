@@ -11,7 +11,7 @@ import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { EventCard } from "@components/event/EventCard";
 import { createScrollPosition } from "@solid-primitives/scroll";
-import { ConfirmationModal } from "@components/general/ConfirmationModal";
+import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
 import { EventService, TagService } from "../api-service";
 import type { TimeEvent, TimeEventTagColor } from "@openapi";
 
@@ -114,7 +114,7 @@ export default function TagAllEvent() {
 
   return (
     <div class="mt-3 pt-6 md:mt-5">
-      <div class="fixed left-0 right-0 top-16 z-[1000] h-11 bg-neutral-bg-layout md:top-[72px]">
+      <div class="fixed left-0 right-0 top-16 z-[999] h-11 bg-neutral-bg-layout md:top-[72px]">
         <div class="relative mx-auto flex size-full max-w-screen-lg items-center justify-center">
           <IconButton onClick={() => navigate("/tag")} class="absolute left-2 top-1/2 -translate-y-1/2">
             <RiArrowsArrowLeftSLine size="30" />

@@ -1,9 +1,10 @@
 import { Message } from "@components/general/Message";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 export class ApiUtil {
   public static isAxiosErrorWithStatus(e: unknown, status: number): e is AxiosError {
-    return e instanceof AxiosError && e.response?.status === status;
+    return isAxiosError(e) && e.response?.status === status;
   }
 
   public static async loadingAndErrHandling<T, R>(

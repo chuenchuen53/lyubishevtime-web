@@ -4,7 +4,8 @@ import { Portal } from "solid-js/web";
 import { BsCalendar2Fill } from "solid-icons/bs";
 import { twJoin } from "tailwind-merge";
 import { RiArrowsArrowLeftSLine, RiArrowsArrowRightSLine } from "solid-icons/ri";
-import IconButton from "./Button/IconButton";
+import IconButton from "@components/general/Button/IconButton";
+import styles from "./index.module.scss";
 import type { JSX } from "solid-js";
 
 const {
@@ -74,13 +75,13 @@ export const DatePicker = (props: DatePickerProps) => {
   return (
     <Root class="inline-flex" value={[props.value]} onValueChange={details => props.setValue(details.valueAsString[0])}>
       <Control>
-        <Trigger class="flex size-10 items-center justify-center rounded-md border border-solid border-neutral-border bg-neutral-bg-container text-neutral-text-tertiary hover:border-primary-hover hover:text-neutral-text-secondary focus:border-primary focus:ring-primary-border">
+        <Trigger class="flex size-10 items-center justify-center rounded-md border border-solid border-neutral-border bg-neutral-bg-container text-neutral-text-tertiary transition-all hover:border-primary-hover hover:text-primary focus:border-primary focus:ring-primary-border">
           <BsCalendar2Fill />
         </Trigger>
       </Control>
       <Portal>
         <Positioner>
-          <Content class="w-[344px] gap-3 rounded-md bg-neutral-bg-elevated p-4 shadow-elevated">
+          <Content class={`${styles.dropdown} w-[344px] gap-3 rounded-md bg-neutral-bg-elevated p-4 shadow-elevated`}>
             <StyledView view="day">
               {api => (
                 <>

@@ -17,7 +17,7 @@ import { TransitionGroup } from "solid-transition-group";
 import { Key } from "@solid-primitives/keyed";
 import { PageLoading } from "@components/common/PageLoading";
 import { useDelayedLoading } from "@reactivity/useDelayedLoading";
-import { ConfirmationModal } from "@components/general/ConfirmationModal";
+import { ConfirmationModal } from "@components/general/Modal/ConfirmationModal";
 import { EventService, TagService } from "../api-service";
 import type { ListOneDayTimeEventResponse, TimeEvent } from "../openapi";
 import type { EventForm } from "@components/event/EventFormModal";

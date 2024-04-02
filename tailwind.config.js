@@ -2,6 +2,9 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js"],
   theme: {
+    transitionDuration: {
+      DEFAULT: "250ms",
+    },
     extend: {
       boxShadow: {
         elevated: "var(--elevated-shadow-color) 0px 3px 8px",

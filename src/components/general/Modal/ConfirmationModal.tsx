@@ -1,6 +1,6 @@
 import { Show, createSignal, onCleanup, onMount } from "solid-js";
-import { Modal } from "./Modal";
-import { Button } from "./Button";
+import { Button } from "../Button";
+import { Modal } from ".";
 import type { Accessor, Setter } from "solid-js";
 
 interface CreateOption {

@@ -32,7 +32,11 @@ export const Dropdown = (props: Props) => {
       <div ref={triggerElement} id={`${props.id}-trigger`} class={props.class}>
         {props.children}
       </div>
-      <div ref={dropdownElement} id={props.id} class={twMerge(styles.dropdown, "z-10 hidden rounded-lg bg-neutral-bg-elevated", props.dropdownClass)}>
+      <div
+        ref={dropdownElement}
+        id={props.id}
+        class={twMerge(styles.dropdown, "z-10 hidden rounded-lg bg-neutral-bg-elevated shadow-elevated", props.dropdownClass)}
+      >
         {props.dropdownElement}
       </div>
     </>

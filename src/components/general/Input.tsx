@@ -17,7 +17,7 @@ export type InputProps = {
 };
 
 const style = tv({
-  base: "rounded-lg border p-2.5 text-sm",
+  base: "rounded-lg border p-2.5 text-sm transition-all",
   variants: {
     color: {
       default:

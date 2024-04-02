@@ -1,7 +1,8 @@
 import { Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { IoCloseOutline } from "solid-icons/io";
-import IconButton from "./Button/IconButton";
+import IconButton from "@components/general/Button/IconButton";
+import styles from "./index.module.scss";
 import type { JSX } from "solid-js";
 
 interface Props {
@@ -25,7 +26,7 @@ export const Modal = (props: Props) => {
         >
           <div class="fixed inset-0 bg-neutral-bg-mask" />
 
-          <div class="relative max-h-full max-w-[calc(100vw-48px)] rounded-lg bg-neutral-bg-elevated shadow-elevated">
+          <div class={`${styles.modal} relative max-h-full max-w-[calc(100vw-48px)] rounded-lg bg-neutral-bg-elevated shadow-elevated`}>
             <div class="flex items-center justify-between rounded-t border-b border-solid border-neutral-border p-4 md:p-5">
               <div class="text-xl font-semibold">{props.title}</div>
               <Show when={props.onClose}>

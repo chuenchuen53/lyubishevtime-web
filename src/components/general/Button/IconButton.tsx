@@ -12,7 +12,7 @@ interface Props {
 }
 
 const style = tv({
-  base: "inline-flex size-10 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-4",
+  base: "inline-flex size-10 items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-4",
   defaultVariants: { color: "default" },
   variants: {
     color: {
