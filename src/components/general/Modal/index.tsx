@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { IoCloseOutline } from "solid-icons/io";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import styles from "./index.module.scss";
 import type { JSX } from "solid-js";
 

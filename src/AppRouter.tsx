@@ -5,10 +5,6 @@ import type { RouteDefinition } from "@solidjs/router";
 
 const routes: RouteDefinition[] = [
   {
-    path: "/test-theme",
-    component: lazy(() => import("./pages/TestTheme")),
-  },
-  {
     path: "/",
     component: lazy(() => import("./auth/AutoLoginRedirect")),
     children: [

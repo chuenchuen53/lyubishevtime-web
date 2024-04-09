@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   plugins: ["solid", "@typescript-eslint", "import", "@stylistic/eslint-plugin-js"],
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:solid/typescript"],
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:solid/typescript", "plugin:storybook/recommended"],
   parserOptions: {
     ecmaVersion: "latest",
   },

@@ -23,7 +23,7 @@ const style = tv({
   },
 });
 
-export default function IconButton(props: Props) {
+export function IconButton(props: Props) {
   return (
     <Dynamic component={props.as ?? "button"} onClick={() => props.onClick?.()} class={twMerge(style({ color: props.variant }), props.class)}>
       {props.children}

@@ -1,5 +1,5 @@
 import { FaSolidPen, FaSolidTrash } from "solid-icons/fa";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import { DateUtil } from "@utils/DateUtil";
 import { TagColorUtil } from "@utils/TagColorUtil";
 import { Show } from "solid-js";

@@ -5,7 +5,7 @@ import { useTheme } from "@context/ThemeContext";
 import { user, logout } from "@stores/UserStore";
 import { BiSolidMoon, BiSolidSun } from "solid-icons/bi";
 import { Dropdown } from "@components/general/Dropdown";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import { Button } from "@components/general/Button";
 import { UserAvatar } from "./UserAvatar";
 

@@ -1,5 +1,5 @@
 import { FaSolidPen, FaSolidTrash, FaSolidArrowDownLong, FaSolidArrowUpLong } from "solid-icons/fa";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import { TagColorUtil } from "@utils/TagColorUtil";
 import { Button } from "@components/general/Button";
 import type { TimeEventTagColor } from "../../openapi";

@@ -10,7 +10,7 @@ import { MultipleSelect } from "@components/general/Select";
 import { DatePicker } from "@components/general/DatePicker";
 import { DateUtil } from "@utils/DateUtil";
 import { RiArrowsArrowLeftSLine, RiArrowsArrowRightSLine } from "solid-icons/ri";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import { createStore } from "solid-js/store";
 import { IoTime } from "solid-icons/io";
 import { PageLoading } from "@components/common/PageLoading";

@@ -1,5 +1,5 @@
 import { Index, Show, createMemo } from "solid-js";
-import { Dropdown } from "./Dropdown";
+import { Dropdown } from "@components/general/Dropdown";
 import type { DropdownOptions } from "flowbite";
 
 interface Props {

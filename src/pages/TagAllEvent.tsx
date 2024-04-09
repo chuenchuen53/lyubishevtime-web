@@ -1,4 +1,4 @@
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import { useNavigate, useParams } from "@solidjs/router";
 import { RiArrowsArrowLeftSLine } from "solid-icons/ri";
 import { createStore, produce } from "solid-js/store";

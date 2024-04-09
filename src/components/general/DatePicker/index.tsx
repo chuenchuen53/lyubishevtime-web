@@ -4,7 +4,7 @@ import { Portal } from "solid-js/web";
 import { BsCalendar2Fill } from "solid-icons/bs";
 import { twJoin } from "tailwind-merge";
 import { RiArrowsArrowLeftSLine, RiArrowsArrowRightSLine } from "solid-icons/ri";
-import IconButton from "@components/general/Button/IconButton";
+import { IconButton } from "@components/general/Button/IconButton";
 import styles from "./index.module.scss";
 import type { JSX } from "solid-js";
 
