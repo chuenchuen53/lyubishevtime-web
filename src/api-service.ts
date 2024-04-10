@@ -3,7 +3,10 @@ import { Configuration } from "./openapi/configuration";
 import { UserControllerApiFactory, TimeEventTagControllerApiFactory, TimeEventControllerApiFactory, SummaryControllerApiFactory } from "./openapi";
 import type { AxiosResponse } from "axios";
 
-const basePath = import.meta.env.VITE_API_BASE_URL;
+const isDev = import.meta.env.DEV;
+const apiProxy = import.meta.env.VITE_API_PROXY;
+
+const basePath = isDev && apiProxy ? "/api-proxy" : import.meta.env.VITE_API_BASE_URL;
 const configuration = new Configuration({ basePath, accessToken: () => user()?.token ?? localStorage.getItem("token") ?? "" });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

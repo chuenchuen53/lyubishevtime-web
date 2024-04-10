@@ -78,7 +78,7 @@ export class Message {
             </Match>
           </Switch>
         </span>
-        <span>{props.message}</span>
+        <span class="whitespace-nowrap">{props.message}</span>
       </div>
     );
   };

@@ -1,6 +1,9 @@
+import { config } from "dotenv";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
-// import devtools from 'solid-devtools/vite';
+// import devtools from 'solid-devtools/vite'
+
+config();
 
 export default defineConfig({
   plugins: [
@@ -13,6 +16,19 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
+    proxy: {
+      "/api-proxy": {
+        target: process.env.VITE_API_BASE_URL,
+        rewrite: path => path.replace(/^\/api-proxy/, ""),
+        configure: proxy => {
+          proxy.on("proxyReq", (proxyReq, _req, _res) => {
+            proxyReq.setHeader("referer", "http://localhost:3000");
+            proxyReq.setHeader("origin", "http://localhost:3000");
+            proxyReq.setHeader("host", "localhost:3000");
+          });
+        },
+      },
+    },
   },
   build: {
     target: "esnext",

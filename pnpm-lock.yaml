@@ -82,6 +82,9 @@ devDependencies:
   autoprefixer:
     specifier: 10.4.18
     version: 10.4.18(postcss@8.4.35)
+  cross-env:
+    specifier: 7.0.3
+    version: 7.0.3
   dotenv:
     specifier: 16.4.5
     version: 16.4.5
@@ -5303,6 +5306,14 @@ packages:
       js-yaml: 4.1.0
       parse-json: 5.2.0
       typescript: 5.4.2
+    dev: true
+
+  /cross-env@7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn@7.0.3:
