@@ -23,11 +23,8 @@ importers:
       '@solidjs/router':
         specifier: 0.13.0
         version: 0.13.0(solid-js@1.8.15)
-      '@types/jest-image-snapshot':
-        specifier: ^6.4.0
-        version: 6.4.0
       '@types/pixelmatch':
-        specifier: ^5.2.6
+        specifier: 5.2.6
         version: 5.2.6
       axios:
         specifier: 1.6.8
@@ -2225,9 +2222,6 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
-
-  '@types/jest-image-snapshot@6.4.0':
-    resolution: {integrity: sha512-8TQ/EgqFCX0UWSpH488zAc21fCkJNpZPnnp3xWFMqElxApoJV5QOoqajnVRV7AhfF0rbQWTVyc04KG7tXnzCPA==}
 
   '@types/jest@29.5.12':
     resolution: {integrity: sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==}
@@ -9935,16 +9929,11 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
 
-  '@types/jest-image-snapshot@6.4.0':
-    dependencies:
-      '@types/jest': 29.5.12
-      '@types/pixelmatch': 5.2.6
-      ssim.js: 3.5.0
-
   '@types/jest@29.5.12':
     dependencies:
       expect: 29.7.0
       pretty-format: 29.7.0
+    optional: true
 
   '@types/json-schema@7.0.15': {}
 
