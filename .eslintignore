@@ -1,3 +1,5 @@
 /scripts/*.js
 tailwind.config.js
 postcss.config.js
+test-runner-jest.config.js
+test.cjs

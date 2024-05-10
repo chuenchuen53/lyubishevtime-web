@@ -1,7 +1,10 @@
 node_modules
 dist
 .env
+.pnpm-store
 
 .vscode
 .idea
 *storybook.log
+
+.DS_Store
